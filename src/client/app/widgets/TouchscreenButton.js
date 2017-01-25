@@ -101,30 +101,106 @@ define(function (require, exports, module) {
             parent: id
         });
         var _this = this;
-        d3.select("#" + id + "_overlayDisplay").on("mouseover", function () {
-            if (_this.backgroundColor !== "transparent") {
-                _this.overlayDisplay.setColors({ backgroundColor: dimColor(_this.backgroundColor) });
-            }
-        }).on("mouseout", function () {
-            if (_this.backgroundColor !== "transparent") {
-                _this.overlayDisplay.setColors({ backgroundColor: _this.backgroundColor });
-            }
-        }).on("mousedown", function () {
-            if (_this.backgroundColor !== "transparent") {
-                _this.overlayDisplay.setColors({
-                    backgroundColor: "black",
-                    fontColor: "white"
-                });
-            }
-        }).on("mouseup", function () {
-            if (_this.backgroundColor !== "transparent") {
-                _this.overlayDisplay.setColors({
-                    backgroundColor: _this.backgroundColor,
-                    fontColor: _this.fontColor
-                });
-            }
-            _this.overlayButton.click();
-        });
+
+        // Henrique: To keep old behavior switch to false !!
+        _this.draggable = true;
+
+        if(!this.draggable) {
+            d3.select("#" + id + "_overlayDisplay").on("mouseover", function () {
+                if (_this.backgroundColor !== "transparent") {
+                    _this.overlayDisplay.setColors({ backgroundColor: dimColor(_this.backgroundColor) });
+                }
+            }).on("mouseout", function () {
+                if (_this.backgroundColor !== "transparent") {
+                    _this.overlayDisplay.setColors({ backgroundColor: _this.backgroundColor });
+                }
+            }).on("mousedown", function () {
+                if (_this.backgroundColor !== "transparent") {
+                    _this.overlayDisplay.setColors({
+                        backgroundColor: "black",
+                        fontColor: "white"
+                    });
+                }
+            }).on("mouseup", function () {
+                if (_this.backgroundColor !== "transparent") {
+                    _this.overlayDisplay.setColors({
+                        backgroundColor: _this.backgroundColor,
+                        fontColor: _this.fontColor
+                    });
+                }
+                _this.overlayButton.click();
+            });
+        } else {
+
+            // Create d3 drag
+            var drag = d3.behavior.drag();
+
+            // On drag start behavior
+            drag.on("dragstart", function(d) {
+                d3.event.sourceEvent.stopPropagation(); // silence other listeners   
+            });
+
+            drag.on('drag', function (d) {
+                d3.event.sourceEvent.stopPropagation(); // silence other listeners
+
+                // Mouse X coordinates
+                var x = d3.event.sourceEvent.clientX;
+
+                // X limits of the drop zone
+                var left_x = _this.dropLeft,
+                    right_x = _this.dropLeft + _this.dropWidth;
+
+                // Move element as mouse X moves -- rigth limit is inside the drop zone
+                var elem_to_move = d3.select('#' + id);
+                if(x <= (left_x + _this.dropDelta)) {
+                    elem_to_move.style("left", x + "px").style('cursor', 'pointer');
+                }                
+
+                // Show/hide drop zone, whether the button is inside it or not
+                if (x > left_x && x < right_x) {
+                    d3.select("#" + "element-drop-zone").attr('class', '');
+                } else {
+                    d3.select("#" + "element-drop-zone").attr('class', 'hidden');
+                }
+            });
+
+            drag.on('dragend', function () {
+                d3.event.sourceEvent.stopPropagation(); // silence other listeners
+
+                // Mouse coordinates
+                var x = d3.event.sourceEvent.clientX;
+
+                // Drop zone coords
+                var left_x = _this.dropLeft,
+                    right_x = _this.dropLeft + _this.dropWidth;
+                
+                // Compare only x mouse position
+                if (x > left_x && x < right_x) {
+                    // Trigger the click on the element to trigger the backend validation  
+                    _this.overlayButton.click();
+                }
+            }) ;
+            
+            // Add drag behavior to widget element
+            d3.select("#" + id + "_overlayDisplay").call(drag);
+
+            // Henrique: Drag and drop behavior
+            // Added properties for handling drag and drop
+            _this.dropDelta = 5
+            _this.dropTop = 416 - _this.dropDelta;
+            _this.dropLeft = 204 - _this.dropDelta;
+            _this.dropWidth = _this.width + (2 * _this.dropDelta) ;
+            _this.dropHeight = _this.height + (2 * _this.dropDelta) ;
+
+            // Append drop zone to body
+            d3.select(_this.parent)
+                .append("div").style("position", 'absolute')
+                .style("top", _this.dropTop + "px").style("left", _this.dropLeft + "px")
+                .style("width", _this.dropWidth + "px").style("height", _this.dropHeight + "px")
+                .style('border', '1px solid green')
+                .attr('id', 'element-drop-zone')
+                .attr('class', 'hidden');
+        }
 
         opt.visibleWhen = opt.visibleWhen || "true"; // default: always enabled/visible
         this.visibleWhen = property.call(this, opt.visibleWhen);
