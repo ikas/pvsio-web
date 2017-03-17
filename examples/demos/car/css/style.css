@@ -68,12 +68,21 @@ div#odometer-container {
 }
 
 
-div.dash-top-container {
-    border-bottom: 2px solid white;
-}
-
 div.dash-bottom-container, div.dash-central-container {
     padding: 20px 0;
+}
+
+div.dash-central-container {
+    padding: 0 50px;
+}
+
+div#absolute-speed-container {
+    padding-top: 15px;
+}
+
+div.icons-container {
+    margin-top: 5px;
+    margin-bottom: 20px;
 }
 
 /* Global helper classes */
@@ -81,4 +90,14 @@ div.dash-bottom-container, div.dash-central-container {
     font-weight: bold;
     font-size: 25px;
     color: white;
+}
+
+.font-xxl {
+    font-weight: bold;
+    font-size: 35px;
+    color: white;
+}
+
+.border-bottom {
+    border-bottom: 2px solid white;
 }

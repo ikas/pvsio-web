@@ -15,18 +15,18 @@
     <body>
         <div class="col-xs-12 text-center">
             Car controls: <br>
-            [W] Accelerate <br>
-            [S] Brake <br>
+            [up arrow key] Accelerate <br>
+            [down arrow key] Brake <br>
         </div>
 
-        <div id="content" class="content" style="display:none;">    
-            <div class="container dashboard-container">
+        <div id="content" class="content" style="display:none;">
+            <div id="prototype" class="container dashboard-container">
                 <div class="col-xs-4">
                     <span id="speedometer-gauge"></span>
                 </div>
 
                 <div class="col-xs-4" id="control-panel-container">
-                    
+
                     <div class="col-xs-12 dash-top-container">
                         <div class="col-xs-12 text-center font-xl" id="odometer-container">
                             <!-- TODO Odometer goes here -->
@@ -63,7 +63,7 @@
                     <span id="tachometer-gauge" style="float:right;"></span>
                 </div>
             </div>
-        
+
         </div>
         <div id="splash" class="demo-splash">
             <div class="loader">

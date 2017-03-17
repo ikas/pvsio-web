@@ -6,15 +6,13 @@
  * @date Mar 1, 2017
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*global define, document */
+/*global define, d3_gauge_plus*/
 
 define(function (require, exports, module) {
     "use strict";
 
-    var d3 = require("d3/d3");
-
     /**
-     * @function <a name="BasicDisplay">BasicDisplay</a>
+     * @function <a name="Speedometer">Speedometer</a>
      * @description Constructor.
      * @param id {String} The ID of the display.
      * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
@@ -28,126 +26,56 @@ define(function (require, exports, module) {
      *          <li>inverted (Bool): if true, the text has inverted colors,
      *              i.e., fontColor becomes backgroundColor, and backgroundColor becomes fontColor (default is false)</li>
      *          <li>parent (String): the HTML element where the display will be appended (default is "body")</li>
-     * @memberof module:BasicDisplay
+     * @memberof module:Speedometer
      * @instance
      */
     function Speedometer(id, opt) {
-
-        // D3 Gauge Plus object
-        this.gauge_obj = this.createGauge(id, opt);
-        
+        function createGauge(id, opt) {
+            var config = {
+                size: 400,
+                rotation: 270,
+                gap: 90,
+                drawOuterCircle: false,
+                innerStrokeColor: "#fff",
+                label: "",
+                labelSize: 0.1,
+                labelColor: "#888",
+                min: opt.min,
+                max: opt.max,
+                initial: opt.initial,
+                majorTicks: 11,
+                transitionDuration: 300,
+                greenZones: [ ],
+                yellowZones: [ ],
+                redZones: [ { from: (opt.max - (opt.max * 0.1)), to: opt.max } ]
+            };
+            return new d3_gauge_plus.Gauge(id, config);
+        }
+        opt = opt || {};
         // Speedometer params
-        this.maxSpeed = 200;
-        this.minSpeed = 0;
-        this.currSpeed = this.minSpeed;
-        
+        opt.max = opt.max || 200;
+        opt.min = opt.min || 0;
+        opt.initial = opt.initial || 0;
+        if (opt.label === "kmh") {
+            opt.label = "Km/h";
+        }
+        // D3 Gauge Plus object
+        this.gauge_obj = createGauge(id, opt);
+        // display the gauge
+        this.gauge_obj.render();
+
         return this;
     }
 
-    Speedometer.prototype.createGauge = function(id, override_config)
-    {
-        // Default configurations
-        var default_config = {
-            size: 400,
-            rotation: 270,
-            gap: 90,
-            drawOuterCircle: false,
-            innerStrokeColor: "#fff",
-            label: "",
-            labelSize: 0.1,
-            labelColor: "#888",
-            min: 0,
-            max: 200,
-            initial: 0,
-            majorTicks: 11,
-            transitionDuration: 300
-        };
-
-        // Gauge range
-        var range = default_config.max - default_config.min;
-        default_config.greenZones = [];
-        default_config.yellowZones = [this.zone(160, 180)];
-        default_config.redZones = [this.zone(180, 200)];
-        
-        // Override provided configs over default ones
-        return new d3_gauge_plus.Gauge(id, Object.assign(default_config, override_config));
-    }
-    
-    Speedometer.prototype.render = function() 
-    {
-        this.gauge_obj.render();
+    Speedometer.prototype.render = function(speed, opt) {
+        opt = opt || {};
+        if (speed) {
+            this.gauge_obj.setPointer(speed);
+        }
     };
 
     Speedometer.prototype.zone = function(from, to) {
         return { from: from, to: to };
-    };
-
-    Speedometer.prototype.tick = function(newValue) {
-        if (newValue >= this.gauge_obj.config.max) {
-            newValue = this.gauge_obj.config.max;
-        }
-
-        this.gauge_obj.setPointer(newValue);
-    };
-
-
-
-    // Interact with speed up key pressed
-    Speedometer.prototype.up = function (shift) {
-        if (this.currSpeed <= this.maxSpeed) {
-            this.currSpeed += this.getAcc(shift);
-            this.currSpeed = (this.currSpeed > this.maxSpeed) ? this.maxSpeed : this.currSpeed;
-            this.tick(this.currSpeed);
-        }
-    };
-
-    Speedometer.prototype.getAcc = function (shift) {
-        if(shift == 1) {
-            return 0.6;
-        } else if (shift == 2) {
-            return 0.8;
-        } else if (shift == 3) {
-            return 0.6;
-        } else if (shift == 4) {
-            return 0.3;
-        } else if (shift == 5) {
-            return 0.2;
-        } else {
-            return 0.125;
-        }
-    };
-
-
-    // Interact with brake key pressed
-    Speedometer.prototype.down = function() {
-        if (this.currSpeed >= this.minSpeed) {
-            this.currSpeed += this.getBrk();
-            this.currSpeed = (this.currSpeed < this.minSpeed) ? this.minSpeed : this.currSpeed;
-            this.tick(this.currSpeed);
-        }
-    };
-
-    Speedometer.prototype.getBrk = function () {
-        return -0.6;
-    };
-
-
-    // Friction action
-    Speedometer.prototype.friction = function () {
-        if(this.currSpeed > this.minSpeed) {
-            this.currSpeed += this.getFrc();
-            this.tick(this.currSpeed);
-        }
-    };
-
-    Speedometer.prototype.getFrc = function () {
-        return -0.04;
-    };
-
-
-
-    Speedometer.prototype.getCurrentSpeed = function () {
-        return this.currSpeed;
     };
 
     module.exports = Speedometer;
