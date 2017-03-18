@@ -20,29 +20,41 @@
         </div>
 
         <div id="content" class="content" style="display:none;">
-            <div id="prototype" class="container dashboard-container">
+            <div id="prototype" class="dashboard-container">
                 <div class="col-xs-4">
                     <span id="speedometer-gauge"></span>
                 </div>
 
                 <div class="col-xs-4" id="control-panel-container">
 
-                    <div class="col-xs-12 dash-top-container">
+                    <div class="col-xs-12 dash-top-container border-bottom">
                         <div class="col-xs-12 text-center font-xl" id="odometer-container">
-                            <!-- TODO Odometer goes here -->
-                            <span id="odometer">0123456</span>
-                            <!-- Current shift goes here -->
-                            <span id="current-shift"></span>
+                            <!-- Odometer goes here -->
+                            <span id="odometer"></span>
+                            <!-- Current gear goes here -->
+                            <span id="current-gear"></span>
                         </div>
                     </div>
 
                     <div class="col-xs-12 dash-central-container">
 
-                        <div class="col-xs-12 text-center font-xl" id="odometer-container">
-                            <!-- TODO Speedometer absolute value goes here -->
-                            <span id="odometer">200 km/h</span>
-                            <!-- Current shift goes here -->
-                            <span id="current-shift"></span>
+                        <div class="col-xs-12 text-center font-xxl border-bottom">
+                            <!-- Speedometer absolute value goes here -->
+                            <span id="speed-abs"></span>
+                        </div>
+
+                        <div class="col-xs-12 text-center icons-container">
+                            <div class="col-xs-12 text-center font-lg dash-icon">
+                                <span class="glyphicon glyphicon-dashboard"></span> 16.1 ºC
+                            </div>
+
+                            <div class="col-xs-12 text-center font-lg dash-icon">
+                                <span class="glyphicon glyphicon-dashboard"></span> 16.1 ºC
+                            </div>
+
+                            <div class="col-xs-12 text-center font-lg dash-icon">
+                                <span class="glyphicon glyphicon-dashboard"></span> 16.1 ºC
+                            </div>
                         </div>
 
                     </div>

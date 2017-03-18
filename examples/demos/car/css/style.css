@@ -44,8 +44,8 @@ div.dashboard-container {
     margin-top: 15%;
 }
 
-/* Current shift styling */
-#current-shift {
+/* Current gear styling */
+#current-gear {
     padding: 1px 7px;
     border: 2px solid white;
 }
@@ -98,6 +98,14 @@ div.icons-container {
     color: white;
 }
 
+.font-lg {
+    font-size: 18px;
+}
+
 .border-bottom {
     border-bottom: 2px solid white;
+}
+
+.dash-icon {
+    padding: 5px 0;
 }

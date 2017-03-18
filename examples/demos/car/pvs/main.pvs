@@ -22,7 +22,7 @@ main: THEORY
   CONVERSION gear2int
   
   MAX_SPEED: real = 220
-  Speed_Unit: TYPE = { kpm, mph }
+  Speed_Unit: TYPE = { kph, mph }
   Speed_Val: TYPE = { x: real | x <= MAX_SPEED }
   Speed: TYPE = [#
     val: Speed_Val,
@@ -55,7 +55,7 @@ main: THEORY
 
   %-- initial state
   init(x: real): state = (#
-    speed := (# val:= IF x < MAX_SPEED THEN x ELSE MAX_SPEED ENDIF, units := kpm #),
+    speed := (# val:= IF x < MAX_SPEED THEN x ELSE MAX_SPEED ENDIF, units := kph #),
     gear := N,
     rpm := 0,
     odo := 0,
@@ -77,13 +77,13 @@ main: THEORY
   getAcc(g: Gear): Speed_Val =
    COND
      g = P OR g = N -> 0,
-     g = R -> -0.6,
-     g = GEAR_1 -> 0.6,
-     g = GEAR_2 -> 0.8,
-     g = GEAR_3 -> 0.6,
-     g = GEAR_4 -> 0.3,
-     g = GEAR_5 -> 0.2,
-     g = GEAR_6 -> 0.1
+     g = R -> -0.8,
+     g = GEAR_1 -> 0.8,
+     g = GEAR_2 -> 1.2,
+     g = GEAR_3 -> 0.8,
+     g = GEAR_4 -> 0.5,
+     g = GEAR_5 -> 0.3,
+     g = GEAR_6 -> 0.2
    ENDCOND
   getBrk(g: Gear): [# speed: real, rpm: real #] = (# speed := -2, rpm := -1 #)
 
@@ -136,7 +136,7 @@ main: THEORY
         st = st WITH [ rpm := new_rpm ]
      IN IF rpm(st) < 4 THEN gearDOWN(st) ELSE st ENDIF
 
-  FRICTION: Speed_Val = 0.6
+  FRICTION: Speed_Val = 0.8
   tick(st: state): state =
     IF action(st) = idle
     THEN IF speed(st)`val > 0

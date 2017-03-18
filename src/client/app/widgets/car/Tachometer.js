@@ -43,7 +43,7 @@ define(function (require, exports, module) {
                 min: opt.min,
                 max: opt.max,
                 initial: opt.initial,
-                majorTicks: 6,
+                majorTicks: 7,
                 transitionDuration: 300,
                 greenZones: [ ],
                 yellowZones: [ ],

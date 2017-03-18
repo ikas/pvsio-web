@@ -34,16 +34,11 @@ define(function (require, exports, module) {
     function DisplayValue(id) {
         // DisplayValue DOM element
         this.dom_elem = document.getElementById(id);
-        this.speed = 0;
         return this;
     }
 
-    DisplayValue.prototype.render = function () {
-        this.dom_elem.innerHTML = this.speed;
-    };
-
-    DisplayValue.prototype.setSpeed = function(speed) {
-        this.speed = Math.round(speed);
+    DisplayValue.prototype.render = function (str_to_display) {
+        this.dom_elem.innerHTML = str_to_display;
     };
 
     module.exports = DisplayValue;

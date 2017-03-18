@@ -1,31 +1,49 @@
 /**
  * @module Speedometer
- * @version 1.0
- * @description Renders a basic speedometer.
+ * @version 1.0.0
+ * @description
+ * Speedometer renders a basic gauge object (using D3 Gauge Plus library). It assumes that this 
+ * library was already loaded. The speedometer will render the gauge, with the pointer showing the
+ * current speed of the car. The initial speed is 0. The render method can then be called, passing
+ * the new car speed as parameter, and the widget will update the gauge to show the new provided
+ * speed value.
+ * 
  * @author Henrique Pacheco
  * @date Mar 1, 2017
+ *
+ * @example <caption>Usage of Speedometer within a PVSio-web project.</caption>
+ * define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the Speedmeter module
+ *     require("widgets/car/Speedometer");
+ *
+ *     function main() {
+ *          // After Speedmeter module was loaded, initialize it
+ *          var speedometerGauge = new Speedometer('speedometer-gauge', {
+ *              label: "kmh",
+ *              max: 240,
+ *              min: 0
+ *          });
+ *
+ *          // Re-render the Speedometer, provinding a new speed value
+ *          speedometerGauge.render(10); 
+ *     }
+ * });
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global define, d3_gauge_plus*/
-
 define(function (require, exports, module) {
     "use strict";
 
     /**
      * @function <a name="Speedometer">Speedometer</a>
      * @description Constructor.
+     * 
      * @param id {String} The ID of the display.
-     * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
-     *        the left, top corner, and the width and height of the (rectangular) display.
-     *        Default is { top: 0, left: 0, width: 200, height: 80 }.
      * @param opt {Object} Options:
+     *          TODO build docs for options
      *          <li>backgroundColor (String): background display color (default is black, "#000")</li>
-     *          <li>fontfamily (String): display font type (default is "sans-serif")</li>
-     *          <li>fontColor (String): display font color (default is white, "#fff")</li>
-     *          <li>align (String): text alignment (default is "center")</li>
-     *          <li>inverted (Bool): if true, the text has inverted colors,
-     *              i.e., fontColor becomes backgroundColor, and backgroundColor becomes fontColor (default is false)</li>
-     *          <li>parent (String): the HTML element where the display will be appended (default is "body")</li>
      * @memberof module:Speedometer
      * @instance
      */
@@ -43,11 +61,11 @@ define(function (require, exports, module) {
                 min: opt.min,
                 max: opt.max,
                 initial: opt.initial,
-                majorTicks: 11,
-                transitionDuration: 300,
+                majorTicks: 9,
+                transitionDuration: 100,
                 greenZones: [ ],
                 yellowZones: [ ],
-                redZones: [ { from: (opt.max - (opt.max * 0.1)), to: opt.max } ]
+                redZones: [ { from: (opt.max - (opt.max * 0.125)), to: opt.max } ]
             };
             return new d3_gauge_plus.Gauge(id, config);
         }
@@ -56,7 +74,7 @@ define(function (require, exports, module) {
         opt.max = opt.max || 200;
         opt.min = opt.min || 0;
         opt.initial = opt.initial || 0;
-        if (opt.label === "kmh") {
+        if (opt.label === "kph") {
             opt.label = "Km/h";
         }
         // D3 Gauge Plus object
@@ -67,15 +85,23 @@ define(function (require, exports, module) {
         return this;
     }
 
+    /**
+     * @function <a name="Speedometer">Speedometer</a>
+     * @description Render method.
+     * 
+     * @param speed {Float (?)} The updated car speed.
+     * // TODO is this needed?
+     * @param opt {Object} Override options when re-rendering:
+     *          TODO build docs for options
+     *          <li>backgroundColor (String): background display color (default is black, "#000")</li>
+     * @memberof module:Speedometer
+     * @instance
+     */
     Speedometer.prototype.render = function(speed, opt) {
         opt = opt || {};
         if (speed) {
-            this.gauge_obj.setPointer(speed);
+            this.gauge_obj.setPointer(Math.round(speed));
         }
-    };
-
-    Speedometer.prototype.zone = function(from, to) {
-        return { from: from, to: to };
     };
 
     module.exports = Speedometer;

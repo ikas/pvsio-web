@@ -1,7 +1,7 @@
 /**
- * @module Shift
+ * @module Gear
  * @version 1.0
- * @description Renders the current shift of the car.
+ * @description Renders the current gear of the car.
  * @author Henrique Pacheco
  * @date Mar 4, 2017
  */
@@ -31,64 +31,28 @@ define(function (require, exports, module) {
      * @memberof module:BasicDisplay
      * @instance
      */
-    function Shift(id) {
-        // Shift DOM element
+    function Gear(id) {
+        // Gear DOM element
         this.dom_elem = document.getElementById(id);
-        this.curr = 0;
         return this;
     }
 
-    // Update shift display
-    Shift.prototype.update = function (curr) {
-        
-        if(curr != undefined) {
-            this.curr = curr;
+    Gear.prototype.render = function(gear, opt) {
+        opt = opt || {};
+        if (gear) {
+            this.dom_elem.innerHTML = this.parseGear(gear);
         }
-
-        this.dom_elem.innerHTML = (this.curr == 0) ? 'P' : Math.round(this.curr) ;
     };
 
-
-    Shift.prototype.render = function () {
-        this.update(this.curr);
-    };
-
-    // Interact with speed up key pressed
-    Shift.prototype.up = function(speed) {
-        this.update(this.getCurrentShift(speed));
-    };
-
-    // Interact with brake key pressed
-    Shift.prototype.down = function(speed) {
-        this.update(this.getCurrentShift(speed));
-    };
-
-    // Friction action
-    Shift.prototype.friction = function (speed) {
-        this.update(this.getCurrentShift(speed));
-    };
-
-    Shift.prototype.getCurrentShift = function(speed) {
-        if(speed <= 0) {
-            return 0;
-        } else if(this.isInInterval(speed, 0, 30)) {
-            return 1;
-        } else if (this.isInInterval(speed, 30, 70)) {
-            return 2;
-        } else if (this.isInInterval(speed, 70, 110)) {
-            return 3;
-        } else if (this.isInInterval(speed, 110, 140)) {
-            return 4;
-        } else if (this.isInInterval(speed, 140, 180)) {
-            return 5;
+    Gear.prototype.parseGear = function (gear_str) {
+        // String contains
+        if(gear_str.indexOf('GEAR_') !== -1) {
+            // String replace
+            return gear_str.replace('GEAR_','');
+        } else {
+            return gear_str;
         }
-        return 6;
     };
 
-
-    Shift.prototype.isInInterval = function(value, intStart, intEnd) {
-        return (value > intStart && value < intEnd);
-    };
-
-    module.exports = Shift;
+    module.exports = Gear;
 });

@@ -37,13 +37,12 @@ define(function (require, exports, module) {
         return this;
     }
 
-    Thermometer.prototype.render = function () {
-        var temp = this.getCurrentTemperature();
-        this.dom_elem.innerHTML = this.formatAsCelsius(temp);
-    };
-
-    Thermometer.prototype.getCurrentTemperature = function() {
-        return 16.1;
+    Thermometer.prototype.render = function(temp, units, opt) {
+        opt = opt || {};
+        if (temp) {
+            // TODO missing handling units as provided by the backend
+            this.dom_elem.innerHTML = this.formatAsCelsius(temp);
+        }
     };
 
     Thermometer.prototype.formatAsCelsius = function(temp) {

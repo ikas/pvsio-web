@@ -1,6 +1,6 @@
 /**
  * @module Clock
- * @version 1.0
+ * @version 1.0.0
  * @description Renders the current time as hours:minutes.
  * @author Henrique Pacheco
  * @date Mar 8, 2017
@@ -14,7 +14,7 @@ define(function (require, exports, module) {
     var d3 = require("d3/d3");
 
     /**
-     * @function <a name="BasicDisplay">BasicDisplay</a>
+     * @function <a name="Clock">Clock</a>
      * @description Constructor.
      * @param id {String} The ID of the display.
      * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
