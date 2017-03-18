@@ -43,11 +43,7 @@ define(function (require, exports, module) {
                 min: opt.min,
                 max: opt.max,
                 initial: opt.initial,
-<<<<<<< HEAD
                 majorTicks: 7,
-=======
-                majorTicks: 6,
->>>>>>> upstream/alpha
                 transitionDuration: 300,
                 greenZones: [ ],
                 yellowZones: [ ],
@@ -76,8 +72,4 @@ define(function (require, exports, module) {
     };
 
     module.exports = Tachometer;
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> upstream/alpha
