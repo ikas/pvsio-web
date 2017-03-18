@@ -1,6 +1,7 @@
 /**
  * Utility library for creating image map regions for interactive prototyping
  * @author Patrick Oladimeji
+ * @contributors Paolo Masci
  * @date 10/21/13 21:42:17 PM
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
@@ -37,6 +38,14 @@
 
     function select(region, svg, add, dispatcher) {
         var g = d3.select(region.node().parentNode);
+
+        // correct handling of mouse events requires moving the selected region on top of the others
+        d3.selection.prototype.moveToFront = function() {
+          return this.each(function(){
+            this.parentNode.appendChild(this);
+          });
+        };
+        g.moveToFront();
 
         //remove previous selections if shift key wasnt pressed and we are not selecting a previously selected region
         if (!add && !g.classed("selected")) {
@@ -104,6 +113,7 @@
     function enableRegionResize(region, svg, dispatcher) {
         var g = d3.select(region.node().parentNode), corners = g.selectAll("rect.corner");
         corners.on("mousedown", function (d, i) {
+            select(region, svg, d3.event.shiftKey, dispatcher);
             var _scale = scale(svg.select("g"));
             d3.event.preventDefault();
             d3.event.stopPropagation();
@@ -193,7 +203,7 @@
     }
 
     function booya(config) {
-        if (!config || !config.element) { throw new Error("element prpoerty of config must be set"); }
+        if (!config || !config.element) { throw new Error("element property of config must be set"); }
         config.parent = config.parent || "body";
         config.scale = config.scale || 1;
         //clear any previous svgs
@@ -247,7 +257,7 @@
          * triggered and to avoid collisions between multiple imagemapper instances.
          * @param {event} e JavaScript event for the key press
          */
-        function handleKeyEvent(e) {
+        function handleKeyDownEvent(e) {
             if ((e.which === 46 || e.which === 8) && e.target === d3.select("body").node()) {
                 ed.remove({regions: mapLayer.selectAll("g.selected rect.region")});
                 e.preventDefault();
@@ -263,7 +273,7 @@
             getImageMapData: getImageMapData,
             selectRegion: selectRegion,
             clearRegions: clearRegions,
-            handleKeyEvent: handleKeyEvent,
+            handleKeyDownEvent: handleKeyDownEvent,
             on: function (type, f) {
                 ed.on(type, f);
                 return this;

@@ -39,38 +39,38 @@ define(function (require, exports, module) {
     var MODE = new EditorModeUtils();
     var editor_mode = MODE.BROWSE();
 
-    var _this = null;
-
-    function resetView() {
-        d3.select("#ContainerStateMachine svg").select("#InitialTransitions").attr("transform", "translate(0,0) scale(1)");
-        d3.select("#ContainerStateMachine svg").select("#Transitions").attr("transform", "translate(0,0) scale(1)");
-        d3.select("#ContainerStateMachine svg").select("#States").attr("transform", "translate(0,0) scale(1)");
+    function installHandlers(_this) {
+        _this.emucharts.addListener("emuCharts_stateAdded", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_stateRemoved", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_stateRenamed", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_stateColorChanged", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_constantAdded", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_constantRemoved", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_constantRenamed", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_datatypeAdded", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_datatypeRemoved", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_datatypeRenamed", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_variableAdded", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_variableRemoved", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_variableRenamed", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_transitionAdded", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_transitionRemoved", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_transitionRenamed", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_initialTransitionAdded", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_initialTransitionRemoved", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_initialTransitionRenamed", function (event) { _this.fire(event); });
+        _this.emucharts.addListener("emuCharts_nodeFilterChanged", function (event) {
+            _this._nodeFilter = event.filter;
+            _this.render();
+        });
     }
-
-    var getMouseMovement = function (event) {
-        if (_this.mouseMovement.ready === false) {
-            _this.mouseMovement.previousScreen.x = event.screenX;
-            _this.mouseMovement.currentScreen.x = event.screenX;
-            _this.mouseMovement.previousScreen.y = event.screenY;
-            _this.mouseMovement.currentScreen.y = event.screenY;
-            _this.mouseMovement.ready = true;
-            return { x: 0, y: 0 };
-        }
-        _this.mouseMovement.previousScreen.x = _this.mouseMovement.currentScreen.x;
-        _this.mouseMovement.previousScreen.y = _this.mouseMovement.currentScreen.y;
-        _this.mouseMovement.currentScreen.x = event.screenX;
-        _this.mouseMovement.currentScreen.y = event.screenY;
-        return {
-            x: (_this.mouseMovement.currentScreen.x - _this.mouseMovement.previousScreen.x),
-            y: (_this.mouseMovement.currentScreen.y - _this.mouseMovement.previousScreen.y)
-        };
-    };
 
     /**
      * Constructor
      * @memberof EmuchartsEditor
      */
-    function EmuchartsEditor(emucharts) {
+    function EmuchartsEditor(emucharts, opt) {
+        opt = opt || {};
         this._nodeFilter = "";
         this.d3EventScale = 1;
         this.d3EventTranslate = [0, 0];
@@ -80,44 +80,23 @@ define(function (require, exports, module) {
             currentScreen: { x: 0, y: 0 }
         };
         this.emucharts = emucharts || new Emucharts();
-        this.emucharts.addListener("emuCharts_stateAdded", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_stateRemoved", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_stateRenamed", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_stateColorChanged", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_constantAdded", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_constantRemoved", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_constantRenamed", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_datatypeAdded", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_datatypeRemoved", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_datatypeRenamed", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_variableAdded", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_variableRemoved", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_variableRenamed", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_transitionAdded", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_transitionRemoved", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_transitionRenamed", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_initialTransitionAdded", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_initialTransitionRemoved", function (event) { _this.fire(event); });
-        this.emucharts.addListener("emuCharts_initialTransitionRenamed", function (event) { _this.fire(event); });
-
-        this.emucharts.addListener("emuCharts_nodeFilterChanged", function (event) {
-            _this._nodeFilter = event.filter;
-            _this.render();
-        });
         this.dragged = false;
         this.SVGdragged = null;
         // mouse event vars used for identifying gestures like creating a new transition or dragging nodes/transitions/canvas
         this.mousedown = { node: null, edge: null, canvas: false };
         this.mouseover = { node: null, edge: null, canvas: false };
         this.mousedrag = { node: null, edge: null, canvas: false };
-        _this = this;
-        resetView();
-        eventDispatcher(_this);
+        this.container = opt.container || "#ContainerStateMachine";
+        if (d3.select(this.container + " svg").node()) {
+            d3.select(this.container).node().removeChild(d3.select(this.container + " svg").node());
+        }
+        installHandlers(this);
+        eventDispatcher(this);
     }
 
 
     /**
-     * Interface function for setting editor mode
+     * Interface function for setting the editor mode
      * @memberof EmuchartsEditor
      */
     EmuchartsEditor.prototype.set_editor_mode = function (mode) {
@@ -131,6 +110,19 @@ define(function (require, exports, module) {
         }
     };
 
+    /**
+     * Interface function for loading a new emucharts diagram in the editor
+     * @memberof EmuchartsEditor
+     */
+    EmuchartsEditor.prototype.set_emucharts = function (emucharts) {
+        if (emucharts) {
+            this.emucharts = emucharts;
+            installHandlers(this);
+            this.fire({ type: "emuCharts_newEmuchartsLoaded" });
+            return true;
+        }
+        return false;
+    };
 
 
     /**
@@ -154,13 +146,13 @@ define(function (require, exports, module) {
      */
     EmuchartsEditor.prototype.zoomChart = function () {
         if (this.emucharts && !this.emucharts.empty()) {
-            d3.select("#ContainerStateMachine svg").select("#States")
+            d3.select(this.container + " svg").select("#States")
                 .attr("transform", "translate(" + this.d3EventTranslate + ") scale(" + this.d3EventScale + ")");
-            d3.select("#ContainerStateMachine svg").select("#Transitions")
+            d3.select(this.container + " svg").select("#Transitions")
                 .attr("transform", "translate(" + this.d3EventTranslate + ") scale(" + this.d3EventScale + ")");
-            d3.select("#ContainerStateMachine svg").select("#InitialTransitions")
+            d3.select(this.container + " svg").select("#InitialTransitions")
                 .attr("transform", "translate(" + this.d3EventTranslate + ") scale(" + this.d3EventScale + ")");
-            d3.select("#ContainerStateMachine svg").select("#dragline")
+            d3.select(this.container + " svg").select("#dragline")
                 .attr("transform", "translate(" + this.d3EventTranslate + ") scale(" + this.d3EventScale + ")");
         }
     };
@@ -169,7 +161,7 @@ define(function (require, exports, module) {
         this.zoomChart();
     };
     EmuchartsEditor.prototype.zoom_out = function () {
-        this.d3EventScale = dec02(this.d3EventScale, 0.5);
+        this.d3EventScale = dec02(this.d3EventScale, 0.2);
         this.zoomChart();
     };
     EmuchartsEditor.prototype.zoom_reset = function () {
@@ -528,17 +520,17 @@ define(function (require, exports, module) {
      * @returns reference to the updated svg elements
      * @memberof EmuchartsEditor
      */
-    function refreshTransitions(transitions, opt) {
+    function refreshTransitions(_this, transitions, opt) {
         opt = opt || {};
         transitions = transitions ||
-            d3.select("#ContainerStateMachine svg").select("#Transitions").selectAll(".transition");
+            d3.select(_this.container + " svg").select("#Transitions").selectAll(".transition");
         var label;
         var cpoints;
         // refresh paths and labels
         transitions.selectAll(".path").attr("d", function (edge) {
             // fetch control point
             var cp = null;
-            edge = _this.emucharts.edges.get(edge.id); // get info from the emucharts, rather than from the picture
+            edge = _this.emucharts.edges.get(edge.id); // important! always get info from the emucharts, rather than from the picture
             if (!edge) { return; }
             // refresh transition path
             if (edge.target && edge.source) {
@@ -636,15 +628,17 @@ define(function (require, exports, module) {
      * @returns reference to the updated svg elements
      * @memberof EmuchartsEditor
      */
-    function refreshInitialTransitions(transitions) {
+    function refreshInitialTransitions(_this, transitions) {
         transitions = transitions ||
-            d3.select("#ContainerStateMachine svg").select("#InitialTransitions").selectAll(".itransition");
+            d3.select(_this.container + " svg").select("#InitialTransitions").selectAll(".itransition");
         // refresh position
         transitions.attr("transform", function (edge) {
             return "translate(" + edge.target.x + "," + edge.target.y + ") scale(1)";
         });
         // refresh paths and labels
         transitions.selectAll(".ipath").attr("d", function (edge) {
+            edge = _this.emucharts.initial_edges.get(edge.id); // important! always get info from the emucharts, rather than from the picture
+            if (!edge) { return; }
             // refresh transition label
             var label = d3.select(this.parentNode).select(".itlabel");
             label.text(labelToString(edge.name));
@@ -679,8 +673,27 @@ define(function (require, exports, module) {
      * @memberof EmuchartsEditor
      */
     EmuchartsEditor.prototype.newSVG = function (container) {
-        _this = this;
-        container = container || "#ContainerStateMachine";
+        var _this = this;
+        container = container || this.container || "#ContainerStateMachine";
+
+        function getMouseMovement (event) {
+            if (_this.mouseMovement.ready === false) {
+                _this.mouseMovement.previousScreen.x = event.screenX;
+                _this.mouseMovement.currentScreen.x = event.screenX;
+                _this.mouseMovement.previousScreen.y = event.screenY;
+                _this.mouseMovement.currentScreen.y = event.screenY;
+                _this.mouseMovement.ready = true;
+                return { x: 0, y: 0 };
+            }
+            _this.mouseMovement.previousScreen.x = _this.mouseMovement.currentScreen.x;
+            _this.mouseMovement.previousScreen.y = _this.mouseMovement.currentScreen.y;
+            _this.mouseMovement.currentScreen.x = event.screenX;
+            _this.mouseMovement.currentScreen.y = event.screenY;
+            return {
+                x: (_this.mouseMovement.currentScreen.x - _this.mouseMovement.previousScreen.x),
+                y: (_this.mouseMovement.currentScreen.y - _this.mouseMovement.previousScreen.y)
+            };
+        }
 
         // create canvas to be used for exporting svg area as picture
         d3.select("#ContainerStateMachineImage").append("canvas")
@@ -952,14 +965,106 @@ define(function (require, exports, module) {
         return d3.select(container).select("svg");
     };
 
+    function moveToFront(id) {
+        var g = d3.select("#" + id);
+        if (g.node()) {
+            d3.selection.prototype.moveToFront = function() {
+              return this.each(function(){
+                this.parentNode.appendChild(this);
+              });
+            };
+            g.moveToFront();
+        }
+    }
+
+    EmuchartsEditor.prototype.select_transition = function (id) {
+        var g = d3.select("#" + id).node();
+        if (g) {
+            d3.select(g.firstChild)
+                //.style("stroke-width", stroke_width_highlighted)
+                .style("stroke", "green")
+                .style("marker-end", function (edge) {
+                    if (edge.source.id === edge.target.id ||
+                            edge.source.x < edge.target.x) {
+                        return "url(#end-arrow-selected)";
+                    } else { return ""; }
+                })
+                .style("marker-start", function (edge) {
+                    if (edge.source.id === edge.target.id) {
+                        return g.style.markerStart;
+                    } else if (edge.source.x < edge.target.x) {
+                        return "";
+                    } else { return "url(#end-arrow-rotated-selected)"; }
+                });
+            d3.select(g.children[2]).attr("opacity", 0.6);
+            d3.select(g.children[3]).style("fill", "green");
+            d3.select(g.children[4]).style("fill", "green");
+            var edge = this.emucharts.edges.get(id);
+            if (edge.source && edge.target && edge.source.id === edge.target.id) {
+                d3.select(g).select(".tlabel").text(function (edge) {
+                    return edge.name;
+                });
+            }
+            moveToFront(id);
+        }
+        return this;
+    };
+
+    EmuchartsEditor.prototype.deselect_transition = function (id) {
+        var g = d3.select("#" + id).node();
+        if (g) {
+            d3.select(g.firstChild)
+                //.style("stroke-width", stroke_width_normal)
+                .style("stroke", "black")
+                .style("marker-end", function (edge) {
+                    if (edge.source.id === edge.target.id ||
+                            edge.source.x < edge.target.x) {
+                        return "url(#end-arrow)";
+                    } else { return ""; }
+                })
+                .style("marker-start", function (edge) {
+                    if (edge.source.id === edge.target.id) {
+                        return g.style.markerStart;
+                    } else if (edge.source.x < edge.target.x) {
+                        return "";
+                    } else { return "url(#end-arrow-rotated)"; }
+                });
+            d3.select(g.children[2]).attr("opacity", 0);
+            d3.select(g.children[3]).style("fill", "black");
+            d3.select(g.children[4]).style("fill", "black");
+            var edge = this.emucharts.edges.get(id);
+            if (edge.source && edge.target && edge.source.id === edge.target.id) {
+                d3.select(g).select(".tlabel").text(function (edge) {
+                    return labelToString(edge.name);
+                });
+            }
+        }
+    };
+
+    EmuchartsEditor.prototype.deselect_all_transition = function () {
+        if (this.emucharts.edges && this.emucharts.edges.keys().length > 0) {
+            var _this = this;
+            this.emucharts.edges.keys().forEach(function (key) {
+                _this.deselect_transition(key);
+            });
+        }
+    };
+
+    EmuchartsEditor.prototype.select_state = function (id) {
+        moveToFront(id);
+        return this;
+    };
+
     /**
      * Utility function for drawing transitions
      * @memberof EmuchartsEditor
      */
-    EmuchartsEditor.prototype.renderTransitions = function (container) {
-        _this = this;
-        container = container || "#ContainerStateMachine";
+    EmuchartsEditor.prototype.renderTransitions = function (opt) {
+        opt = opt || {};
+        var _this = this;
+        var container = _this.container || "#ContainerStateMachine";
         var svg = d3.select(container).select("svg");
+        var prefix = opt.prefix || "";
 
         /**
          * Utility function for drawing transitions
@@ -968,12 +1073,12 @@ define(function (require, exports, module) {
         var drawTransitions = function (enteredTransitions) {
             enteredTransitions = enteredTransitions.append("svg:g")
                 .classed("transition", true)
-                .attr("id", function (edge) { return edge.id; });
+                .attr("id", function (edge) { return prefix + edge.id; });
 
             // visiblePath is the actual path visible to the user
 //            var visiblePath =
             enteredTransitions.append("svg:path").classed("path", true)
-                .attr("id", function (edge) { return "path_" + edge.id; })
+                .attr("id", function (edge) { return prefix + "path_" + edge.id; })
                 .attr("fill", "none")
                 .style("stroke", "black")
                 .style("stroke-width", stroke_width_normal)
@@ -983,7 +1088,7 @@ define(function (require, exports, module) {
             // selection path is used to ease selection with the mouse (it's wide)
 //            var selectionPath =
             enteredTransitions.append("svg:path").classed("path", true)
-                .attr("id", function (edge) {return "selectionPath_" + edge.id; })
+                .attr("id", function (edge) {return prefix + "selectionPath_" + edge.id; })
                 .style("opacity", "0")
                 .attr("fill", "none")
                 .style("stroke", "grey")
@@ -994,7 +1099,7 @@ define(function (require, exports, module) {
             // control points are used to adjust the shape of a path
 //            var controlPoints =
             enteredTransitions.append("svg:circle").classed("cpoints", true)
-                .attr("id", function (edge) {return "cpoints_" + edge.id; })
+                .attr("id", function (edge) { return prefix + "cpoints_" + edge.id; })
                 .attr("cx", function (edge) {
                     if (edge.source && edge.target && edge.source.id === edge.target.id) {
                         return getControlPoints_selfEdge(edge)[2].x;
@@ -1019,7 +1124,7 @@ define(function (require, exports, module) {
             // the former is for self-edges, the latter for all other edges
 //            var text =
             enteredTransitions.append("svg:text").classed("tlabel", true)
-                .attr("id", function (d) { return "tlabel_" + d.id; })
+                .attr("id", function (d) { return prefix + "tlabel_" + d.id; })
                 .style("font", (fontSize + "px sans-serif"))
                 .style("text-rendering", "optimizeLegibility")
                 .style("cursor", "pointer") // change cursor shape
@@ -1050,13 +1155,13 @@ define(function (require, exports, module) {
 
 //            var textPath =
             enteredTransitions.append("svg:text").classed("tlabel", true)
-                .attr("id", function (edge) { return "tlabel_" + edge.id; })
+                .attr("id", function (edge) { return prefix + "tlabel_" + edge.id; })
                 .style("font", (fontSize + "px sans-serif"))
                 .style("text-rendering", "optimizeLegibility")
                 .style("text-anchor", "middle")
                 .attr("dy", -4)
                 .append("textPath")
-                .attr("xlink:href", function (edge) { return "#path_" + edge.id; })
+                .attr("xlink:href", function (edge) { return "#" + prefix + "path_" + edge.id; })
                 .attr("startOffset", "50%")
                 .style("cursor", "pointer") // change cursor shape
                 .text(function (edge) {
@@ -1068,35 +1173,16 @@ define(function (require, exports, module) {
                     return labelToString(edge.name);
                 });
 
-            return refreshTransitions(enteredTransitions);
+            return refreshTransitions(_this, enteredTransitions);
         };
         var mouseOver = function (edge) {
             if (!_this.mousedrag.edge && (!mouseOverControlPoint || mouseOverControlPoint.id === edge)) {
                 d3.event.stopPropagation();
-                d3.select(this.firstChild)
-                    //.style("stroke-width", stroke_width_highlighted)
-                    .style("stroke", "green")
-                    .style("marker-end", function (edge) {
-                        if (edge.source.id === edge.target.id ||
-                                edge.source.x < edge.target.x) {
-                            return "url(#end-arrow-selected)";
-                        } else { return ""; }
-                    })
-                    .style("marker-start", function (edge) {
-                        if (edge.source.id === edge.target.id) {
-                            return this.style.markerStart;
-                        } else if (edge.source.x < edge.target.x) {
-                            return "";
-                        } else { return "url(#end-arrow-rotated-selected)"; }
-                    });
-                d3.select(this.childNodes[2]).attr("opacity", 0.6);
-                d3.select(this.children[3]).style("fill", "green");
-                d3.select(this.children[4]).style("fill", "green");
-                if (edge.source.id === edge.target.id) {
-                    d3.select(this).select(".tlabel").text(function (edge) {
-                        return edge.name;
-                    });
-                }
+                _this.select_transition(edge.id);
+                _this.fire({
+                    type: "emuCharts_highlightTransition",
+                    edge: edge
+                });
             }
             if (dbg) { console.log("Transitions.mouseOver"); }
         };
@@ -1104,31 +1190,12 @@ define(function (require, exports, module) {
             if (!mouseOverControlPoint) {
                 d3.event.stopPropagation();
                 if (!d3.select("#emuCharts_rename_dialog").node()) {
-                    d3.select(this.firstChild)
-                        //.style("stroke-width", stroke_width_normal)
-                        .style("stroke", "black")
-                        .style("marker-end", function (edge) {
-                            if (edge.source.id === edge.target.id ||
-                                    edge.source.x < edge.target.x) {
-                                return "url(#end-arrow)";
-                            } else { return ""; }
-                        })
-                        .style("marker-start", function (edge) {
-                            if (edge.source.id === edge.target.id) {
-                                return this.style.markerStart;
-                            } else if (edge.source.x < edge.target.x) {
-                                return "";
-                            } else { return "url(#end-arrow-rotated)"; }
-                        });
-                    d3.select(this.children[3]).style("fill", "black");
-                    d3.select(this.children[4]).style("fill", "black");
-                    if (edge.source.id === edge.target.id) {
-                        d3.select(this).select(".tlabel").text(function (edge) {
-                            return labelToString(edge.name);
-                        });
-                    }
+                    _this.deselect_transition(edge.id);
+                    _this.fire({
+                        type: "emuCharts_deselectTransition",
+                        edge: edge
+                    });
                 }
-                d3.select(this.childNodes[2]).attr("opacity", 0);
             } else if (mouseOverControlPoint && mouseOverControlPoint.id === edge.id) {
                 var m = d3.mouse(d3.select("#ContainerStateMachine svg").select("#States").node());
                 // update selected control point
@@ -1139,7 +1206,7 @@ define(function (require, exports, module) {
                                     .select("#Transitions").selectAll(".transition")
                                     .filter(function (transition) { return transition.id === transitionID; });
                 // refresh transitions
-                return refreshTransitions(transitions);
+                return refreshTransitions(_this, transitions);
             }
             if (dbg) { console.log("Transitions.mouseOut"); }
         };
@@ -1158,6 +1225,11 @@ define(function (require, exports, module) {
                     type: "emuCharts_deleteTransition",
                     edge: edge
                 });
+            } else {
+                _this.fire({
+                    type: "emuCharts_selectTransition",
+                    edge: edge
+                });
             }
             if (dbg) { console.log("Transitions.mouseClick"); }
         };
@@ -1171,6 +1243,13 @@ define(function (require, exports, module) {
                 });
             }
             if (dbg) { console.log("Transitions.mouseDoubleClick"); }
+        };
+        var mouseDown = function (edge) {
+            d3.event.stopPropagation();
+            // correct handling of mouse events requires moving the selected transition on top of the others
+            if (svg.node().children.length > 0) {
+                _this.select_transition(edge.id);
+            }
         };
         var dragStart = function (node) {
             if (dbg) { console.log("Transitions.dragStart"); }
@@ -1190,7 +1269,7 @@ define(function (require, exports, module) {
                                     .select("#Transitions").selectAll(".transition")
                                     .filter(function (transition) { return transition.id === transitionID; });
                 // refresh transitions
-                return refreshTransitions(transitions);
+                return refreshTransitions(_this, transitions);
             }
             if (dbg) { console.log("Transitions.dragEdge"); }
         };
@@ -1219,6 +1298,7 @@ define(function (require, exports, module) {
                     .on("drag", dragEdge)
                     .on("dragend", dragEnd);
                 enteredTransitions.call(drag)
+                    .on("mousedown", mouseDown)
                     .on("mouseover", mouseOver)
                     .on("mouseout", mouseOut)
                     .on("click", mouseClick)
@@ -1240,9 +1320,9 @@ define(function (require, exports, module) {
      * Utility function for drawing initial transitions
      * @memberof EmuchartsEditor
      */
-    EmuchartsEditor.prototype.renderInitialTransitions = function (container) {
-        _this = this;
-        container = container || "#ContainerStateMachine";
+    EmuchartsEditor.prototype.renderInitialTransitions = function () {
+        var _this = this;
+        var container = _this.container || "#ContainerStateMachine";
         var svg = d3.select(container).select("svg");
 
         /**
@@ -1288,7 +1368,7 @@ define(function (require, exports, module) {
                     return labelToString(edge.name);
                 });
 
-            return refreshInitialTransitions(enteredTransitions);
+            return refreshInitialTransitions(_this, enteredTransitions);
         };
         var mouseOver = function (edge) {
             d3.select(this.firstChild)
@@ -1361,8 +1441,8 @@ define(function (require, exports, module) {
      * @returns reference to the updated svg elements
      * @memberof EmuchartsEditor
      */
-    function refreshStates(states) {
-        states = states || d3.select("#ContainerStateMachine svg").select("#States").selectAll(".state");
+    function refreshStates(_this, states) {
+        states = states || d3.select(_this.container + " svg").select("#States").selectAll(".state");
         // refresh state position
         states.attr("transform", function (node) {
             return "translate(" + node.x + ", " + node.y + ") scale(1.0)";
@@ -1413,7 +1493,7 @@ define(function (require, exports, module) {
         enteredStates.append("svg:rect").classed("state_box", true)
             .attr("id", function (node) { return "box_" + node.id; })
             .attr("width", function (node) { return nodeWidth(node); })
-            .attr("height", function (node) { return nodeWidth(node); })
+            .attr("height", function (node) { return nodeHeight(node); })
             // translate x,y so that the box is centered there
             .attr("x", function (node) { return -(nodeWidth(node) / 2); })
             .attr("y", function (node) { return -(nodeHeight(node) / 2); })
@@ -1498,9 +1578,9 @@ define(function (require, exports, module) {
      * Utility function for drawing states
      * @memberof EmuchartsEditor
      */
-    EmuchartsEditor.prototype.renderStates = function (container) {
-        _this = this;
-        container = container || "#ContainerStateMachine";
+    EmuchartsEditor.prototype.renderStates = function (opt) {
+        var _this = this;
+        var container = _this.container || "#ContainerStateMachine";
         var svg = d3.select(container).select("svg");
 
         // mouse event handlers
@@ -1548,15 +1628,20 @@ define(function (require, exports, module) {
 
             if (editor_mode !== MODE.ADD_TRANSITION() && editor_mode !== MODE.DELETE() &&
                     editor_mode !== MODE.RENAME()) {
-                // update node position
+                // correct handling of mouse events requires moving the selected transition on top of the others
+                if (svg.node().children.length > 0) {
+                    _this.select_state(node.id);
+                }
                 var draggedNode = _this.emucharts.nodes.get(node.id);
+                // update node position
                 draggedNode.x = node.x + d3.event.dx;
                 draggedNode.y = node.y + d3.event.dy;
                 _this.emucharts.nodes.set(node.id, draggedNode);
-                refreshStates(d3.select(container).select("#States")
-                                .selectAll(".state").filter(function (n) {
-                                    return n.id === node.id;
-                                }));
+                refreshStates(_this,
+                    d3.select(container).select("#States").selectAll(".state").filter(function (n) {
+                        return n.id === node.id;
+                    })
+                );
                 // update all edges connected to this node
                 var updatedTransitions = d3.select(container)
                         .select("#Transitions").selectAll(".transition")
@@ -1580,7 +1665,7 @@ define(function (require, exports, module) {
                             }
                             return false;
                         });
-                refreshTransitions(updatedTransitions);
+                refreshTransitions(_this, updatedTransitions);
                 var updatedInitialTransitions = d3.select(container)
                         .select("#InitialTransitions").selectAll(".itransition")
                         .filter(function (edge) {
@@ -1593,7 +1678,7 @@ define(function (require, exports, module) {
                             }
                             return false;
                         });
-                refreshInitialTransitions(updatedInitialTransitions);
+                refreshInitialTransitions(_this, updatedInitialTransitions);
             } else if (editor_mode === MODE.ADD_TRANSITION() && _this.mousedrag.node) {
                 if (_this.mousedrag.node && _this.mouseover.node && _this.mousedrag.node.id === _this.mouseover.node.id) {
                     drag_line.attr("d", function (node) {
@@ -1708,7 +1793,7 @@ define(function (require, exports, module) {
                                     .select("#Transitions").selectAll(".transition")
                                     .filter(function (transition) { return transition.id === transitionID; });
                 // refresh transitions
-                return refreshTransitions(transitions);
+                return refreshTransitions(_this, transitions);
             }
         };
 
@@ -1746,12 +1831,13 @@ define(function (require, exports, module) {
      */
     EmuchartsEditor.prototype.render = function (opt) {
         opt = opt || {};
-        var container = "#ContainerStateMachine";
+        var container = opt.container || this.container || "#ContainerStateMachine";
         if (d3.select(container + " svg").node()) {
+            // FIXME! investigate why this is needed! with storyboard editor, if the emuchart is generated twice, the second time the emuchart is not visible without the following instruction
             d3.select(container).node().removeChild(d3.select(container + " svg").node());
         }
         this.renderStates();
-        this.renderTransitions();
+        this.renderTransitions(opt);
         this.renderInitialTransitions();
         if (opt.trans) {
             d3.select(container + " svg").select("#States").attr("transform", opt.trans);
@@ -1759,9 +1845,10 @@ define(function (require, exports, module) {
             d3.select(container + " svg").select("#InitialTransitions").attr("transform", opt.trans);
             d3.select(container + " svg").select("#dragline").attr("transform", opt.trans);
         }
-        refreshStates();
-        refreshTransitions();
-        refreshInitialTransitions();
+        var _this = this;
+        refreshStates(_this);
+        refreshTransitions(_this);
+        refreshInitialTransitions(_this);
         return this;
     };
 
@@ -1797,12 +1884,11 @@ define(function (require, exports, module) {
             .size([width, height])
             .charge(-4096)
             .gravity(0.8)
-            .linkDistance(48)
+            .linkDistance(120)
             .on("tick", function() {
                 // pull initial state towards left-up
                 if (initial_edges.size() > 0) {
                     initial_edges.values().forEach(function (initial_edge) {
-                        console.log("initial found1");
                         initial_edge.target.y -= 1;
                         initial_edge.target.x -= 2;
                     });
@@ -1825,12 +1911,14 @@ define(function (require, exports, module) {
                     return l.target === link.target && l.source === l.target;
                 });
                 if (worklist.length === 1) {
+                    worklist[0].controlPoint = worklist[0].controlPoint || {};
                     worklist[0].controlPoint.x = worklist[0].target.x + offsetX;
                     worklist[0].controlPoint.y = worklist[0].target.y - offsetX * 2;
                 } else {
                     // put control points on a diagonal line, evenly spaced
                     var dx = 0, dy = 0, reversed = false;
                     worklist.forEach(function (l) {
+                        l.controlPoint = l.controlPoint || {};
                         l.controlPoint.x = l.target.x + dx + offsetX;
                         l.controlPoint.y = l.target.y + dy - offsetY;
 
@@ -1908,30 +1996,12 @@ define(function (require, exports, module) {
 
 
 
-    EmuchartsEditor.prototype.preview = function (container, scale_zoom, type) {
-        if (container && d3.select(container).node()) {
-            d3.select(container + " svg").style("display", "null");
-            if (d3.select(container + " svg").node()) {
-                d3.select(container).node().removeChild(d3.select(container + " svg").node());
-            }
-            this.renderStates(container);
-            this.renderTransitions(container);
-            this.renderInitialTransitions(container);
-            d3.select(container + " svg").select("#States")
-                .attr("transform", "translate(" + this.d3EventTranslate + ") scale(" + scale_zoom + ")");
-            d3.select(container + " svg").select("#Transitions")
-                .attr("transform", "translate(" + this.d3EventTranslate + ") scale(" + scale_zoom + ")");
-            d3.select(container + " svg").select("#InitialTransitions")
-                .attr("transform", "translate(" + this.d3EventTranslate + ") scale(" + scale_zoom + ")");
-            d3.select(container + " svg").select("#dragline")
-                .attr("transform", "translate(" + this.d3EventTranslate + ") scale(" + scale_zoom + ")");
-            if (type === "zoom") {
-                d3.select(container + " svg").attr("class","test");
-            } else {
-                d3.select(container + " svg").style("display", "block");
-            }
-
-        }
+    EmuchartsEditor.prototype.preview = function (opt) {
+        opt = opt || {};
+        this.render({
+            trans: "scale(" + opt.scale_zoom + ")",
+            prefix: "preview-"
+        });
         return this;
     };
 
@@ -2091,12 +2161,13 @@ define(function (require, exports, module) {
      * @memberof EmuchartsEditor
      */
     EmuchartsEditor.prototype.rename_transition = function (transitionID, newLabel) {
+        var _this = this;
         if (newLabel) { this.emucharts.rename_edge(transitionID, newLabel); }
         var transitions = d3.select("#ContainerStateMachine")
                         .select("#Transitions").selectAll(".transition")
                         .filter(function (transition) { return transition.id === transitionID; });
         // refresh transitions
-        refreshTransitions(transitions, { color: "black"});
+        refreshTransitions(_this, transitions, { color: "black"});
         return this;
     };
 
@@ -2105,11 +2176,12 @@ define(function (require, exports, module) {
      * @memberof EmuchartsEditor
      */
     EmuchartsEditor.prototype.refresh_transition = function (transitionID, opt) {
+        var _this = this;
         var transitions = d3.select("#ContainerStateMachine")
                         .select("#Transitions").selectAll(".transition")
                         .filter(function (transition) { return transition.id === transitionID; });
         // refresh transitions
-        refreshTransitions(transitions, opt);
+        refreshTransitions(_this, transitions, opt);
         return this;
     };
 
@@ -2118,12 +2190,13 @@ define(function (require, exports, module) {
      * @memberof EmuchartsEditor
      */
     EmuchartsEditor.prototype.rename_initial_transition = function (transitionID, newLabel) {
+        var _this = this;
         this.emucharts.rename_initial_edge(transitionID, newLabel);
         var itransitions = d3.select("#ContainerStateMachine")
                         .select("#InitialTransitions").selectAll(".itransition")
                         .filter(function (itransition) { return itransition.id === transitionID; });
         // refresh transitions
-        refreshInitialTransitions(itransitions);
+        refreshInitialTransitions(_this, itransitions);
     };
 
     /**
@@ -2136,7 +2209,7 @@ define(function (require, exports, module) {
         var states = d3.select("#ContainerStateMachine")
             .select("#States").selectAll(".state")
             .filter(function (state) { return state.id === stateID; });
-        refreshStates(states);
+        refreshStates(this, states);
 
         // TODO: temporary fix for transitions not being redrawn after renaming a state.
         this.renderTransitions();
@@ -2179,7 +2252,7 @@ define(function (require, exports, module) {
      * @memberof EmuchartsEditor
      */
     EmuchartsEditor.prototype.delete_state = function (stateID) {
-        _this = this;
+        var _this = this;
         var edges = [];
         if (this.emucharts && this.emucharts.edges) {
             this.emucharts.edges.forEach(function (key) {
@@ -2282,7 +2355,8 @@ define(function (require, exports, module) {
             edge.controlPont = (source.id === target.id) ? controlPoints[2] : controlPoints[1];
             // FIXME: need to adjust the position in the case svg is translated
             this.emucharts.add_edge(edge);
-            return this.renderTransitions();
+            this.renderTransitions();
+            return edge;
         } else {
             // FIXME: improve interaction & feedback
             alert("invalid nodes");
@@ -2297,11 +2371,13 @@ define(function (require, exports, module) {
         var target = this.emucharts.getState(to);
         if (target) {
             // FIXME: need to force one initial transition per state
-            this.emucharts.add_initial_edge({
+            var edge = {
                 name: transitionName,
                 target: target
-            });
-            return this.renderInitialTransitions();
+            };
+            this.emucharts.add_initial_edge(edge);
+            this.renderInitialTransitions();
+            return edge;
         } else {
             // FIXME: improve interaction & feedback
             alert("invalid nodes");
@@ -2361,7 +2437,7 @@ define(function (require, exports, module) {
      * @memberof EmuchartsEditor
      */
     EmuchartsEditor.prototype.delete_chart = function () {
-        _this = this;
+        var _this = this;
         if (this.emucharts.constants) {
             this.emucharts.constants.forEach(function (key) {
                 _this.delete_constant(key);
@@ -2445,6 +2521,11 @@ define(function (require, exports, module) {
     EmuchartsEditor.prototype.mergePMR = function (newPMRs) {
         return this.emucharts.mergePMR ? this.emucharts.mergePMR(newPMRs) : false;
     };
+
+    EmuchartsEditor.prototype.getEmuchartsVersion = function (newPMRs) {
+        return this.emucharts.getEmuchartsVersion();
+    };
+
 
     module.exports = EmuchartsEditor;
 });

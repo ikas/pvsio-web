@@ -38,7 +38,7 @@ define(function (require, exports, module) {
             var mapID = options.mapID || ("prototypeImageMap" + nextID);
             this._map = this.d3El.select("map");
             this._map.attr("name", mapID).attr("id", mapID);
-            this.d3El.select("img").attr("usemap", "#" + mapID);
+            this.d3El.select("img").attr("usemap", "#" + mapID).attr("display", "none");
             this.updateMapCreator();
 
             var _this = this;
@@ -89,7 +89,7 @@ define(function (require, exports, module) {
                 // }
 
                 this._innerContainer.style("width", adjustedWidth + "px").style("height", adjustedHeight + "px");
-                this.d3El.select("img").attr("src", this.img.src).attr("height", adjustedHeight).attr("width", adjustedWidth);
+                this.d3El.select("img").attr("src", this.img.src).attr("height", adjustedHeight).attr("width", adjustedWidth).attr("display", "block");
                 this.d3El.select("svg").attr("height", adjustedHeight).attr("width", adjustedWidth);
                 this.d3El.select("svg > g").attr("transform", "scale(" + scale + ")");
                 //hide the draganddrop stuff
@@ -185,7 +185,7 @@ define(function (require, exports, module) {
          */
         clearImage: function () {
             this._innerContainer.attr("style", null);
-            this.d3El.select("img").attr("src", "").attr("height", "430").attr("width", "1128");
+            this.d3El.select("img").attr("src", "").attr("height", "0").attr("width", "0").attr("display", "none");
             this.img = null;
             this.d3El.select("svg").attr("height", "0").attr("width", "0");
             this.d3El.attr("style", "");

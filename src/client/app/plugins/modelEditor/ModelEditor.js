@@ -16,16 +16,15 @@ define(function (require, exports, module) {
         NotificationManager = require("project/NotificationManager"),
         Notification        = require("pvsioweb/forms/displayNotification"),
         WSManager           = require("websockets/pvs/WSManager"),
-        FileSystem          = require("filesystem/FileSystem");
+        fs                  = require("filesystem/FileSystem").getInstance();
 //        MIME                = require("util/MIME");
     var instance,
-        fs;
-    var currentProject,
+        currentProject,
         projectManager,
         editor,
         editorContainer,
-        pvsioWebClient;
-    var undoHistory;
+        pvsioWebClient,
+        undoHistory;
 
     require("cm/addon/fold/foldcode");
     require("cm/addon/fold/foldgutter");
@@ -169,12 +168,16 @@ define(function (require, exports, module) {
                 }
             }
         };
-        fs = new FileSystem();
     }
 
     ModelEditor.prototype.getName = function () {
         return "Model Editor";
     };
+
+    ModelEditor.prototype.getId = function () {
+        return "ModelEditor";
+    };
+
     /////These are the api methods that the prototype builder plugin exposes
     ModelEditor.prototype.getDependencies = function () { return []; };
 
@@ -325,12 +328,12 @@ define(function (require, exports, module) {
     */
     ModelEditor.prototype.initialise = function () {
         editorContainer = pvsioWebClient.createCollapsiblePanel({
-            headerText: "Model Editor",
+            headerText: this.getName(),
             showContent: true,
             onClick: function () {
                 editor.refresh();
             },
-            owner: this.getName()
+            owner: this.getId()
         });
         editorContainer.append("div").html(sourceCodeTemplate);
 

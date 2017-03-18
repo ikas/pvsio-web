@@ -743,7 +743,7 @@ fileListItem.hide {
   width: 100%;
   z-index: 2000000; }
   .overlay .panel {
-    width: 800px; }
+    width: 920px; }
   .overlay .panel.panelWide {
     width: 705px; }
   .overlay .panel-heading {
@@ -776,7 +776,7 @@ fileListItem.hide {
   position: absolute;
   float: left;
   margin-left: 0;
-  width: 1000px; }
+  width: 1200px; }
 
 #ContainerStateMachine {
   border: 2px solid;
@@ -875,6 +875,15 @@ fileListItem.hide {
 
 #stateMachineMenu .tobeimplemented {
   color: #808080; }
+
+#EmuchartsSelector {
+  position: absolute;
+  right: 16px;
+  top: 29px;
+  opacity: 0.9; }
+  #EmuchartsSelector ul li :hover {
+    background: #76b900;
+    color: black; }
 
 #StateAttributes,
 #MachineStates,
@@ -1050,7 +1059,17 @@ label[for=selectPicture] {
   border-right: 70px solid transparent;
   border-bottom: 40px solid #4c4c4c;
   height: 0;
-  line-height: 40px; }
+  line-height: 40px;
+  min-width: 240px; }
+
+.btn-primary-outline {
+  background-color: transparent;
+  border-color: transparent; }
+
+.btn-primary-outline-white {
+  background-color: transparent;
+  border-color: transparent;
+  color: white; }
 
 .newTimer,
 .newWidget {
@@ -1099,12 +1118,12 @@ label[for=selectPicture] {
 .dndcontainer {
   background: #fff;
   text-align: center;
-  position: absolute;
   border: 4px dashed teal;
   height: 100%;
   width: 100%;
   z-index: 191;
-  min-width: 400px; }
+  min-height: 480px;
+  min-width: 600px; }
   .dndcontainer span {
     display: block;
     margin-top: 150px;

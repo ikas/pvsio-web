@@ -70,6 +70,7 @@ define(function (require, exports, module) {
         /**
         * @function update
         * @description Updates the data that the view displays (and updates the UI with any new/changed data)
+        * //FIXME: when updating the widget list, we should keep the list ordered by widget type. At the moment, the new widget is always appended at the end of the list.
          */
         update: function () {
             var _this = this;

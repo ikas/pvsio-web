@@ -11,30 +11,31 @@ define(function (require, exports, module) {
     var _this,
         eventDispatcher = require("util/eventDispatcher");
 
+    function installTableHandlers() {
+        d3.selectAll("#RemoveDatatype").on("click", function () {
+            _this.removeDatatype(this.parentElement.parentElement.id);
+        });
+        d3.select("#AddDatatype").on("click", function () {
+            d3.select("#btn_menuNewDatatype").node().click();
+        });
+        d3.selectAll("#EditDatatype").on("click", function () {
+            _this.editDatatype(this.parentElement.parentElement.id);
+        });
+    }
+
     function DatatypesTable() {
         eventDispatcher(this);
+        installTableHandlers();
         _this = this;
         return this;
     }
 
     DatatypesTable.prototype.addDatatype = function(tableElements) {
-        function installTableHandlers() {
-            d3.selectAll("#RemoveDatatype").on("click", function () {
-                _this.removeDatatype(this.parentElement.parentElement.id);
-            });
-            d3.select("#AddDatatype").on("click", function () {
-                d3.select("#btn_menuNewDatatype").node().click();
-            });
-            d3.selectAll("#EditDatatype").on("click", function () {
-                _this.editDatatype(this.parentElement.parentElement.id);
-            });
-        }
         function addElement(e) {
             var newDatatype = d3.select("#DatatypeTemplate").node().cloneNode(true);
             newDatatype.children[0].innerHTML = newDatatype.name = e.name;
             newDatatype.constructors = e.constructors;
-            newDatatype.children[1].innerHTML = newDatatype.constructors.join("; ");
-            newDatatype.children[2].innerHTML = newDatatype.value = e.value;
+            newDatatype.children[1].innerHTML = newDatatype.constructors.join(", ");
             newDatatype.id = e.id;
             d3.select("#DatatypesTable").select("tbody").node().appendChild(newDatatype);
         }
@@ -72,7 +73,7 @@ define(function (require, exports, module) {
     DatatypesTable.prototype.setDatatypes = function(tableElements) {
         function clearTable() {
             var table = d3.select("#DatatypesTable").select("tbody").node();
-            while (table.lastChild && table.lastChild.id !== "heading") {
+            while (table && table.lastChild && table.lastChild.id !== "heading") {
                 table.removeChild(table.lastChild);
             }
             return _this;

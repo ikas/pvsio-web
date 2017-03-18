@@ -14,15 +14,16 @@ define(function (require, exports, module) {
         Logger              = require("util/Logger"),
         Recorder            = require("util/ActionRecorder"),
         Prompt              = require("pvsioweb/forms/displayPrompt"),
-        PrototypeImageView = require("pvsioweb/forms/PrototypeImageView"),
+        PrototypeImageView  = require("pvsioweb/forms/PrototypeImageView"),
         WidgetsListView     = require("pvsioweb/forms/WidgetsListView"),
         TimersListView      = require("pvsioweb/forms/TimersListView"),
         NewWidgetView       = require("pvsioweb/forms/newWidget"),
-        EditWidgetView  = require("pvsioweb/forms/editWidget"),
+        EditWidgetView      = require("pvsioweb/forms/editWidget"),
         template            = require("text!pvsioweb/forms/templates/prototypeBuilderPanel.handlebars"),
+        toolbar             = require("text!pvsioweb/forms/templates/prototypeBuilderToolbar.handlebars"),
         ScriptPlayer        = require("util/ScriptPlayer"),
-//        fs              = require("util/fileHandler"),
-        FileSystem          = require("filesystem/FileSystem"),
+        PluginManager       = require("plugins/PluginManager"),
+        fs                  = require("filesystem/FileSystem").getInstance(),
         NotificationManager = require("project/NotificationManager"),
         SaveProjectChanges  = require("project/forms/SaveProjectChanges"),
         Descriptor          = require("project/Descriptor"),
@@ -34,7 +35,6 @@ define(function (require, exports, module) {
         pbContainer,
         pvsioWebClient;
     var _prototypeBuilder;
-    var fs;
     var widgetListView;
     var prototypeImageView;
 
@@ -42,12 +42,15 @@ define(function (require, exports, module) {
         pvsioWebClient = PVSioWebClient.getInstance();
         projectManager = ProjectManager.getInstance();
         currentProject = projectManager.project();
-        fs = new FileSystem();
         _prototypeBuilder = this;
     }
 
     PrototypeBuilder.prototype.getName = function () {
         return "Prototype Builder";
+    };
+
+    PrototypeBuilder.prototype.getId = function () {
+        return "PrototypeBuilder";
     };
 
     /**
@@ -56,8 +59,9 @@ define(function (require, exports, module) {
      */
     function switchToBuilderView() {
         d3.select("#prototype-builder-container .image-map-layer").style("opacity", 1).style("z-index", 190);
-        d3.select("#controlsContainer .active").classed("active", false);
-        d3.select("#btnBuilderView").classed('active', true);
+        d3.select("#btnBuilderView").classed("btn-default", false).classed("btn-primary", true).classed("active", true);
+        d3.select("#btnSimulatorView").classed("btn-default", true).classed("btn-primary", false).classed("active", false);
+        d3.select("#btnRebootPrototype").classed("disabled", true);
         WidgetManager.stopTimers();
         expandWidgetsList();
     }
@@ -67,9 +71,9 @@ define(function (require, exports, module) {
     */
     function switchToSimulatorView() {
         d3.select("#prototype-builder-container .image-map-layer").style("opacity", 0.1).style("z-index", -2);
-        d3.select("#controlsContainer .active").classed("active", false);
-        d3.select("#btnSimulatorView").classed("active", true);
-        d3.select("#btnSimulatorView").classed("selected", true);
+        d3.select("#btnBuilderView").classed("btn-default", true).classed("btn-primary", false).classed("active", false);
+        d3.select("#btnSimulatorView").classed("btn-default", false).classed("btn-primary", true).classed("active", true);
+        d3.select("#btnRebootPrototype").classed("disabled", false);
         console.log("bootstrapping widgets with init(0)...");
         WidgetManager.initialiseWidgets();
         console.log("bootstrapping wallclock timers...");
@@ -112,7 +116,7 @@ define(function (require, exports, module) {
                     prototypeImageView.updateMapCreator(scale, function () {
                         var wdStr = p.getWidgetDefinitionFile().content;
                         if (wdStr && wdStr !== "") {
-                            var wd = JSON.parse(p.getWidgetDefinitionFile().content);
+                            var wd = JSON.parse(wdStr);
                             WidgetManager.restoreWidgetDefinitions(wd);
                             //update the widget area map scales
                             WidgetManager.scaleAreaMaps(scale);
@@ -135,7 +139,7 @@ define(function (require, exports, module) {
             }).then(function (res) {
                 resolve(image);
             }).catch(function (err) {
-                console.log(err);
+                console.error(err);
                 reject(err);
             });
         });
@@ -164,12 +168,10 @@ define(function (require, exports, module) {
         }
     }
 
-    function onProjectChanged(event) {
-        var pvsioStatus = d3.select("#lblPVSioStatus");
-        pvsioStatus.select("span").remove();
-        var project = event.current;
+    function restartPVSio() {
         var ws = WSManager.getWebSocket();
         ws.lastState("init(0)");
+        var project = projectManager.project();
         if (project.mainPVSFile()) {
             // the main file can be in a subfolder: we need to pass information about directories!
             var mainFile = project.mainPVSFile().path.replace(project.name() + "/", "");
@@ -182,7 +184,12 @@ define(function (require, exports, module) {
                 }
             });
         }
+    }
 
+    function onProjectChanged(event) {
+        var pvsioStatus = d3.select("#lblPVSioStatus");
+        pvsioStatus.select("span").remove();
+        restartPVSio();
         switchToBuilderView();
         WidgetManager.clearWidgets();
         prototypeImageView.clearWidgetAreas();
@@ -233,13 +240,16 @@ define(function (require, exports, module) {
                 }
             });
         });
-
         d3.select("#btnSaveProjectAs").on("click", function () {
             if (d3.select("#btn_menuSaveChart").node()) {
                 d3.select("#btn_menuSaveChart").node().click();
             }
-            var name = projectManager.project().name() + "_" + (new Date().getFullYear()) + "." +
+            var name = projectManager.project().name();
+            var date = (new Date().getFullYear()) + "." +
                             (new Date().getMonth() + 1) + "." + (new Date().getDate());
+            if (!name.endsWith(date)) {
+                name += "_" + date;
+            }
             projectManager.saveProjectDialog(name);
         });
         d3.select("#openProject").on("click", function () {
@@ -278,7 +288,9 @@ define(function (require, exports, module) {
                 Logger.log(notification);
             });
         });
-
+        d3.select("#btnLoadPicture").on("click", function () {
+            prototypeImageView.onClickLoad();
+        });
         d3.select("#btnRecord").on("click", function () {
             if (!d3.select("#btnRecord").attr("active")) {
                 d3.select("#btnRecord")
@@ -324,6 +336,11 @@ define(function (require, exports, module) {
         d3.select("#btnReconnect").on("click", function () {
             projectManager.reconnectToServer();
         });
+        d3.select("#btnRebootPrototype").on("click", function (){
+            //reboot is emulated by restarting the pvsioweb process on the server
+            restartPVSio();
+            switchToSimulatorView();
+        });
         d3.select("#btnAddNewTimer").on("click", function () {
 //            WidgetManager.addTimer();
         });
@@ -335,6 +352,9 @@ define(function (require, exports, module) {
     /////These are the api methods that the prototype builder plugin exposes
     PrototypeBuilder.prototype.getDependencies = function () { return []; };
 
+    PrototypeBuilder.prototype.updateImageAndLoadWidgets = function () {
+        return updateImageAndLoadWidgets();
+    };
 
     /**
         Change the image in the current project to the one specified in the parameter
@@ -371,10 +391,11 @@ define(function (require, exports, module) {
             }
             if (oldImage) {
                 pm.project().removeFile(oldImage.path).then(function (res) {
-                    pm.project().addFile(newImage.path, newImage.content, { encoding: "base64", overWrite: true });
-                }).then(function (res) {
-                    done();
-                }).catch(function (err) { console.log(err); reject(err); });
+                    pm.project().addFile(newImage.path, newImage.content, { encoding: "base64", overWrite: true })
+                        .then(function (res) {
+                            done();
+                        }).catch(function (err) { console.log(err); reject(err); });
+                    }).catch(function (err) { console.log(err); reject(err); });
             } else {
                 pm.project().addFile(newImage.path, newImage.content, { encoding: "base64", overWrite: true }).then(function (res) {
                     done();
@@ -466,8 +487,7 @@ define(function (require, exports, module) {
                     view.remove();
                     e.data.scale = prototypeImageView.resize();
                     var widget = WidgetManager.addNewWidget(e.data, coord, function(w, renderResponse) {
-                        region.classed(w.type(), true)
-                            .attr("id", w.id());
+                        region.classed(w.type(), true).attr("id", w.id());
                         w.element(region);
                         if (w.needsImageMap()) {
                             w.createImageMap({ callback: renderResponse });
@@ -486,12 +506,12 @@ define(function (require, exports, module) {
 
         prototypeImageView.on("WidgetEditRequested", function(widgetID) {
             var widget = WidgetManager.getWidget(widgetID);
-
             EditWidgetView.create(widget)
                 .on("ok", function (e, view) {
                     view.remove();
                     WidgetManager.editWidget(widget, e.data);
                 }).on("cancel", function (e, view) {
+                    // remove dialog
                     view.remove();
                 });
         });
@@ -512,7 +532,7 @@ define(function (require, exports, module) {
         var _this = this;
         this.collapsed = false;
         pbContainer = pvsioWebClient.createCollapsiblePanel({
-            headerText: "Prototype Builder",
+            headerText: this.getName(),
             showContent: !this.collapsed,
             ownerObject: this,
             onClick: function (collapsed) {
@@ -523,8 +543,9 @@ define(function (require, exports, module) {
                 _this.collapsed = collapsed;
             },
             parent: "#body",
-            owner: this.getName()
+            owner: this.getId()
         });
+        pbContainer.append("div").html(toolbar);
         pbContainer.append("div").attr("style", "display: flex;").html(template);
         layoutjs({el: "#body"});
         projectManager.addListener("ProjectChanged", onProjectChanged);
@@ -579,15 +600,22 @@ define(function (require, exports, module) {
         projectManager.removeListener("ProjectChanged", onProjectChanged);
         projectManager.removeListener("WidgetsFileChanged", onWidgetsFileChanged);
         projectManager.removeListener("SelectedFileChanged", onSelectedFileChanged);
+        require("widgets/ButtonHalo").getInstance().removeKeypressHandlers();
         return Promise.resolve(true);
     };
 
-    PrototypeBuilder.prototype.handleKeyEvent = function (e) {
-        if (!this.collapsed) {
-            prototypeImageView._mapCreator.handleKeyEvent(e);
+    PrototypeBuilder.prototype.handleKeyDownEvent = function (e) {
+        if (PluginManager.getInstance().isLoaded(this) && !this.collapsed) {
+            prototypeImageView._mapCreator.handleKeyDownEvent(e);
+            require("widgets/ButtonHalo").getInstance().handleKeyDownEvent(e);
         }
     };
 
+    PrototypeBuilder.prototype.handleKeyUpEvent = function (e) {
+        if (PluginManager.getInstance().isLoaded(this) && !this.collapsed) {
+            require("widgets/ButtonHalo").getInstance().handleKeyUpEvent(e);
+        }
+    };
     /**
         Gets an instance of the project manager
         @deprecated use ProjectManager.getInstance()

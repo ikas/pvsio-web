@@ -107,6 +107,7 @@ define(function (require, exports, module) {
                         name: data.data.screenName,
                         isInitial: (!!data.data.isInitial)
                     });
+                    _this._screenDropdown._updateInitialScreen();
                     view.remove();
                 });
         },

@@ -5,7 +5,7 @@
  * @date 10/30/13 21:42:56 PM
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50*/
-/*global define, _, Promise */
+/*global define, _ */
 define(function (require, exports, module) {
     "use strict";
     var d3 = require("d3/d3"),
@@ -18,7 +18,7 @@ define(function (require, exports, module) {
         LED             = require("widgets/LED"),
         BasicDisplay    = require("widgets/BasicDisplay"),
         NumericDisplay  = require("widgets/NumericDisplay"),
-        Storyboard      = require("pvsioweb/Storyboard"),
+        // Storyboard      = require("pvsioweb/Storyboard"),
         EmuTimer        = require("widgets/EmuTimer"),
         StateParser     = require("util/PVSioStateParser"),
         ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance(),
@@ -53,40 +53,10 @@ define(function (require, exports, module) {
                 view.remove();
                 emuTimer.updateWithProperties(e.data);
                 // fire event widget created
-                var event = { action: "create", timer: emuTimer };
-                wm.trigger("TimerModified", event);
+                wm.trigger("TimerModified", { action: "create", timer: emuTimer });
             }).on("cancel", function (e, view) {
                 view.remove();
             });
-    }
-    function installKeypressHandler(wm) {
-        d3.select(document).on("keydown", function () {
-            if (d3.select("#btnSimulatorView").node() && d3.select("#btnSimulatorView").classed("active")) {
-                var eventKeyCode = d3.event.which;
-                var widget = wm._keyCode2widget[eventKeyCode];
-                if (widget && typeof widget.evts === "function" && widget.evts().indexOf('click') > -1) {
-                    widget.click({ callback: renderResponse });
-                    halo(widget.id());
-                    d3.event.preventDefault();
-                    d3.event.stopPropagation();
-                } else if (widget && typeof widget.evts === "function" && widget.evts().indexOf("press/release") > -1) {
-                    widget.pressAndHold({ callback: renderResponse });
-                    halo(widget.id());
-                    d3.event.preventDefault();
-                    d3.event.stopPropagation();
-                }
-            }
-        });
-        d3.select(document).on("keyup", function () {
-            if (d3.select("#btnSimulatorView").node() && d3.select("#btnSimulatorView").classed("active")) {
-                var eventKeyCode = d3.event.which;
-                var widget = wm._keyCode2widget[eventKeyCode];
-                if (widget && typeof widget.evts === "function" && widget.evts().indexOf("press/release") > -1) {
-                    widget.release({ callback: renderResponse });
-                }
-                haloOff();
-            }
-        });
     }
     function halo (buttonID) {
         var coords = d3.select("." + buttonID).attr("coords");
@@ -125,6 +95,7 @@ define(function (require, exports, module) {
                 console.log("tick timer interval updated to " + timerRate / 1000 + " secs");
             }
         });
+        return this;
     }
 
     function createWidget(w) {
@@ -138,6 +109,8 @@ define(function (require, exports, module) {
                   keyCode: w.keyCode,
                   keyName: w.keyName,
                   functionText: w.functionText,
+                  customFunctionText: w.customFunctionText,
+                  visibleWhen: w.visibleWhen,
                   evts: w.evts,
                   buttonReadback: w.buttonReadback });
         } else if (w.type === "display") {
@@ -193,8 +166,6 @@ define(function (require, exports, module) {
                   color: w.ledColor,
                   visibleWhen: w.visibleWhen,
                   parent: "imageDiv .prototype-image-inner" });
-        } else if (w.type === "storyboard") {
-            widget = new Storyboard(w.id);
         } else {
             console.log("Warning: unrecognised widget type " + w.type);
         }
@@ -216,7 +187,38 @@ define(function (require, exports, module) {
     WidgetManager.prototype.restoreWidgetDefinitions = function (defs) {
         var wm = this;
         this.clearWidgets();
-        if (defs) {
+        if (defs && defs.widgetMaps && defs.regionDefs) {
+            // sanity check
+            if (defs.widgetMaps.length !== defs.regionDefs.length) {
+                // there's an issue with the file -- a widget is not associated to any region
+                console.log("WARNING: Corrupted widgets definition file. Fixing the definitions...");
+                var curruptedRegionDefs = [];
+                defs.regionDefs.forEach(function (regionDef) {
+                    if (defs.widgetMaps.filter(function (map) { return map.id === regionDef.class; }).length === 0) {
+                        console.log("Found offending region definition: " + regionDef.class);
+                        curruptedRegionDefs.push(regionDef.class);
+                    }
+                });
+                var curruptedWidgetMaps = [];
+                defs.widgetMaps.forEach(function (map) {
+                    if (defs.regionDefs.filter(function (def) { return def.class === map.id; }).length === 0) {
+                        console.log("Found offending widget map: " + map.displayKey + " (id: " + map.id + ")");
+                        curruptedWidgetMaps.push(map.id);
+                    }
+                });
+                // removing corrupted elements
+                curruptedRegionDefs.forEach(function (x) {
+                    defs.regionDefs = defs.regionDefs.filter(function (d) { return d.class !== x; });
+                });
+                curruptedWidgetMaps.forEach(function (x) {
+                    defs.widgetMaps = defs.widgetMaps.filter(function (d) { return d.id !== x; });
+                });
+                if (defs.widgetMaps.length === defs.regionDefs.length) {
+                    console.log("Definitions fixed successfully!");
+                } else {
+                    console.error("Failed to fix the widget definitions :((");
+                }
+            }
             wm._keyCode2widget = {};
             var widget;
             _.each(defs.widgetMaps, function (w, i) {
@@ -226,8 +228,8 @@ define(function (require, exports, module) {
                 w.width  = parseFloat(coords[2]) - parseFloat(coords[0]);
                 w.x = parseFloat(coords[0]);
                 w.y = parseFloat(coords[1]);
-                w.scale = (d3.select("svg > g").node()) ?
-                             +(d3.select("svg > g").attr("transform").replace("scale(", "").replace(")", "")) || 1 : 1;
+                w.scale = (d3.select("#imageDiv svg > g").node()) ?
+                             +(d3.select("#imageDiv svg > g").attr("transform").replace("scale(", "").replace(")", "")) || 1 : 1;
                 var widget = createWidget(w);
                 if (widget) {
                     wm.addWidget(widget);
@@ -253,9 +255,38 @@ define(function (require, exports, module) {
                     createImageMap(widget);
                 });
             }
-
-            installKeypressHandler(this);
         }
+    };
+    WidgetManager.prototype.handleKeyDownEvent = function (e) {
+        // d3.select(document).on("keydown", function () {
+        if (d3.select("#btnSimulatorView").node() && d3.select("#btnSimulatorView").classed("active")) {
+            var eventKeyCode = d3.event.which;
+            var widget = wm._keyCode2widget[eventKeyCode];
+            if (widget && typeof widget.evts === "function" && widget.evts().indexOf('click') > -1) {
+                widget.click({ callback: renderResponse });
+                halo(widget.id());
+                d3.event.preventDefault();
+                d3.event.stopPropagation();
+            } else if (widget && typeof widget.evts === "function" && widget.evts().indexOf("press/release") > -1) {
+                widget.pressAndHold({ callback: renderResponse });
+                halo(widget.id());
+                d3.event.preventDefault();
+                d3.event.stopPropagation();
+            }
+        }
+        // });
+    };
+    WidgetManager.prototype.handleKeyUpEvent = function (e) {
+        // d3.select(document).on("keyup", function () {
+        if (d3.select("#btnSimulatorView").node() && d3.select("#btnSimulatorView").classed("active")) {
+            var eventKeyCode = d3.event.which;
+            var widget = wm._keyCode2widget[eventKeyCode];
+            if (widget && typeof widget.evts === "function" && widget.evts().indexOf("press/release") > -1) {
+                widget.release({ callback: renderResponse });
+            }
+            haloOff();
+        }
+        // });
     };
     WidgetManager.prototype.addWallClockTimer = function () {
         //pop up the timer edit dialog
@@ -264,8 +295,7 @@ define(function (require, exports, module) {
         var emuTimer = new EmuTimer(id, { timerEvent: id, timerRate: timerRate, callback: renderResponse });
         this._timers[emuTimer.id()] = emuTimer;
         // fire event widget created
-        var event = { action: "create", timer: emuTimer };
-        wm.trigger("TimerModified", event);
+        wm.trigger("TimerModified", { action: "create", timer: emuTimer });
 
     };
     WidgetManager.prototype.editTimer = function (emuTimer) {
@@ -287,7 +317,7 @@ define(function (require, exports, module) {
             wm._keyCode2widget[data.keyCode] = widget;
         }
         // fire event widget modified
-        wm.fire({type: "WidgetModified"});
+        wm.trigger("WidgetModified");
     };
     WidgetManager.prototype.editTimer = function (emuTimer) {
         // the only timer type supported in the current implementation is EmuTimer
@@ -312,32 +342,26 @@ define(function (require, exports, module) {
      * @return {Widget} The new widget
      */
     WidgetManager.prototype.addNewWidget = function (data, coord, onCreate) {
-        data.id = data.type + "_" + uidGenerator();
+        var name = data.functionText || data.displayKey || data.ledKey || "";
+        data.id = data.type + "_" + name + "_" + uidGenerator();
         data.height = coord.height;
         data.width = coord.width;
         data.x = coord.left;
         data.y = coord.top;
+        data.visibleWhen = (!data.visibleWhen || data.visibleWhen.length === 0) ? "true" : data.visibleWhen;
 
         var widget = createWidget(data);
         if (widget) {
+            if (onCreate) {
+                onCreate(widget, renderResponse);
+            }
+            widget.updateWithProperties(data);
+            this.addWidget(widget);
             if (typeof widget.keyCode === "function" && widget.keyCode() && widget.type() === "button") {
                 wm._keyCode2widget[widget.keyCode()] = widget;
             }
-
-            widget.updateWithProperties(data);
-            this.addWidget(widget);
             this.trigger("WidgetModified", {action: "create", widget: widget});
         }
-
-        if (onCreate) {
-            onCreate(widget, renderResponse);
-        }
-
-        if (data.hasOwnProperty("events")) {
-            data.evts = data.events;
-            delete data.events;
-        }
-
         return widget;
     };
 
@@ -349,6 +373,7 @@ define(function (require, exports, module) {
             value.remove();//remove the widgets from the interface
         });
         this._widgets = {};
+        require("widgets/ButtonHalo").getInstance().removeKeypressHandlers();
     };
 
     /**
@@ -421,16 +446,16 @@ define(function (require, exports, module) {
             return w.type() === "touchscreendisplay";
         });
     };
-    /**
-        Gets a list of storyboard widgets
-        @returns {Storyboard}
-        @memberof WidgetManager
-     */
-    WidgetManager.prototype.getStoryboardWidgets = function () {
-        return _.filter(this._widgets, function (w) {
-            return w.type() === "storyboard";
-        });
-    };
+    // /**
+    //     Gets a list of storyboard widgets
+    //     @returns {Storyboard}
+    //     @memberof WidgetManager
+    //  */
+    // WidgetManager.prototype.getStoryboardWidgets = function () {
+    //     return _.filter(this._widgets, function (w) {
+    //         return w.type() === "storyboard";
+    //     });
+    // };
 
     /**
         Gets a list of all the widgets loaded on the page. The returned array contains all
@@ -475,45 +500,6 @@ define(function (require, exports, module) {
         return {widgetMaps: widgets, regionDefs: regionDefs};
     };
 
-    /**
-     * @function addStoryboardImages
-     * @memberof WidgetManager
-     * @param descriptors {Array(Object)} Array of image descriptors. Each image descriptor has the following properties:
-     *        <li> type: (String), defines the MIME type of the image. The string starts with "image/", e.g., "image/jpeg" </li>
-     *        <li> imagePath: (String), defines the path of the image. The path is relative to the current project folder </li>
-     * @returns {Promise(Array({image}))}
-     */
-    WidgetManager.prototype.addStoryboardImages = function (descriptors) {
-        var _this = this;
-        var storyboard = this.getStoryboardWidgets() || new Storyboard();
-        return new Promise(function (resolve, reject) {
-            storyboard.addImages(descriptors).then(function (images) {
-                _this.addWidget(storyboard);
-                _this.trigger("WidgetModified");
-                resolve(images);
-            }).catch(function (err) {
-                reject(err);
-            });
-        });
-    };
-
-    /**
-     * @function displayEditStoryboardDialog
-     * @memberof WidgetManager
-     */
-    WidgetManager.prototype.displayEditStoryboardDialog = function () {
-        var _this = this;
-        var w = this.getStoryboardWidgets() || [];
-        if (w.length === 0) {
-            w.push(new Storyboard());
-            w[0].addListener("EditStoryboardComplete", function (data) {
-                _this.addWidget(data.widget); // this overwrites the widget
-                _this.trigger("WidgetModified"); // this marks the widget file as dirty
-                _this.trigger("StoryboardWidgetModified", {widget: data.widget}); // this will trigger an event listener in Project that creates a directory with the storyboard image files
-            });
-        }
-        w[0].displayEditStoryboardDialog();
-    };
 
     module.exports = {
         /**

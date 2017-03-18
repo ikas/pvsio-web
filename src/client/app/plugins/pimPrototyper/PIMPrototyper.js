@@ -10,7 +10,6 @@ define(function (require, exports, module) {
         WidgetsListView = require("pvsioweb/forms/WidgetsListView"),
         WidgetConfigView = require("./forms/WidgetConfigView"),
         template = require("text!./forms/templates/PIMPrototyperPanel.handlebars"),
-        FileSystem = require("filesystem/FileSystem"),
         ProjectManager = require("project/ProjectManager"),
         PIMProjectManager = require("./PIMProjectManager"),
         PluginManager = require("plugins/PluginManager"),
@@ -40,8 +39,8 @@ define(function (require, exports, module) {
         });
 
         var opts = {
-            headerText: "Storyboard Editor",
-            owner: this.getName(),
+            headerText: this.getName(),
+            owner: this.getId(),
             ownerObject: this,
             showContent: !this.collapsed,
             onClick: function (collapsed) {
@@ -107,7 +106,7 @@ define(function (require, exports, module) {
                 });
         });
 
-        this._fileSystem = new FileSystem();
+        this._fileSystem = require("filesystem/FileSystem").getInstance();
         this._widgetManager = new PIMWidgetManager();
 
         this._screenControlsView = new ScreenControlsView({
@@ -143,6 +142,10 @@ define(function (require, exports, module) {
         return "Storyboard Editor";
     };
 
+    PIMPrototyper.prototype.getId = function () {
+        return "StoryboardEditor";
+    };
+
     PIMPrototyper.prototype.initialise = function () {
         this._init();
         return Promise.resolve(true);
@@ -159,9 +162,9 @@ define(function (require, exports, module) {
         return [];
     };
 
-    PIMPrototyper.prototype.handleKeyEvent = function (e) {
+    PIMPrototyper.prototype.handleKeyDownEvent = function (e) {
         if (!this.collapsed) {
-            this._prototypeImageView._mapCreator.handleKeyEvent(e);
+            this._prototypeImageView._mapCreator.handleKeyDownEvent(e);
         }
     };
 
