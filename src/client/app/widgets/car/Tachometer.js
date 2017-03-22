@@ -66,7 +66,7 @@ define(function (require, exports, module) {
 
     Tachometer.prototype.render = function(rpm, opt) {
         opt = opt || {};
-        if (rpm) {
+        if (rpm >= 0) {
             this.gauge_obj.setPointer(rpm);
         }
     };

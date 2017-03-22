@@ -99,7 +99,7 @@ define(function (require, exports, module) {
      */
     Speedometer.prototype.render = function(speed, opt) {
         opt = opt || {};
-        if (speed) {
+        if (speed >= 0) {
             this.gauge_obj.setPointer(Math.round(speed));
         }
     };

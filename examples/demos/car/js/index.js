@@ -28,8 +28,6 @@ require([
         // Added car components here
         "widgets/car/Speedometer",
         "widgets/car/Tachometer",
-        "widgets/car/Clock",
-        "widgets/car/Thermometer",
 
         "widgets/ButtonActionsQueue",
         "stateParser",
@@ -45,8 +43,6 @@ require([
         // Added car components here
         Speedometer,
         Tachometer,
-        Clock,
-        Thermometer,
 
         ButtonActionsQueue,
         stateParser,
@@ -95,57 +91,78 @@ require([
 
         // ----------------------------- DASHBOARD COMPONENTS -----------------------------
         var car = {};
+        
         // ---------------- SPEEDOMETER ----------------------------
         car.speedometerGauge = new Speedometer('speedometer-gauge', {
             label: "kph",
             max: 240,
             min: 0
         });
+        
         // ---------------- TACHOMETER -----------------------------
         car.tachometerGauge = new Tachometer('tachometer-gauge', {
             max: 9,
             min: 0,
             label: "x1000/min"
         });
+        
         // ---------------- CURRENT GEAR ---------------------------
         car.gearDisplay = new BasicDisplay(
             'current-gear',
-            {
-                top: 320,
-                left: 890,
-                width: 40,
-                height: 40,
-            },
-            {
-                borderWidth: 2,
-                borderStyle: "solid",
-                borderColor: "white"
-            }
+            { top: 320, left: 890, width: 40, height: 40 },
+            { borderWidth: 2, borderStyle: "solid", borderColor: "white" }
         );
+        
         // ---------------- CLOCK ----------------------------------
-        car.clockDisplay = new Clock('clock');
+        car.clockDisplay = new BasicDisplay(
+            'clock',
+            { top: 600, left: 640, width: 85, height: 30 },
+            { fontsize: 25 }
+        );
+        
         // ---------------- ENVIRONMENT TEMPERATURE ----------------
-        car.envThermometer = new Thermometer('env-temp');
+        car.envTempDisplay = new BasicDisplay(
+            'env-temp',
+            { top: 600, left: 975, width: 85, height: 30 },
+            { fontsize: 25 }
+        );
+
         // ---------------- SPEED ABS VALUE ------------------------
-        car.speedAbsValue = new BasicDisplay(
+        car.speedAbsDisplay = new BasicDisplay(
             'speed-abs',
-            {
-                top: 374,
-                left: 750,
-                width: 180,
-                height: 40,
-            }
+            { top: 390, left: 755, width: 100, height: 55 },
+            { fontsize: 60 }
         );
+
+        // ---------------- SPEED UNIT DISPLAY ---------------------
+        car.speedUnitDisplay = new BasicDisplay(
+            'speed-unit-display',
+            { top: 414, left: 860, width: 70, height: 30 },
+            { fontsize: 28 }
+        );
+
         // ---------------- ODOMETER -------------------------------
-        car.odometer = new BasicDisplay(
+        car.odometerDisplay = new BasicDisplay(
             'odometer',
-            {
-                top: 322,
-                left: 700,
-                width: 150,
-                height: 40,
-            }
+            { top: 322, left: 710, width: 160, height: 40 }
         );
+
+        // FAKE DASHBOARD STUFF (fake for now :) )
+        car.fakeTemp1 = new BasicDisplay(
+            'fake-temp-1',
+            { top: 465, left: 810, width: 80, height: 30 },
+            { fontsize: 25 }
+        )
+        car.fakeTemp2 = new BasicDisplay(
+            'fake-temp-2',
+            { top: 499, left: 810, width: 80, height: 30 },
+            { fontsize: 25 }
+        )
+        car.fakeTemp3 = new BasicDisplay(
+            'fake-temp-3',
+            { top: 534, left: 810, width: 80, height: 30 },
+            { fontsize: 25 }
+        )
 
         // ----------------------------- DASHBOARD INTERACTION -----------------------------
         car.up = new Button("accelerate", { width: 0, height: 0 }, {
@@ -160,6 +177,7 @@ require([
         });
 
 
+        // Parse the current gear from the string provided by the current model state
         function parseGear(gear_str) {
             // String contains
             if(gear_str.indexOf('GEAR_') !== -1) {
@@ -169,24 +187,46 @@ require([
                 return gear_str;
             }
         }
-
-        // Render car dashboard components
-        function render(res) {
-            car.speedometerGauge.render(evaluate(res.speed.val));
-            car.tachometerGauge.render(evaluate(res.rpm));
-            car.gearDisplay.render(parseGear(res.gear));
-            car.clockDisplay.render();
-            car.envThermometer.render(evaluate(res.temp.val), res.temp.units);
-            car.speedAbsValue.render(Math.round(evaluate(res.speed.val)) + ' ' + res.speed.units);
-            car.odometer.render(pad(res.odo,6));
-        }
-
+        
+        // Left zero padding for the odometer value
         function pad(num, size) {
             var s = num+"";
             while (s.length < size) {
                 s = "0" + s;
             }
             return s;
+        }
+
+        function getCurrentTimeFormatted() {
+            var date = new Date;
+            var minutes = date.getMinutes();
+            var hour = date.getHours();
+            return addLeadingZero(hour)+':'+addLeadingZero(minutes);
+        };
+
+        // Left zero pad for hour/minute display
+        function addLeadingZero(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        };
+
+        // Render car dashboard components
+        function render(res) {
+            car.speedometerGauge.render(evaluate(res.speed.val));
+            car.tachometerGauge.render(evaluate(res.rpm));
+            car.gearDisplay.render(parseGear(res.gear));
+            car.clockDisplay.render(getCurrentTimeFormatted());
+            car.envTempDisplay.render(evaluate(res.temp.val) + ' ' + res.temp.units);
+            car.speedAbsDisplay.render(Math.round(evaluate(res.speed.val)).toString());
+            car.speedUnitDisplay.render(res.speed.units);
+            car.odometerDisplay.render(pad(res.odo,7));
+
+            // Fake stuff (for now)
+            car.fakeTemp1.render('16.1 ºC');
+            car.fakeTemp2.render('16.1 ºC');
+            car.fakeTemp3.render('16.1 ºC');
         }
 
         var demoFolder = "car";
