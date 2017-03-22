@@ -28,10 +28,8 @@ require([
         // Added car components here
         "widgets/car/Speedometer",
         "widgets/car/Tachometer",
-        "widgets/car/Gear",
         "widgets/car/Clock",
         "widgets/car/Thermometer",
-        "widgets/car/DisplayValue",
 
         "widgets/ButtonActionsQueue",
         "stateParser",
@@ -47,10 +45,8 @@ require([
         // Added car components here
         Speedometer,
         Tachometer,
-        Gear,
         Clock,
         Thermometer,
-        DisplayValue,
 
         ButtonActionsQueue,
         stateParser,
@@ -97,8 +93,8 @@ require([
             }
         }
 
-        var car = {};
         // ----------------------------- DASHBOARD COMPONENTS -----------------------------
+        var car = {};
         // ---------------- SPEEDOMETER ----------------------------
         car.speedometerGauge = new Speedometer('speedometer-gauge', {
             label: "kph",
@@ -112,15 +108,44 @@ require([
             label: "x1000/min"
         });
         // ---------------- CURRENT GEAR ---------------------------
-        car.gearDisplay = new Gear('current-gear');
+        car.gearDisplay = new BasicDisplay(
+            'current-gear',
+            {
+                top: 320,
+                left: 890,
+                width: 40,
+                height: 40,
+            },
+            {
+                borderWidth: 2,
+                borderStyle: "solid",
+                borderColor: "white"
+            }
+        );
         // ---------------- CLOCK ----------------------------------
         car.clockDisplay = new Clock('clock');
         // ---------------- ENVIRONMENT TEMPERATURE ----------------
         car.envThermometer = new Thermometer('env-temp');
-        // ---------------- ENVIRONMENT TEMPERATURE ----------------
-        car.speedAbsValue = new DisplayValue('speed-abs');
+        // ---------------- SPEED ABS VALUE ------------------------
+        car.speedAbsValue = new BasicDisplay(
+            'speed-abs',
+            {
+                top: 374,
+                left: 750,
+                width: 180,
+                height: 40,
+            }
+        );
         // ---------------- ODOMETER -------------------------------
-        car.odometer = new DisplayValue('odometer');
+        car.odometer = new BasicDisplay(
+            'odometer',
+            {
+                top: 322,
+                left: 700,
+                width: 150,
+                height: 40,
+            }
+        );
 
         // ----------------------------- DASHBOARD INTERACTION -----------------------------
         car.up = new Button("accelerate", { width: 0, height: 0 }, {
@@ -135,11 +160,21 @@ require([
         });
 
 
+        function parseGear(gear_str) {
+            // String contains
+            if(gear_str.indexOf('GEAR_') !== -1) {
+                // String replace
+                return gear_str.replace('GEAR_','');
+            } else {
+                return gear_str;
+            }
+        }
+
         // Render car dashboard components
         function render(res) {
             car.speedometerGauge.render(evaluate(res.speed.val));
             car.tachometerGauge.render(evaluate(res.rpm));
-            car.gearDisplay.render(res.gear);
+            car.gearDisplay.render(parseGear(res.gear));
             car.clockDisplay.render();
             car.envThermometer.render(evaluate(res.temp.val), res.temp.units);
             car.speedAbsValue.render(Math.round(evaluate(res.speed.val)) + ' ' + res.speed.units);

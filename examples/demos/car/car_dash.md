@@ -6,9 +6,9 @@
 ### Components
 * Speedometer (gauge)
 * Fuel (w/ remaining kms?)
-* Odometer (km counter)
-* Current shift
-* Speedometer (absolute value)
+* Odometer (km counter) - using BasicDisplay
+* Current shift - using BasicDisplay
+* Speedometer (absolute value) - using BasicDisplay
 * Clock
 * Thermometer (environment temperature)
 * Tachometer (rotation counter)
@@ -16,5 +16,5 @@
 
 
 ### Car controls
-* **[W]** Accelerate
-* **[S]** Brake
+* **[Arrow Up]** Accelerate
+* **[Arrow Down]** Brake
