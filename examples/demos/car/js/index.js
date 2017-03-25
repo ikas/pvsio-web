@@ -131,14 +131,14 @@ require([
         car.speedAbsDisplay = new BasicDisplay(
             'speed-abs',
             { top: 390, left: 755, width: 100, height: 55 },
-            { fontsize: 60 }
+            { fontsize: 60, align: "right" }
         );
 
         // ---------------- SPEED UNIT DISPLAY ---------------------
         car.speedUnitDisplay = new BasicDisplay(
             'speed-unit-display',
-            { top: 414, left: 860, width: 70, height: 30 },
-            { fontsize: 28 }
+            { top: 415, left: 860, width: 70, height: 30 },
+            { fontsize: 25, align: "left" }
         );
 
         // ---------------- ODOMETER -------------------------------
@@ -147,24 +147,24 @@ require([
             { top: 322, left: 710, width: 160, height: 40 }
         );
 
-        // FAKE DASHBOARD STUFF (fake for now :) )
-        car.fakeTemp1 = new BasicDisplay(
-            'fake-temp-1',
+        // ---------------- ENGINE TEMPERATURE INDICATORS ----------
+        car.engineTemp1 = new BasicDisplay(
+            'eng-temp-1',
             { top: 465, left: 810, width: 80, height: 30 },
             { fontsize: 25 }
         )
-        car.fakeTemp2 = new BasicDisplay(
-            'fake-temp-2',
+        car.engineTemp2 = new BasicDisplay(
+            'eng-temp-2',
             { top: 499, left: 810, width: 80, height: 30 },
             { fontsize: 25 }
         )
-        car.fakeTemp3 = new BasicDisplay(
-            'fake-temp-3',
+        car.engineTemp3 = new BasicDisplay(
+            'eng-temp-3',
             { top: 534, left: 810, width: 80, height: 30 },
             { fontsize: 25 }
         )
 
-        // ----------------------------- DASHBOARD INTERACTION -----------------------------
+        // ---------------- DASHBOARD INTERACTION ------------------
         car.up = new Button("accelerate", { width: 0, height: 0 }, {
             callback: onMessageReceived,
             evts: ['press/release'],
@@ -189,20 +189,13 @@ require([
         }
         
         // Left zero padding for the odometer value
-        function pad(num, size) {
-            var s = num+"";
-            while (s.length < size) {
+        function parseOdoValue(num) {
+            var s = Math.round(num)+"";
+            while (s.length < 7) {
                 s = "0" + s;
             }
             return s;
         }
-
-        function getCurrentTimeFormatted() {
-            var date = new Date;
-            var minutes = date.getMinutes();
-            var hour = date.getHours();
-            return addLeadingZero(hour)+':'+addLeadingZero(minutes);
-        };
 
         // Left zero pad for hour/minute display
         function addLeadingZero(i) {
@@ -214,19 +207,22 @@ require([
 
         // Render car dashboard components
         function render(res) {
+
+            var temperature = evaluate(res.temp.val) + ' ' + res.temp.units;
+
             car.speedometerGauge.render(evaluate(res.speed.val));
             car.tachometerGauge.render(evaluate(res.rpm));
             car.gearDisplay.render(parseGear(res.gear));
-            car.clockDisplay.render(getCurrentTimeFormatted());
-            car.envTempDisplay.render(evaluate(res.temp.val) + ' ' + res.temp.units);
+            car.clockDisplay.render(res.time.hour + ':' + res.time.min);
+            car.envTempDisplay.render(temperature);
             car.speedAbsDisplay.render(Math.round(evaluate(res.speed.val)).toString());
             car.speedUnitDisplay.render(res.speed.units);
-            car.odometerDisplay.render(pad(res.odo,7));
+            car.odometerDisplay.render(parseOdoValue(evaluate(res.odo)));
 
             // Fake stuff (for now)
-            car.fakeTemp1.render('16.1 ºC');
-            car.fakeTemp2.render('16.1 ºC');
-            car.fakeTemp3.render('16.1 ºC');
+            car.engineTemp1.render(temperature);
+            car.engineTemp2.render(temperature);
+            car.engineTemp3.render(temperature);
         }
 
         var demoFolder = "car";
