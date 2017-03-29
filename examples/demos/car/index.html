@@ -13,19 +13,19 @@
         <link href="css/960.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <div class="col-xs-12 text-center">
-            Car controls: <br>
-            [up arrow key] Accelerate <br>
-            [down arrow key] Brake <br>
-        </div>
-
         <div id="content" class="content" style="display:none;">
-            <div class="dashboard-container">
+            <div class="col-xs-12 text-center" style="width:1300px; margin-top: 8%; position: absolute;">
+                Car controls: <br>
+                [up arrow key] Accelerate <br>
+                [down arrow key] Brake <br>
+            </div>
+
+            <div class="dashboard-container" style="display:inline-flex;">
                 <div class="col-xs-4">
                     <span id="speedometer-gauge"></span>
                 </div>
 
-                <div class="col-xs-4" id="control-panel-container">
+                <div class="col-xs-4" id="control-panel-container" style="width:580px;">
 
                     <div class="col-xs-12 dash-top-container border-bottom">
                         <div class="col-xs-12 text-center font-xl" id="odometer-container">
