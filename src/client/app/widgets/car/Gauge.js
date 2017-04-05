@@ -1,33 +1,33 @@
 /**
- * @module Speedometer
+ * @module Gauge
  * @version 1.0.0
  * @description
- * Speedometer renders a basic gauge object (using D3 Gauge Plus library). It assumes that this 
- * library was already loaded (TODO fix this). The speedometer will render the gauge, with the 
- * pointer showing the current speed of the car. The initial speed is 0. The render method can 
- * then be called, passing the new car speed as parameter, and the widget will update the gauge 
- * to show the new provided speed value.
+ * Gauge renders a basic gauge object (using D3 Gauge Plus library). It assumes that this 
+ * library was already loaded (TODO fix this). The gauge will be rendered with the 
+ * pointer showing the current value. The initial value is 0. The render method can 
+ * then be called, passing the new value as parameter, and the widget will update the gauge 
+ * to show the new provided value.
  * 
  * @author Henrique Pacheco
  * @date Mar 25, 2017
  *
- * @example <caption>Usage of Speedometer within a PVSio-web project.</caption>
+ * @example <caption>Usage of Gauge within a PVSio-web project.</caption>
  * define(function (require, exports, module) {
  *     "use strict";
  *
- *     // Require the Speedmeter module
- *     require("widgets/car/Speedometer");
+ *     // Require the Gauge module
+ *     require("widgets/car/Gauge");
  *
  *     function main() {
- *          // After Speedmeter module was loaded, initialize it
- *          var speedometerGauge = new Speedometer('speedometer-gauge', {
+ *          // After Gauge module was loaded, initialize it
+ *          var gauge = new Gauge('gauge-gauge', {
  *              label: "kmh",
  *              max: 240,
  *              min: 0
  *          });
  *
- *          // Re-render the Speedometer, provinding a new speed value
- *          speedometerGauge.render(10); 
+ *          // Re-render the Gauge, provinding a new value
+ *          gauge.render(10); 
  *     }
  * });
  */
@@ -37,8 +37,8 @@ define(function (require, exports, module) {
     "use strict";
 
     /**
-     * @function <a name="Speedometer">Speedometer</a>
-     * @description Speedometer constructor.
+     * @function <a name="Gauge">Gauge</a>
+     * @description Gauge constructor.
      * 
      * @param id {String} The ID of the element that will contain the gauge.
      * @param opt {Object} Options:
@@ -46,10 +46,11 @@ define(function (require, exports, module) {
      *          <li>min (integer): Bottom limit of the gauge (default is 0).</li>
      *          <li>initial (integer): Initial value of the pointer of the gauge (default is 0).</li>
      *          <li>label (String): Label presented inside the gauge (default is the empty string).</li>
-     * @memberof module:Speedometer
+     * @memberof module:Gauge
      * @instance
      */
-    function Speedometer(id, opt) {
+    function Gauge(id, opt) {
+        
         function createGauge(id, opt) {
             var config = {
                 size: 400,
@@ -75,14 +76,19 @@ define(function (require, exports, module) {
 
             return new d3_gauge_plus.Gauge(id, config);
         }
+
+
         opt = opt || {};
-        // Speedometer params
+        
+        // Gauge params
         opt.max = opt.max || 200;
         opt.min = opt.min || 0;
         opt.initial = opt.initial || 0;
         opt.label = opt.label || '';
+
         // D3 Gauge Plus object
         this.gauge_obj = createGauge(id, opt);
+        
         // display the gauge
         this.gauge_obj.render();
 
@@ -90,22 +96,22 @@ define(function (require, exports, module) {
     }
 
     /**
-     * @function <a name="Speedometer">Speedometer</a>
+     * @function <a name="Gauge">Gauge</a>
      * @description Render method.
      * 
-     * @param speed {Float} The new value to set the gauge pointer.
+     * @param new_value {Float} The new value to set the gauge pointer.
      * @param opt {Object} Override options when re-rendering. See constructor docs for 
      * detailed docs on the available options.
      * 
-     * @memberof module:Speedometer
+     * @memberof module:Gauge
      * @instance
      */
-    Speedometer.prototype.render = function(speed, opt) {
+    Gauge.prototype.render = function(new_value, opt) {
         opt = opt || {};
-        if (speed >= 0) {
-            this.gauge_obj.setPointer(Math.round(speed));
+        if (new_value >= 0) {
+            this.gauge_obj.setPointer(new_value);
         }
     };
 
-    module.exports = Speedometer;
+    module.exports = Gauge;
 });

@@ -26,8 +26,7 @@ require([
         "widgets/LED",
 
         // Added car components here
-        "widgets/car/Speedometer",
-        "widgets/car/Tachometer",
+        "widgets/car/Gauge",
 
         "widgets/ButtonActionsQueue",
         "stateParser",
@@ -41,8 +40,7 @@ require([
         LED,
 
         // Added car components here
-        Speedometer,
-        Tachometer,
+        Gauge,
 
         ButtonActionsQueue,
         stateParser,
@@ -93,17 +91,21 @@ require([
         var car = {};
 
         // ---------------- SPEEDOMETER ----------------------------
-        car.speedometerGauge = new Speedometer('speedometer-gauge', {
+        car.speedometerGauge = new Gauge('speedometer-gauge', {
             label: "km/h",
             max: 240,
             min: 0
         });
 
         // ---------------- TACHOMETER -----------------------------
-        car.tachometerGauge = new Tachometer('tachometer-gauge', {
+        car.tachometerGauge = new Gauge('tachometer-gauge', {
             max: 9,
             min: 0,
-            label: "x1000/min"
+            label: "x1000/min",
+            majorTicks: 7,
+            greenZones: [],
+            yellowZones: [],
+            redZones: [{ from: (9 - (9 * 0.2)), to: 9 }]
         });
 
         // ---------------- CURRENT GEAR ---------------------------
@@ -211,7 +213,7 @@ require([
 
             var temperature = evaluate(res.temp.val) + ' ' + ((res.temp.units === "C") ? "°C" : "°F");
 
-            car.speedometerGauge.render(evaluate(res.speed.val));
+            car.speedometerGauge.render(Math.round(evaluate(res.speed.val)));
             car.tachometerGauge.render(evaluate(res.rpm));
             car.gearDisplay.render(parseGear(res.gear));
             car.clockDisplay.render(addLeadingZero(res.time.hour) + ':' + addLeadingZero(res.time.min));
