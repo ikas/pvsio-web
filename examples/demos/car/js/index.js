@@ -111,60 +111,60 @@ require([
         // ---------------- CURRENT GEAR ---------------------------
         car.gearDisplay = new BasicDisplay(
             'current-gear',
-            { top: 7, left: 320, width: 40, height: 40 },
-            { borderWidth: 2, borderStyle: "solid", borderColor: "white", parent: "control-panel-container" }
+            { top: 2, left: 170, width: 24, height: 24 },
+            { borderWidth: 2, borderStyle: "solid", borderColor: "white", parent: "control-panel-container", fontsize: 20 }
         );
 
         // ---------------- CLOCK ----------------------------------
         car.clockDisplay = new BasicDisplay(
             'clock',
-            { top: 287, left: 80, width: 85, height: 30 },
-            { fontsize: 25, parent: "control-panel-container" }
+            { top: 165, left: 10, width: 70, height: 20 },
+            { fontsize: 20, parent: "control-panel-container" }
         );
 
         // ---------------- ENVIRONMENT TEMPERATURE ----------------
         car.envTempDisplay = new BasicDisplay(
             'env-temp',
-            { top: 287, left: 405, width: 85, height: 30 },
-            { fontsize: 25, parent: "control-panel-container" }
+            { top: 165, left: 150, width: 70, height: 20 },
+            { fontsize: 20, parent: "control-panel-container" }
         );
 
         // ---------------- SPEED ABS VALUE ------------------------
         car.speedAbsDisplay = new BasicDisplay(
             'speed-abs',
-            { top: 77, left: 185, width: 100, height: 55 },
-            { fontsize: 60, align: "right", parent: "control-panel-container" }
+            { top: 36, left: 55, width: 60, height: 32 },
+            { fontsize: 32, align: "right", parent: "control-panel-container" }
         );
 
         // ---------------- SPEED UNIT DISPLAY ---------------------
         car.speedUnitDisplay = new BasicDisplay(
             'speed-unit-display',
-            { top: 102, left: 290, width: 70, height: 30 },
+            { top: 40, left: 118, width: 70, height: 30 },
             { fontsize: 25, align: "left", parent: "control-panel-container" }
         );
 
         // ---------------- ODOMETER -------------------------------
         car.odometerDisplay = new BasicDisplay(
             'odometer',
-            { top: 9, left: 140, width: 160, height: 40 },
-            { parent: "control-panel-container" }
+            { top: 1, left: 50, width: 110, height: 28 },
+            { fontsize: 24, parent: "control-panel-container" }
         );
 
         // ---------------- ENGINE TEMPERATURE INDICATORS ----------
         car.engineTemp1 = new BasicDisplay(
             'eng-temp-1',
-            { top: 152, left: 240, width: 80, height: 30 },
-            { fontsize: 25, parent: "control-panel-container" }
+            { top: 74, left: 107, width: 60, height: 20 },
+            { fontsize: 20, parent: "control-panel-container", align: "right" }
         )
         car.engineTemp2 = new BasicDisplay(
             'eng-temp-2',
-            { top: 186, left: 240, width: 80, height: 30 },
-            { fontsize: 25, parent: "control-panel-container" }
+            { top: 96, left: 107, width: 60, height: 20 },
+            { fontsize: 20, parent: "control-panel-container", align: "right" }
         )
         car.engineTemp3 = new BasicDisplay(
             'eng-temp-3',
-            { top: 221, left: 240, width: 80, height: 30 },
-            { fontsize: 25, parent: "control-panel-container" }
+            { top: 118, left: 107, width: 60, height: 20 },
+            { fontsize: 20, parent: "control-panel-container", align: "right" }
         )
 
         // ---------------- DASHBOARD INTERACTION ------------------
@@ -211,7 +211,7 @@ require([
         // Render car dashboard components
         function render(res) {
 
-            var temperature = evaluate(res.temp.val) + ' ' + ((res.temp.units === "C") ? "°C" : "°F");
+            var temperature = Math.round(evaluate(res.temp.val)) + ' ' + ((res.temp.units === "C") ? "°C" : "°F");
 
             car.speedometerGauge.render(Math.round(evaluate(res.speed.val)));
             car.tachometerGauge.render(evaluate(res.rpm));

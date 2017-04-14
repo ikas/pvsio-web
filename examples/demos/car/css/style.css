@@ -41,13 +41,17 @@ div.version {
 }
 
 div.dashboard-container {
-    margin-top: 15%;
+    background-image: url(/demos/car/img/mercedes.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 1000px;
+    height: 520px;
 }
 
 /* Current gear styling */
 #current-gear {
     padding: 1px 7px;
-    border: 2px solid white;
+    border: none;
 }
 
 
@@ -61,12 +65,16 @@ div#control-panel-container {
     background-color: black;
     color: white;
     padding: 0;
+    width: 230px;
+    position: relative;
+    top: 265px;
+    left: 32px;
+    height: 210px;
 }
 
-div#odometer-container {
-    padding: 10px 0;
+div.dash-top-container {
+    height: 32px;
 }
-
 
 div.dash-bottom-container, div.dash-central-container {
     padding: 20px 0;
@@ -108,4 +116,17 @@ div.icons-container {
 
 .dash-icon {
     padding: 5px 0;
+}
+
+
+span#speedometer-gauge {
+    position: relative;
+    top: 160px;
+    left: 13px;
+}
+
+span#tachometer-gauge {
+    position:relative;
+    top: 160px;
+    left: 50px;
 }

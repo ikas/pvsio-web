@@ -14,68 +14,54 @@
     </head>
     <body>
         <div id="content" class="content" style="display:none;">
-            <div class="col-xs-12 text-center" style="width:1300px; margin-top: 8%; position: absolute;">
+            <div class="text-center" style="width:1000px;">
                 Car controls: <br>
                 [up arrow key] Accelerate <br>
                 [down arrow key] Brake <br>
             </div>
 
             <div class="dashboard-container" style="display:inline-flex;">
-                <div class="col-xs-4">
-                    <span id="speedometer-gauge"></span>
-                </div>
+                
+                <span id="speedometer-gauge"></span>
 
-                <div class="col-xs-4" id="control-panel-container" style="width:580px;">
+                <div id="control-panel-container">
 
-                    <div class="col-xs-12 dash-top-container border-bottom">
-                        <div class="col-xs-12 text-center font-xl" id="odometer-container">
-                            <!-- Odometer goes here -->
-                            <span id="odometer" style="height: 50px;"></span>
-                            <!-- Current gear goes here -->
-                            <span id="current-gear" style="height: 50px;"></span>
-                        </div>
+                    <div class="dash-top-container border-bottom">
+                        <!-- Odometer goes here -->
+                        <span id="odometer" style="height: 50px;"></span>
+                        <!-- Current gear goes here -->
+                        <span id="current-gear" style="height: 50px;"></span>    
                     </div>
 
-                    <div class="col-xs-12 dash-central-container">
-
-                        <div class="col-xs-12 text-center font-xxl border-bottom">
+                    <div class="dash-central-container">
+                        <div class="border-bottom" style="height:40px;">
                             <!-- Speedometer absolute value goes here -->
-                            <div id="speed-abs" style="height:80px;"></div>
+                            <span id="speed-abs"></span>
                             <!-- Speedometer unit display goes here -->
-                            <span id="speed-unit-display" style="height:80px;"></span>
+                            <span id="speed-unit-display"></span>
                         </div>
 
-                        <div class="col-xs-12 text-center icons-container" style="height:106px;">
-                            <div class="col-xs-12 text-center font-lg dash-icon">
-                                <span id="eng-temp-1"></span>
-                            </div>
-
-                            <div class="col-xs-12 text-center font-lg dash-icon">
-                                <span id="eng-temp-2"></span>
-                            </div>
-
-                            <div class="col-xs-12 text-center font-lg dash-icon">
-                                <span id="eng-temp-3"></span>
-                            </div>
+                        <div class="text-center icons-container" style="height:106px;">
+                            <span id="eng-temp-1"></span>
+                            <span id="eng-temp-2"></span>
+                            <span id="eng-temp-3"></span>
                         </div>
-
                     </div>
 
-                    <div class="col-xs-12 dash-bottom-container">
+                    <div class="dash-bottom-container">
                         <!-- Clock div -->
-                        <div class="col-xs-3 text-center" id="clock-div">
-                            <span class="glyphicon glyphicon-time"></span> <span id="clock"></span>
+                        <div id="clock-div">
+                            <span id="clock"></span>
                         </div>
 
                         <!-- Current shift div -->
-                        <div class="col-xs-3 col-xs-offset-6 text-center" id="env-temp-div">
+                        <div id="env-temp-div">
                             <span id="env-temp"></span>
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-4">
-                    <span id="tachometer-gauge" style="float:right;"></span>
-                </div>
+                               
+                <span id="tachometer-gauge"></span>
             </div>
 
         </div>
