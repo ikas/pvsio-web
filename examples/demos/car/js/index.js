@@ -27,6 +27,7 @@ require([
 
         // Added car components here
         "widgets/car/Gauge",
+        "widgets/car/CentralPanel",
 
         "widgets/ButtonActionsQueue",
         "stateParser",
@@ -41,6 +42,7 @@ require([
 
         // Added car components here
         Gauge,
+        CentralPanel,
 
         ButtonActionsQueue,
         stateParser,
@@ -90,6 +92,7 @@ require([
         // ----------------------------- DASHBOARD COMPONENTS -----------------------------
         var car = {};
 
+        
         // ---------------- SPEEDOMETER ----------------------------
         car.speedometerGauge = new Gauge('speedometer-gauge', {
             label: "km/h",
@@ -97,6 +100,7 @@ require([
             min: 0
         });
 
+        
         // ---------------- TACHOMETER -----------------------------
         car.tachometerGauge = new Gauge('tachometer-gauge', {
             max: 9,
@@ -108,64 +112,10 @@ require([
             redZones: [{ from: (9 - (9 * 0.2)), to: 9 }]
         });
 
-        // ---------------- CURRENT GEAR ---------------------------
-        car.gearDisplay = new BasicDisplay(
-            'current-gear',
-            { top: 2, left: 170, width: 24, height: 24 },
-            { borderWidth: 2, borderStyle: "solid", borderColor: "white", parent: "control-panel-container", fontsize: 20 }
-        );
+        
+        // ---------------- CENTRAL PANEL --------------------------
+        car.centralPanel = new CentralPanel('central-panel', {});
 
-        // ---------------- CLOCK ----------------------------------
-        car.clockDisplay = new BasicDisplay(
-            'clock',
-            { top: 165, left: 10, width: 70, height: 20 },
-            { fontsize: 20, parent: "control-panel-container" }
-        );
-
-        // ---------------- ENVIRONMENT TEMPERATURE ----------------
-        car.envTempDisplay = new BasicDisplay(
-            'env-temp',
-            { top: 165, left: 150, width: 70, height: 20 },
-            { fontsize: 20, parent: "control-panel-container" }
-        );
-
-        // ---------------- SPEED ABS VALUE ------------------------
-        car.speedAbsDisplay = new BasicDisplay(
-            'speed-abs',
-            { top: 36, left: 55, width: 60, height: 32 },
-            { fontsize: 32, align: "right", parent: "control-panel-container" }
-        );
-
-        // ---------------- SPEED UNIT DISPLAY ---------------------
-        car.speedUnitDisplay = new BasicDisplay(
-            'speed-unit-display',
-            { top: 40, left: 118, width: 70, height: 30 },
-            { fontsize: 25, align: "left", parent: "control-panel-container" }
-        );
-
-        // ---------------- ODOMETER -------------------------------
-        car.odometerDisplay = new BasicDisplay(
-            'odometer',
-            { top: 1, left: 50, width: 110, height: 28 },
-            { fontsize: 24, parent: "control-panel-container" }
-        );
-
-        // ---------------- ENGINE TEMPERATURE INDICATORS ----------
-        car.engineTemp1 = new BasicDisplay(
-            'eng-temp-1',
-            { top: 74, left: 107, width: 60, height: 20 },
-            { fontsize: 20, parent: "control-panel-container", align: "right" }
-        )
-        car.engineTemp2 = new BasicDisplay(
-            'eng-temp-2',
-            { top: 96, left: 107, width: 60, height: 20 },
-            { fontsize: 20, parent: "control-panel-container", align: "right" }
-        )
-        car.engineTemp3 = new BasicDisplay(
-            'eng-temp-3',
-            { top: 118, left: 107, width: 60, height: 20 },
-            { fontsize: 20, parent: "control-panel-container", align: "right" }
-        )
 
         // ---------------- DASHBOARD INTERACTION ------------------
         car.up = new Button("accelerate", { width: 0, height: 0 }, {
@@ -178,54 +128,13 @@ require([
             evts: ['press/release'],
             keyCode: 40 // key down
         });
-
-
-        // Parse the current gear from the string provided by the current model state
-        function parseGear(gear_str) {
-            // String contains
-            if(gear_str.indexOf('GEAR_') !== -1) {
-                // String replace
-                return gear_str.replace('GEAR_','');
-            } else {
-                return gear_str;
-            }
-        }
-
-        // Left zero padding for the odometer value
-        function parseOdoValue(num) {
-            var s = Math.round(num)+"";
-            while (s.length < 7) {
-                s = "0" + s;
-            }
-            return s;
-        }
-
-        // Left zero pad for hour/minute display
-        function addLeadingZero(i) {
-            if (i < 10) {
-                i = "0" + i;
-            }
-            return i;
-        };
+        
 
         // Render car dashboard components
         function render(res) {
-
-            var temperature = Math.round(evaluate(res.temp.val)) + ' ' + ((res.temp.units === "C") ? "°C" : "°F");
-
             car.speedometerGauge.render(Math.round(evaluate(res.speed.val)));
-            car.tachometerGauge.render(evaluate(res.rpm));
-            car.gearDisplay.render(parseGear(res.gear));
-            car.clockDisplay.render(addLeadingZero(res.time.hour) + ':' + addLeadingZero(res.time.min));
-            car.envTempDisplay.render(temperature);
-            car.speedAbsDisplay.render(Math.round(evaluate(res.speed.val)).toString());
-            car.speedUnitDisplay.render((res.speed.units === "kph") ? "km/h" : "mph");
-            car.odometerDisplay.render(parseOdoValue(evaluate(res.odo)));
-
-            // Fake stuff (for now)
-            car.engineTemp1.render(temperature);
-            car.engineTemp2.render(temperature);
-            car.engineTemp3.render(temperature);
+            car.tachometerGauge.render(evaluate(res.rpm));            
+            car.centralPanel.render(res);
         }
 
         var demoFolder = "car";
