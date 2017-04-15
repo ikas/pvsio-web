@@ -119,13 +119,13 @@ div.icons-container {
 }
 
 
-span#speedometer-gauge {
+#speedometer-gauge {
     position: relative;
     top: 160px;
     left: 13px;
 }
 
-span#tachometer-gauge {
+#tachometer-gauge {
     position:relative;
     top: 160px;
     left: 50px;

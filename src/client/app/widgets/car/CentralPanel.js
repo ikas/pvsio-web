@@ -47,62 +47,76 @@ define(function (require, exports, module) {
         // ---------------- CURRENT GEAR ---------------------------
         this.gearDisplay = new BasicDisplay(
             'current-gear',
-            { top: 2, left: 170, width: 24, height: 24 },
-            { borderWidth: 2, borderStyle: "solid", borderColor: "white", parent: "control-panel-container", fontsize: 20 }
+            { top: 3, left: 160, width: 24, height: 26 },
+            { borderWidth: 2, borderStyle: "solid", borderColor: "white", parent: "control-panel-container", fontsize: 22 }
         );
 
         // ---------------- CLOCK ----------------------------------
         this.clockDisplay = new BasicDisplay(
             'clock',
-            { top: 165, left: 10, width: 70, height: 20 },
-            { fontsize: 20, parent: "control-panel-container" }
+            { top: 170, left: 5, width: 70, height: 18 },
+            { fontsize: 18, parent: "control-panel-container" }
+        );
+
+        // Separator
+        this.separator1 = new BasicDisplay(
+            'separator1',
+            { top: 33, left: 0, width: 230, height: 1 },
+            { fontsize: 18, parent: "control-panel-container", borderWidth: 1, borderStyle: "solid", borderColor: "white" }
         );
 
         // ---------------- ENVIRONMENT TEMPERATURE ----------------
         this.envTempDisplay = new BasicDisplay(
             'env-temp',
-            { top: 165, left: 150, width: 70, height: 20 },
-            { fontsize: 20, parent: "control-panel-container" }
+            { top: 170, left: 155, width: 70, height: 18 },
+            { fontsize: 18, parent: "control-panel-container" }
         );
 
         // ---------------- SPEED ABS VALUE ------------------------
         this.speedAbsDisplay = new BasicDisplay(
             'speed-abs',
-            { top: 36, left: 55, width: 60, height: 32 },
+            { top: 40, left: 55, width: 60, height: 32 },
             { fontsize: 32, align: "right", parent: "control-panel-container" }
         );
 
         // ---------------- SPEED UNIT DISPLAY ---------------------
         this.speedUnitDisplay = new BasicDisplay(
             'speed-unit-display',
-            { top: 40, left: 118, width: 70, height: 30 },
-            { fontsize: 25, align: "left", parent: "control-panel-container" }
+            { top: 51, left: 118, width: 70, height: 20 },
+            { fontsize: 20, align: "left", parent: "control-panel-container" }
+        );
+
+        // Separator
+        this.separator2 = new BasicDisplay(
+            'separator2',
+            { top: 73, left: 40, width: 150, height: 1 },
+            { fontsize: 18, parent: "control-panel-container", borderWidth: 1, borderStyle: "solid", borderColor: "white" }
         );
 
         // ---------------- ODOMETER -------------------------------
         this.odometerDisplay = new BasicDisplay(
             'odometer',
-            { top: 1, left: 50, width: 110, height: 28 },
-            { fontsize: 24, parent: "control-panel-container" }
+            { top: 4, left: 40, width: 110, height: 25 },
+            { fontsize: 25, parent: "control-panel-container" }
         );
 
         // ---------------- ENGINE TEMPERATURE INDICATORS ----------
         this.engineTemp1 = new BasicDisplay(
             'eng-temp-1',
-            { top: 74, left: 107, width: 60, height: 20 },
-            { fontsize: 20, parent: "control-panel-container", align: "right" }
+            { top: 80, left: 107, width: 60, height: 18 },
+            { fontsize: 18, parent: "control-panel-container", align: "right" }
         );
 
         this.engineTemp2 = new BasicDisplay(
             'eng-temp-2',
-            { top: 96, left: 107, width: 60, height: 20 },
-            { fontsize: 20, parent: "control-panel-container", align: "right" }
+            { top: 102, left: 107, width: 60, height: 18 },
+            { fontsize: 18, parent: "control-panel-container", align: "right" }
         );
 
         this.engineTemp3 = new BasicDisplay(
             'eng-temp-3',
-            { top: 118, left: 107, width: 60, height: 20 },
-            { fontsize: 20, parent: "control-panel-container", align: "right" }
+            { top: 124, left: 107, width: 60, height: 18 },
+            { fontsize: 18, parent: "control-panel-container", align: "right" }
         );
 
         return this;
@@ -174,6 +188,10 @@ define(function (require, exports, module) {
         this.engineTemp1.render(temperature);
         this.engineTemp2.render(temperature);
         this.engineTemp3.render(temperature);
+
+        // Separators
+        this.separator1.render('');
+        this.separator2.render('');
     };
 
     module.exports = CentralPanel;
