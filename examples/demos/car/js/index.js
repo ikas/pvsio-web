@@ -95,9 +95,10 @@ require([
         
         // ---------------- SPEEDOMETER ----------------------------
         car.speedometerGauge = new Gauge('speedometer-gauge', {
-            label: "km/h",
-            max: 240,
-            min: 0
+            max: 360,
+            majorTicks: 13,
+            min: 0,
+            redZones: []
         });
 
         
@@ -105,11 +106,10 @@ require([
         car.tachometerGauge = new Gauge('tachometer-gauge', {
             max: 9,
             min: 0,
-            label: "x1000/min",
-            majorTicks: 7,
+            majorTicks: 10,
             greenZones: [],
             yellowZones: [],
-            redZones: [{ from: (9 - (9 * 0.2)), to: 9 }]
+            redZones: [{ from: 7.01, to: 9 }]
         });
 
         
