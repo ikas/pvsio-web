@@ -40,27 +40,17 @@ div.version {
     text-align: center;
 }
 
+
+/* First dashboard */
 div.dashboard-container {
     background-image: url(/demos/car/img/mercedes.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     width: 1000px;
     height: 520px;
+    margin-bottom: 50px;
 }
 
-/* Current gear styling */
-#current-gear {
-    padding: 1px 7px;
-    border: none;
-}
-
-
-div#clock-div, div#env-temp-div {
-    font-size: 20px;
-}
-
-
-/* Control panel stuff */
 div#control-panel-container {
     background-color: black;
     color: white;
@@ -72,53 +62,6 @@ div#control-panel-container {
     height: 210px;
 }
 
-div.dash-top-container {
-    height: 32px;
-}
-
-div.dash-bottom-container, div.dash-central-container {
-    padding: 20px 0;
-}
-
-div.dash-central-container {
-    padding: 0 50px;
-}
-
-div#absolute-speed-container {
-    padding-top: 15px;
-}
-
-div.icons-container {
-    margin-top: 5px;
-    margin-bottom: 20px;
-}
-
-/* Global helper classes */
-.font-xl {
-    font-weight: bold;
-    font-size: 25px;
-    color: white;
-}
-
-.font-xxl {
-    font-weight: bold;
-    font-size: 35px;
-    color: white;
-}
-
-.font-lg {
-    font-size: 18px;
-}
-
-.border-bottom {
-    border-bottom: 2px solid white;
-}
-
-.dash-icon {
-    padding: 5px 0;
-}
-
-
 #speedometer-gauge {
     position: relative;
     top: 160px;
@@ -129,4 +72,105 @@ div.icons-container {
     position:relative;
     top: 160px;
     left: 50px;
+}
+
+
+/* Dashboard 2 */
+div#dashboard-container-2 {
+    background-image: url(/demos/car/img/dash2.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 1000px;
+    height: 600px;
+    background-position: center;
+    margin-bottom: 50px;
+}
+
+#tachometer-gauge-2 {
+    position:relative;
+    top: 240px;
+    left: 655px;
+}
+
+/* Dashboard 3 */
+div#dashboard-container-3 {
+    background-image: url(/demos/car/img/dash3.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 1000px;
+    height: 565px;
+    background-position: bottom;
+    margin-bottom: 50px;
+}
+
+#water-temp-gauge-3 {
+    position:relative;
+    top: 91px;
+    left: 7px;
+}
+
+#tachometer-gauge-3 {
+    position: relative;
+    top: 118px;
+    left: -65px;
+    z-index: 2;
+}
+
+#turbo-gauge-3 {
+    position:relative;
+    top: 74px;
+    left: -126px;
+}
+
+#egt-gauge-3 {
+    position:relative;
+    top: 405px;
+    left: -280px;
+}
+
+#speedometer-gauge-3 {
+    position: relative;
+    top: 118px;
+    left: -345px;
+    z-index: 2;
+}
+
+#air-temp-gauge-3 {
+    position: relative;
+    top: 91px;
+    left: -420px;
+}
+
+/* Dashboard 4 */
+div#dashboard-container-4 {
+    background-image: url(/demos/car/img/dash4.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 1000px;
+    height: 600px;
+    background-position: center;
+}
+
+#remaining-fuel-gauge-4 {
+    position:relative;
+    top: 290px;
+    left: 89px;
+}
+
+#speedometer-gauge-4 {
+    position: relative;
+    top: 148px;
+    left: 82px;
+}
+
+#tachometer-gauge-4 {
+    position: relative;
+    top: 140px;
+    left: 95px;
+}
+
+#oil-temp-gauge-4 {
+    position: relative;
+    top: 268px;
+    left: 94px;
 }
