@@ -104,18 +104,39 @@ require([
                 max: 360,
                 majorTicks: 13,
                 min: 0,
-                redZones: []
+                redZones: [],
+                innerFillColor: "#2c2b30",
+                pointerFillColor: "#e93947",
+                pointerStrokeColor: "#150507",
+                pointerShowLabel: false,
+                pointerUseBaseCircle: true,
+                pointerBaseCircleAbovePointer: true,
+                pointerBaseCircleFillColor: "#65686d",
+                pointerBaseCircleStrokeColor: "#000",
+                pointerBaseCircleStrokeWidth: "2px",
             }),
             
             tachometerGauge: new Gauge('tachometer-gauge', {
                 max: 9,
                 min: 0,
                 majorTicks: 10,
+                minorTicks: 4,
                 greenZones: [],
                 yellowZones: [],
-                redZones: [{ from: 7.01, to: 9 }]
+                redZones: [{ from: 7.01, to: 9 }],
+                innerFillColor: "#2c2b30",
+                pointerFillColor: "#e93947",
+                pointerStrokeColor: "#150507",
+                pointerShowLabel: false,
+                pointerUseBaseCircle: true,
+                pointerBaseCircleAbovePointer: true,
+                pointerBaseCircleFillColor: "#65686d",
+                pointerBaseCircleStrokeColor: "#000",
+                pointerBaseCircleStrokeWidth: "2px",
             }),
-            centralPanel: new CentralPanel('central-panel', {})
+            centralPanel: new CentralPanel('central-panel', {
+                backgroundColor: "#2b2d33"
+            })
         };
 
 
@@ -128,7 +149,15 @@ require([
                 majorTicks: 9,
                 greenZones: [],
                 yellowZones: [],
-                redZones: [{ from: 6.4, to: 8 }]
+                redZones: [{ from: 6.4, to: 8 }],
+                innerFillColor: "#2c2b30",
+                pointerFillColor: "#a2302d",
+                pointerStrokeColor: "#e2d9df",
+                pointerShowLabel: false,
+                pointerUseBaseCircle: true,
+                pointerBaseCircleFillColor: "#131418",
+                pointerBaseCircleStrokeColor: "#131418",
+                pointerBaseCircleRadius: 0.15
             })
         };
 
@@ -138,8 +167,8 @@ require([
             waterTempGauge: new Gauge('water-temp-gauge-3', {
                 size: 170,
                 drawOuterCircle: true,
-                outerStrokeColor: "#ccc",
-                outerFillColor: "#aaa",
+                outerStrokeColor: "#838286",
+                outerFillColor: "#838286",
                 innerStrokeColor: "888",
                 innerFillColor: "#fff",
                 majorTickColor: "#000",
@@ -153,13 +182,21 @@ require([
                 majorTicks: 7,
                 greenZones: [],
                 yellowZones: [],
-                redZones: [{ from: 200.1, to: 219.9 }]
+                redZones: [{ from: 200.1, to: 219.9 }],
+                pointerFillColor: "#dc555a",
+                pointerStrokeColor: "#6f6e73",
+                pointerShowLabel: false,
+                pointerUseBaseCircle: true,
+                pointerBaseCircleAbovePointer: true,
+                pointerBaseCircleFillColor: "#838286",
+                pointerBaseCircleStrokeColor: "#838286",
+                pointerBaseCircleRadius: 0.2
             }),
             tachometerGauge: new Gauge('tachometer-gauge-3', {
                 size: 440,
                 drawOuterCircle: true,
-                outerStrokeColor: "#ccc",
-                outerFillColor: "#aaa",
+                outerStrokeColor: "#838286",
+                outerFillColor: "#838286",
                 innerStrokeColor: "888",
                 innerFillColor: "#fff",
                 majorTickColor: "#000",
@@ -172,13 +209,21 @@ require([
                 majorTicks: 10,
                 greenZones: [],
                 yellowZones: [],
-                redZones: [{ from: 7.01, to: 9 }]
+                redZones: [{ from: 7.01, to: 9 }],
+                pointerFillColor: "#dc555a",
+                pointerStrokeColor: "#6f6e73",
+                pointerShowLabel: false,
+                pointerUseBaseCircle: true,
+                pointerBaseCircleAbovePointer: true,
+                pointerBaseCircleFillColor: "#838286",
+                pointerBaseCircleStrokeColor: "#838286",
+                pointerBaseCircleRadius: 0.18
             }),
             turboGauge: new Gauge('turbo-gauge-3', {
                 size: 170,
                 drawOuterCircle: true,
-                outerStrokeColor: "#ccc",
-                outerFillColor: "#aaa",
+                outerStrokeColor: "#838286",
+                outerFillColor: "#838286",
                 innerStrokeColor: "888",
                 innerFillColor: "#fff",
                 majorTickColor: "#000",
@@ -192,13 +237,21 @@ require([
                 majorTicks: 7,
                 greenZones: [],
                 yellowZones: [],
-                redZones: [{ from: 150, to: 200 }]
+                redZones: [{ from: 150, to: 200 }],
+                pointerFillColor: "#dc555a",
+                pointerStrokeColor: "#6f6e73",
+                pointerShowLabel: false,
+                pointerUseBaseCircle: true,
+                pointerBaseCircleAbovePointer: true,
+                pointerBaseCircleFillColor: "#838286",
+                pointerBaseCircleStrokeColor: "#838286",
+                pointerBaseCircleRadius: 0.2
             }),
             egtGauge: new Gauge('egt-gauge-3', {
                 size: 170,
                 drawOuterCircle: true,
-                outerStrokeColor: "#ccc",
-                outerFillColor: "#aaa",
+                outerStrokeColor: "#838286",
+                outerFillColor: "#838286",
                 innerStrokeColor: "888",
                 innerFillColor: "#fff",
                 majorTickColor: "#000",
@@ -212,13 +265,21 @@ require([
                 majorTicks: 7,
                 greenZones: [],
                 yellowZones: [],
-                redZones: [{ from: 200.1, to: 219.9 }]
+                redZones: [{ from: 200.1, to: 219.9 }],
+                pointerFillColor: "#dc555a",
+                pointerStrokeColor: "#6f6e73",
+                pointerShowLabel: false,
+                pointerUseBaseCircle: true,
+                pointerBaseCircleAbovePointer: true,
+                pointerBaseCircleFillColor: "#838286",
+                pointerBaseCircleStrokeColor: "#838286",
+                pointerBaseCircleRadius: 0.2
             }),
             speedometerGauge: new Gauge('speedometer-gauge-3', {
                 size: 440,
                 drawOuterCircle: true,
-                outerStrokeColor: "#ccc",
-                outerFillColor: "#aaa",
+                outerStrokeColor: "#838286",
+                outerFillColor: "#838286",
                 innerStrokeColor: "888",
                 innerFillColor: "#fff",
                 majorTickColor: "#000",
@@ -231,13 +292,21 @@ require([
                 majorTicks: 10,
                 greenZones: [],
                 yellowZones: [],
-                redZones: [{ from: 140.01, to: 180 }]
+                redZones: [{ from: 140.01, to: 180 }],
+                pointerFillColor: "#dc555a",
+                pointerStrokeColor: "#6f6e73",
+                pointerShowLabel: false,
+                pointerUseBaseCircle: true,
+                pointerBaseCircleAbovePointer: true,
+                pointerBaseCircleFillColor: "#838286",
+                pointerBaseCircleStrokeColor: "#838286",
+                pointerBaseCircleRadius: 0.18
             }),
             airTempGauge: new Gauge('air-temp-gauge-3', {
                 size: 170,
                 drawOuterCircle: true,
-                outerStrokeColor: "#ccc",
-                outerFillColor: "#aaa",
+                outerStrokeColor: "#838286",
+                outerFillColor: "#838286",
                 innerStrokeColor: "888",
                 innerFillColor: "#fff",
                 majorTickColor: "#000",
@@ -251,7 +320,15 @@ require([
                 majorTicks: 7,
                 greenZones: [],
                 yellowZones: [],
-                redZones: [{ from: 200.1, to: 219.9 }]
+                redZones: [{ from: 200.1, to: 219.9 }],
+                pointerFillColor: "#dc555a",
+                pointerStrokeColor: "#6f6e73",
+                pointerShowLabel: false,
+                pointerUseBaseCircle: true,
+                pointerBaseCircleAbovePointer: true,
+                pointerBaseCircleFillColor: "#838286",
+                pointerBaseCircleStrokeColor: "#838286",
+                pointerBaseCircleRadius: 0.2
             })
         };
 
@@ -277,7 +354,14 @@ require([
                 majorTicks: 3,
                 greenZones: [],
                 yellowZones: [],
-                redZones: [{ from: 0, to: 0.125 }]
+                redZones: [{ from: 0, to: 0.125 }],
+                pointerFillColor: "#290107",
+                pointerStrokeColor: "#290107",
+                pointerShowLabel: false,
+                pointerUseBaseCircle: true,
+                pointerBaseCircleFillColor: "#3f4552",
+                pointerBaseCircleStrokeColor: "#3f4552",
+                pointerBaseCircleRadius: 0.2
             }),
             oilTempGauge: new Gauge('oil-temp-gauge-4', {
                 size: 160,
@@ -298,7 +382,14 @@ require([
                 majorTicks: 2,
                 greenZones: [],
                 yellowZones: [],
-                redZones: [{ from: 0, to: 0.125 }]
+                redZones: [{ from: 0, to: 0.125 }],
+                pointerFillColor: "#290107",
+                pointerStrokeColor: "#290107",
+                pointerShowLabel: false,
+                pointerUseBaseCircle: true,
+                pointerBaseCircleFillColor: "#3f4552",
+                pointerBaseCircleStrokeColor: "#3f4552",
+                pointerBaseCircleRadius: 0.2
             }),
             speedometerGauge: new Gauge('speedometer-gauge-4', {
                 size: 280,
@@ -319,7 +410,14 @@ require([
                 majorTicks: 9,
                 greenZones: [],
                 yellowZones: [],
-                redZones: []
+                redZones: [],
+                pointerFillColor: "#290107",
+                pointerStrokeColor: "#290107",
+                pointerShowLabel: false,
+                pointerUseBaseCircle: true,
+                pointerBaseCircleFillColor: "#3f4552",
+                pointerBaseCircleStrokeColor: "#3f4552",
+                pointerBaseCircleRadius: 0.2
             }),
             tachometerGauge: new Gauge('tachometer-gauge-4', {
                 size: 280,
@@ -340,7 +438,14 @@ require([
                 majorTicks: 8,
                 greenZones: [],
                 yellowZones: [],
-                redZones: [{ from: 5.8, to: 7 }]
+                redZones: [{ from: 5.8, to: 7 }],
+                pointerFillColor: "#290107",
+                pointerStrokeColor: "#290107",
+                pointerShowLabel: false,
+                pointerUseBaseCircle: true,
+                pointerBaseCircleFillColor: "#3f4552",
+                pointerBaseCircleStrokeColor: "#3f4552",
+                pointerBaseCircleRadius: 0.2
             }),
         };
         

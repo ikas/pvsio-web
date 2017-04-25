@@ -78,6 +78,17 @@ define(function (require, exports, module) {
                 greenColor: "#109618",
                 yellowColor: "#FF9900",
                 redColor: "#e31406",
+
+                // Added settings
+                pointerFillColor: "#dc3912",
+                pointerStrokeColor: "#c63310",
+                pointerUseBaseCircle: false,
+                // Percentage of total radius
+                pointerBaseCircleRadius: 0.1,
+                pointerBaseCircleFillColor: "#fff",
+                pointerBaseCircleStrokeColor: "red",
+                pointerBaseCircleStrokeWidth: "1px",
+
                 transitionDuration: 500,
                 greenZones: [ ],
                 yellowZones: [ ],

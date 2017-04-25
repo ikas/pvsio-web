@@ -44,79 +44,139 @@ define(function (require, exports, module) {
      */
     function CentralPanel(id, opt) {
 
+        this.backgroundColor = opt.backgroundColor || "#000";
+
         // ---------------- CURRENT GEAR ---------------------------
         this.gearDisplay = new BasicDisplay(
             'current-gear',
             { top: 3, left: 160, width: 24, height: 26 },
-            { borderWidth: 2, borderStyle: "solid", borderColor: "white", parent: "control-panel-container", fontsize: 22 }
+            { 
+                borderWidth: 2, 
+                borderStyle: "solid", 
+                borderColor: "white", 
+                parent: "control-panel-container", 
+                fontsize: 22, 
+                backgroundColor: this.backgroundColor
+            }
         );
 
         // ---------------- CLOCK ----------------------------------
         this.clockDisplay = new BasicDisplay(
             'clock',
             { top: 170, left: 5, width: 70, height: 18 },
-            { fontsize: 18, parent: "control-panel-container" }
+            { 
+                fontsize: 18, 
+                parent: "control-panel-container", 
+                backgroundColor: this.backgroundColor 
+            }
         );
 
         // Separator
         this.separator1 = new BasicDisplay(
             'separator1',
             { top: 33, left: 0, width: 230, height: 1 },
-            { fontsize: 18, parent: "control-panel-container", borderWidth: 1, borderStyle: "solid", borderColor: "white" }
+            { 
+                fontsize: 18, 
+                parent: "control-panel-container", 
+                borderWidth: 1, 
+                borderStyle: "solid", 
+                borderColor: "white", 
+                backgroundColor: this.backgroundColor
+            }
         );
 
         // ---------------- ENVIRONMENT TEMPERATURE ----------------
         this.envTempDisplay = new BasicDisplay(
             'env-temp',
             { top: 170, left: 155, width: 70, height: 18 },
-            { fontsize: 18, parent: "control-panel-container" }
+            { 
+                fontsize: 18, 
+                parent: "control-panel-container", 
+                backgroundColor: this.backgroundColor
+            }
         );
 
         // ---------------- SPEED ABS VALUE ------------------------
         this.speedAbsDisplay = new BasicDisplay(
             'speed-abs',
             { top: 40, left: 55, width: 60, height: 32 },
-            { fontsize: 32, align: "right", parent: "control-panel-container" }
+            { 
+                fontsize: 32, 
+                align: "right", 
+                parent: "control-panel-container", 
+                backgroundColor: this.backgroundColor
+            }
         );
 
         // ---------------- SPEED UNIT DISPLAY ---------------------
         this.speedUnitDisplay = new BasicDisplay(
             'speed-unit-display',
             { top: 51, left: 118, width: 70, height: 20 },
-            { fontsize: 20, align: "left", parent: "control-panel-container" }
+            { 
+                fontsize: 20, 
+                align: "left", 
+                parent: "control-panel-container", 
+                backgroundColor: this.backgroundColor
+            }
         );
 
         // Separator
         this.separator2 = new BasicDisplay(
             'separator2',
             { top: 73, left: 40, width: 150, height: 1 },
-            { fontsize: 18, parent: "control-panel-container", borderWidth: 1, borderStyle: "solid", borderColor: "white" }
+            { 
+                fontsize: 18, 
+                parent: "control-panel-container", 
+                borderWidth: 1, 
+                borderStyle: "solid", 
+                borderColor: "white", 
+                backgroundColor: this.backgroundColor
+            }
         );
 
         // ---------------- ODOMETER -------------------------------
         this.odometerDisplay = new BasicDisplay(
             'odometer',
             { top: 4, left: 40, width: 110, height: 25 },
-            { fontsize: 25, parent: "control-panel-container" }
+            { 
+                fontsize: 25, 
+                parent: "control-panel-container", 
+                backgroundColor: this.backgroundColor
+            }
         );
 
         // ---------------- ENGINE TEMPERATURE INDICATORS ----------
         this.engineTemp1 = new BasicDisplay(
             'eng-temp-1',
             { top: 80, left: 107, width: 60, height: 18 },
-            { fontsize: 18, parent: "control-panel-container", align: "right" }
+            { 
+                fontsize: 18, 
+                parent: "control-panel-container", 
+                align: "right", 
+                backgroundColor: this.backgroundColor
+            }
         );
 
         this.engineTemp2 = new BasicDisplay(
             'eng-temp-2',
             { top: 102, left: 107, width: 60, height: 18 },
-            { fontsize: 18, parent: "control-panel-container", align: "right" }
+            { 
+                fontsize: 18, 
+                parent: "control-panel-container", 
+                align: "right", 
+                backgroundColor: this.backgroundColor
+            }
         );
 
         this.engineTemp3 = new BasicDisplay(
             'eng-temp-3',
             { top: 124, left: 107, width: 60, height: 18 },
-            { fontsize: 18, parent: "control-panel-container", align: "right" }
+            { 
+                fontsize: 18, 
+                parent: "control-panel-container", 
+                align: "right", 
+                backgroundColor: this.backgroundColor
+            }
         );
 
         return this;
