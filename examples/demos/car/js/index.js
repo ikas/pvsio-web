@@ -114,8 +114,9 @@ require([
                 pointerBaseCircleFillColor: "#65686d",
                 pointerBaseCircleStrokeColor: "#000",
                 pointerBaseCircleStrokeWidth: "2px",
+                rotation: -45
             }),
-            
+
             tachometerGauge: new Gauge('tachometer-gauge', {
                 max: 9,
                 min: 0,
@@ -132,7 +133,7 @@ require([
                 pointerBaseCircleAbovePointer: true,
                 pointerBaseCircleFillColor: "#65686d",
                 pointerBaseCircleStrokeColor: "#000",
-                pointerBaseCircleStrokeWidth: "2px",
+                pointerBaseCircleStrokeWidth: "2px"
             }),
             centralPanel: new CentralPanel('central-panel', {
                 backgroundColor: "#2b2d33"
@@ -157,11 +158,12 @@ require([
                 pointerUseBaseCircle: true,
                 pointerBaseCircleFillColor: "#131418",
                 pointerBaseCircleStrokeColor: "#131418",
-                pointerBaseCircleRadius: 0.15
+                pointerBaseCircleRadius: 0.15,
+                rotation: 0
             })
         };
 
-        
+
         // DASHBOARD 3
         dashboards.car3 = {
             waterTempGauge: new Gauge('water-temp-gauge-3', {
@@ -190,7 +192,8 @@ require([
                 pointerBaseCircleAbovePointer: true,
                 pointerBaseCircleFillColor: "#838286",
                 pointerBaseCircleStrokeColor: "#838286",
-                pointerBaseCircleRadius: 0.2
+                pointerBaseCircleRadius: 0.2,
+                rotation: -45
             }),
             tachometerGauge: new Gauge('tachometer-gauge-3', {
                 size: 440,
@@ -217,7 +220,8 @@ require([
                 pointerBaseCircleAbovePointer: true,
                 pointerBaseCircleFillColor: "#838286",
                 pointerBaseCircleStrokeColor: "#838286",
-                pointerBaseCircleRadius: 0.18
+                pointerBaseCircleRadius: 0.18,
+                rotation: -45
             }),
             turboGauge: new Gauge('turbo-gauge-3', {
                 size: 170,
@@ -245,7 +249,8 @@ require([
                 pointerBaseCircleAbovePointer: true,
                 pointerBaseCircleFillColor: "#838286",
                 pointerBaseCircleStrokeColor: "#838286",
-                pointerBaseCircleRadius: 0.2
+                pointerBaseCircleRadius: 0.2,
+                rotation: -45
             }),
             egtGauge: new Gauge('egt-gauge-3', {
                 size: 170,
@@ -273,7 +278,8 @@ require([
                 pointerBaseCircleAbovePointer: true,
                 pointerBaseCircleFillColor: "#838286",
                 pointerBaseCircleStrokeColor: "#838286",
-                pointerBaseCircleRadius: 0.2
+                pointerBaseCircleRadius: 0.2,
+                rotation: -45
             }),
             speedometerGauge: new Gauge('speedometer-gauge-3', {
                 size: 440,
@@ -300,7 +306,8 @@ require([
                 pointerBaseCircleAbovePointer: true,
                 pointerBaseCircleFillColor: "#838286",
                 pointerBaseCircleStrokeColor: "#838286",
-                pointerBaseCircleRadius: 0.18
+                pointerBaseCircleRadius: 0.18,
+                rotation: -45
             }),
             airTempGauge: new Gauge('air-temp-gauge-3', {
                 size: 170,
@@ -328,11 +335,12 @@ require([
                 pointerBaseCircleAbovePointer: true,
                 pointerBaseCircleFillColor: "#838286",
                 pointerBaseCircleStrokeColor: "#838286",
-                pointerBaseCircleRadius: 0.2
+                pointerBaseCircleRadius: 0.2,
+                rotation: -45
             })
         };
 
-        
+
         // DASHBOARD 4
         dashboards.car4 = {
             remainingFuelGauge: new Gauge('remaining-fuel-gauge-4', {
@@ -361,7 +369,8 @@ require([
                 pointerUseBaseCircle: true,
                 pointerBaseCircleFillColor: "#3f4552",
                 pointerBaseCircleStrokeColor: "#3f4552",
-                pointerBaseCircleRadius: 0.2
+                pointerBaseCircleRadius: 0.2,
+                rotation: 0
             }),
             oilTempGauge: new Gauge('oil-temp-gauge-4', {
                 size: 160,
@@ -389,11 +398,12 @@ require([
                 pointerUseBaseCircle: true,
                 pointerBaseCircleFillColor: "#3f4552",
                 pointerBaseCircleStrokeColor: "#3f4552",
-                pointerBaseCircleRadius: 0.2
+                pointerBaseCircleRadius: 0.2,
+                rotation: 0
             }),
             speedometerGauge: new Gauge('speedometer-gauge-4', {
                 size: 280,
-                gap: 200,
+                gap: 140,
                 outerStrokeColor: "#599bcf",
                 outerFillColor: "#599bcf",
                 innerStrokeColor: "#599bcf",
@@ -417,11 +427,12 @@ require([
                 pointerUseBaseCircle: true,
                 pointerBaseCircleFillColor: "#3f4552",
                 pointerBaseCircleStrokeColor: "#3f4552",
-                pointerBaseCircleRadius: 0.2
+                pointerBaseCircleRadius: 0.2,
+                rotation: 0
             }),
             tachometerGauge: new Gauge('tachometer-gauge-4', {
                 size: 280,
-                gap: 200,
+                gap: 140,
                 outerStrokeColor: "#599bcf",
                 outerFillColor: "#599bcf",
                 innerStrokeColor: "#599bcf",
@@ -445,10 +456,11 @@ require([
                 pointerUseBaseCircle: true,
                 pointerBaseCircleFillColor: "#3f4552",
                 pointerBaseCircleStrokeColor: "#3f4552",
-                pointerBaseCircleRadius: 0.2
+                pointerBaseCircleRadius: 0.2,
+                rotation: 0
             }),
         };
-        
+
 
 
         // ---------------- DASHBOARD INTERACTION ------------------
@@ -462,16 +474,16 @@ require([
             evts: ['press/release'],
             keyCode: 40 // key down
         });
-        
+
 
         // Render car dashboard components
         function render(res) {
             dashboards.car1.speedometerGauge.render(Math.round(evaluate(res.speed.val)));
             dashboards.car1.tachometerGauge.render(evaluate(res.rpm));
             dashboards.car1.centralPanel.render(res);
-            
+
             dashboards.car2.tachometerGauge.render(evaluate(res.rpm));
-            
+
             // No data yet
             // dashboards.car3.airTempGauge.render(evaluate(res.rpm));
             // dashboards.car3.egtGauge.render(evaluate(res.rpm));
