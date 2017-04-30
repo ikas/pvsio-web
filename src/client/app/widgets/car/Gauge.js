@@ -41,6 +41,9 @@ define(function (require, exports, module) {
      * @description Gauge constructor.
      * 
      * @param id {String} The ID of the element that will contain the gauge.
+     * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
+     *        the left, top corner, and the width and height of the (rectangular) display.
+     *        Default is { top: 0, left: 0, width: 200, height: 80 }.
      * @param opt {Object} Options:
      *          <li>max (integer): Upper limit of the gauge (default is 200).</li>
      *          <li>min (integer): Bottom limit of the gauge (default is 0).</li>
@@ -49,7 +52,7 @@ define(function (require, exports, module) {
      * @memberof module:Gauge
      * @instance
      */
-    function Gauge(id, opt) {
+    function Gauge(id, coords, opt) {
         
         function createGauge(id, opt) {
             var config = {
@@ -103,6 +106,22 @@ define(function (require, exports, module) {
 
 
         opt = opt || {};
+
+        // Handle coords
+        coords = coords || {};
+        this.top = coords.top || 0;
+        this.left = coords.left || 0;
+        this.width = coords.width || 200;
+        this.height = coords.height || 80;
+        this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
+        
+        this.div = d3.select('#'+id)
+            .style("position", opt.position)
+            .style("top", this.top + "px").style("left", this.left + "px")
+            .style("width", (this.width) + "px").style("height", (this.height) + "px");
+        
+        opt.position = opt.position || "absolute";
+        
         
         // Gauge params
         opt.max = opt.max || 200;
