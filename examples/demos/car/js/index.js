@@ -103,8 +103,8 @@ require([
             speedometerGauge: new Gauge(
                 'speedometer-gauge',
                 {
-                    top: 160,
-                    left: 13,
+                    top: 192,
+                    left: 53,
                     width: 360,
                     height: 360
                 },
@@ -113,6 +113,7 @@ require([
                     max: 360,
                     majorTicks: 13,
                     min: 0,
+                    size: 360,
                     redZones: [],
                     innerFillColor: "#2c2b30",
                     pointerFillColor: "#e93947",
@@ -123,15 +124,49 @@ require([
                     pointerBaseCircleFillColor: "#65686d",
                     pointerBaseCircleStrokeColor: "#000",
                     pointerBaseCircleStrokeWidth: "2px",
-                    rotation: -45
+                    rotation: -45,
+                    gap:90,
+                    drawGap: false,
+                    cutOutPercetage: 0.45,
+                }
+            ),
+
+            remainingFuelGauge: new Gauge(
+                'remaining-fuel-gauge',
+                {
+                    top: 192,
+                    left: -270,
+                    width: 360,
+                    height: 360
+                },
+                {
+                    position: "relative",
+                    max: 1,
+                    majorTicks: 3,
+                    min: 0,
+                    size: 360,
+                    redZones: [],
+                    innerFillColor: "#2c2b30",
+                    pointerFillColor: "#e93947",
+                    pointerStrokeColor: "#150507",
+                    pointerShowLabel: false,
+                    pointerUseBaseCircle: true,
+                    pointerBaseCircleAbovePointer: true,
+                    pointerBaseCircleFillColor: "#65686d",
+                    pointerBaseCircleStrokeColor: "#000",
+                    pointerBaseCircleStrokeWidth: "2px",
+                    rotation: 135,
+                    gap: 295,
+                    drawGap: false,
+                    cutOutPercetage: 0.45,
                 }
             ),
 
             tachometerGauge: new Gauge(
                 'tachometer-gauge',
                 {
-                    top: 160,
-                    left: 50,
+                    top: 192,
+                    left: -15,
                     width: 360,
                     height: 360
                 },
@@ -139,6 +174,7 @@ require([
                     position: "relative",
                     max: 9,
                     min: 0,
+                    size: 360,
                     majorTicks: 10,
                     minorTicks: 4,
                     greenZones: [],
@@ -153,9 +189,43 @@ require([
                     pointerBaseCircleFillColor: "#65686d",
                     pointerBaseCircleStrokeColor: "#000",
                     pointerBaseCircleStrokeWidth: "2px",
-                    rotation: -45
+                    rotation: -45,
+                    drawGap: false,
+                    cutOutPercetage: 0.45,
                 }
             ),
+
+            temperatureGauge: new Gauge(
+                'temperature-gauge',
+                {
+                    top: 192,
+                    left: -339,
+                    width: 360,
+                    height: 360
+                },
+                {
+                    position: "relative",
+                    max: 1,
+                    majorTicks: 3,
+                    min: 0,
+                    size: 360,
+                    redZones: [],
+                    innerFillColor: "#2c2b30",
+                    pointerFillColor: "#e93947",
+                    pointerStrokeColor: "#150507",
+                    pointerShowLabel: false,
+                    pointerUseBaseCircle: true,
+                    pointerBaseCircleAbovePointer: true,
+                    pointerBaseCircleFillColor: "#65686d",
+                    pointerBaseCircleStrokeColor: "#000",
+                    pointerBaseCircleStrokeWidth: "2px",
+                    rotation: 135,
+                    gap: 295,
+                    drawGap: false,
+                    cutOutPercetage: 0.45,
+                }
+            ),
+
             centralPanel: new CentralPanel('central-panel', {
                 backgroundColor: "#2b2d33"
             })

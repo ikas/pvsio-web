@@ -56,9 +56,9 @@ div#control-panel-container {
     color: white;
     padding: 0;
     width: 230px;
-    position: relative;
-    top: 265px;
-    left: 32px;
+    position: absolute;
+    top: 323px;
+    left: 392px;
     height: 210px;
 }
 

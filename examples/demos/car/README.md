@@ -36,7 +36,7 @@ The left circle consists of two main components:
 
 #### Right  circle
 The right circle also consists of two main components: 
- * *Tachometer*: a gauge that displays the current rotations of the car 
+ * *Tachometer*: a gauge that displays the current rotations of the car.
  * *Engine temperature*: a thermometer also represented by a gauge.
 
 #### Central dashboard
@@ -66,16 +66,20 @@ The implementation of the dashboard was guided by two main goals:
 
 With these two principles in mind, the components described above will be implemented using the following widgets:
 
- * Speedometer - Gauge widget (new widget).
- * Remaining fuel display - Gauge widget (new widget).
- * Tachometer - Gauge widget (new widget).
- * Engine temperature - Gauge widget (new widget).
- * Odometer - BasicDisplay (existing widget).
- * Current Gear - BasicDisplay (existing widget).
- * Speedometer (absolute value) - BasicDisplay (existing widget).
- * Three temperature indicators - BasicDisplay (existing widget).
- * Clock - BasicDisplay (existing widget).
- * Environment temperature - BasicDisplay (existing widget).
+ * Speedometer - Gauge (new widget).
+ * Remaining fuel display - Gauge (new widget).
+ * Tachometer - Gauge (new widget).
+ * Engine temperature - Gauge (new widget).
+
+Central Panel widget:
+ * Odometer - BasicDisplay (using existing widget).
+ * Current Gear - BasicDisplay (using existing widget).
+ * Speedometer (absolute value) - BasicDisplay (using existing widget).
+ * Three temperature indicators - BasicDisplay (using existing widget).
+ * Clock - BasicDisplay (using existing widget).
+ * Environment temperature - BasicDisplay (using existing widget).
+
+Other components:
  * The steering wheel - ?
  * Parking sensors - ?
  * Turning lights - ?
@@ -83,5 +87,22 @@ With these two principles in mind, the components described above will be implem
 
 ### Implementation of Gauge widget
 
-The first step of development was the implementation of a Gauge widget. The requirements behind the planning of this widget should take into account the 4 components that will be drawn using it.
+The implementation of the gauge widget was based on an existing library - [d3-gauge-plus.js](https://github.com/gimbo/d3-gauge-plus "D3 gauge plus"). This library allowed to jump start the gauge displaying. Most of the work on this widget surrounded the need of configuring its design, in order to make it more similar to different styles of dashboards.
 
+TODO describe a lot more here
+
+### Implementation of Central Panel widget
+
+In order to build the central area of the model dashboard, a Central Panel widget was implemented. This widget is composed of multiple BasicDisplay widgets, and is responsible for controlling the style of the smaller widgets, as well as its organization. 
+
+TODO describe a lot more here
+
+
+### Testing the configurability of the widgets implemented
+
+![Model 1](img/mercedes.jpg "Model 1")
+![Model 2](img/dash2.jpg "Model 2")
+![Model 3](img/dash3.png "Model 3")
+![Model 4](img/dash4.jpg "Model 4")
+
+In order to test the reusability of the widgets implemented, they were used to model the 4 car dashboards presented above. The final result can be seen below:
