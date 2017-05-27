@@ -271,6 +271,44 @@ define(function (require, exports, module) {
         // Separators
         this.separator1.render('');
         this.separator2.render('');
+
+        return this;
+    };
+
+
+    CentralPanel.prototype.remove = function () {
+        CentralPanel.prototype.parentClass.remove.apply(this);
+        this.div.remove();
+        return this;
+    };
+
+    CentralPanel.prototype.hide = function () {
+        this.div.style("display", "none");
+        return this;
+    };
+
+    CentralPanel.prototype.reveal = function () {
+        this.div.style("display", "block");
+        return this;
+    };
+
+    CentralPanel.prototype.move = function (data) {
+        data = data || {};
+        if (data.top) {
+            this.top = data.top;
+            this.div.style("top", this.top + "px");
+        }
+        if (data.left) {
+            this.left = data.left;
+            this.div.style("left", this.left + "px");
+        }
+        return this;
+    };
+
+    CentralPanel.prototype.renderSample = function (opt) {
+        opt = opt || {};
+        var widget = new CentralPanel('sample', {}, opt);
+        return widget.render('sample', opt);
     };
 
     module.exports = CentralPanel;

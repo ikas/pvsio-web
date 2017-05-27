@@ -20,11 +20,29 @@
  *
  *     function main() {
  *          // After Gauge module was loaded, initialize it
- *          var gauge = new Gauge('gauge-gauge', {
- *              label: "kmh",
- *              max: 240,
- *              min: 0
- *          });
+ *          var gauge = new Gauge(
+ *               'speedometer-gauge', // id of the gauge element that will be created
+ *               {
+ *                   top: 251,
+ *                   left: 53,
+ *                   width: 360,
+ *                   height: 360
+ *               }, // coordinates object
+ *               {
+ *                   style: 'classic',
+ *                   max: 360,
+ *                   majorTicks: 13,
+ *                   min: 0,
+ *                   size: 360,
+ *                   redZones: [],
+ *                   rotation: -45,
+ *                   gap:90,
+ *                   drawGap: false,
+ *                   cutOutPercetage: 0.45,
+ *                   roundValueBeforeRender: true,
+ *                   parent: 'dashboard-container-1'
+ *               } // options to override the default ones
+ *           );
  *
  *          // Re-render the Gauge, provinding a new value
  *          gauge.render(10); 
@@ -45,10 +63,44 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 0, left: 0, width: 200, height: 80 }.
      * @param opt {Object} Options:
-     *          <li>max (integer): Upper limit of the gauge (default is 200).</li>
-     *          <li>min (integer): Bottom limit of the gauge (default is 0).</li>
-     *          <li>initial (integer): Initial value of the pointer of the gauge (default is 0).</li>
-     *          <li>label (String): Label presented inside the gauge (default is the empty string).</li>
+     *        size - Size of the gauge (default is 400).
+     *        rotation - defines the orientation of the gauge (a value between 0 and 360, defaults to 270).
+     *        gap - defines the gap between the beginning and the end of the gauge (defaults to 90).
+     *        drawOuterCircle - draw a circle around the gauge (defaults to false).
+     *        outerStrokeColor - color of the outer stroke (defaults to "#fff").
+     *        outerFillColor - color of the outer circle (defaults to "#fff").
+     *        innerStrokeColor - color of the inner stroke (defaults to "#fff").
+     *        innerFillColor - color of the inner circle (defaults to "#000").
+     *        label - label presented inside the gauge (defaults to '').
+     *        labelSize - font size of the label (as a percentage of the gauge radius, defaults to 0.1).
+     *        labelColor - color of the label (defaults to "#888").
+     *        min - minimum value of the gauge (defaults to 0).
+     *        max - maximum value of the gauge (defaults to 200).
+     *        initial - initial value of the gauge (defaults to 0).
+     *        clampUnderflow - ?? (defaults to false).
+     *        clampOverflow - ?? (defaults to false).
+     *        majorTicks - number of major ticks to be drawn (defaults to 9).
+     *        majorTickColor - color of the major ticks to be drawn (defaults to "#fff").
+     *        majorTickWidth - width of the major ticks to be drawn (defaults to "3px").
+     *        minorTicks - number of minor ticks to be drawn (defaults to 3).
+     *        minorTickColor - color of minor ticks to be drawn (defaults to "#fff").
+     *        minorTickWidth - width of the minor ticks to be drawn (defaults to "1px").
+     *        greenColor - color for the green zones of the gauge (defaults to "#109618").
+     *        yellowColor - color for the yellow zones of the gauge (defaults to "#FF9900").
+     *        redColor - color for the red zones of the gauge (defaults to "#e31406").
+     *        pointerFillColor - color of the gauge pointer (defaults to "#dc3912").
+     *        pointerStrokeColor - color of the stroke of the gauge pointer (defaults to "#c63310").
+     *        pointerUseBaseCircle - draw a circle as base of the pointer (defaults to false).
+     *        pointerBaseCircleRadius - radius of the base circle (as percentage of total radius, defaults to 0.1).
+     *        pointerBaseCircleFillColor - fill color of the base circle (defaults to "#fff").
+     *        pointerBaseCircleStrokeColor - stroke color of the base circle (defaults to "red").
+     *        pointerBaseCircleStrokeWidth - width of the stroke of the base circle (defaults to "1px").
+     *        transitionDuration - duration of the pointer transition (defaults to 500).
+     *        greenZones - green zones in the gauge (array of objects with from and to properties as values, defaults to []).
+     *        yellowZones - yellow zones in the gauge (array of objects with from and to properties as values, defaults to []).
+     *        redZones - red zones in the gauge (array of objects with from and to properties as values, defaults to [{ from - (200 - (200 * 0.125)), to - 200 }]).
+     *        roundValueBeforeRender - whether pointer value should be rounded before re-rendering the gauge (defaults to false).
+     *        style - apply a default style to the rendered gauge (one of 'classic', 'sport', 'grey' or 'blue', defaults 'classic').
      * @memberof module:Gauge
      * @instance
      */
@@ -134,13 +186,45 @@ define(function (require, exports, module) {
         if (valueToRender >= 0) {
             this.gauge_obj.setPointer(valueToRender);
         }
+
+        return this;
     };
 
-    
-    
-    // TODO add new methods: show, hide, renderSample, remove, move
+    Gauge.prototype.remove = function () {
+        Gauge.prototype.parentClass.remove.apply(this);
+        this.div.remove();
+        return this;
+    };
 
+    Gauge.prototype.hide = function () {
+        this.div.style("display", "none");
+        return this;
+    };
 
+    Gauge.prototype.reveal = function () {
+        this.div.style("display", "block");
+        return this;
+    };
+
+    Gauge.prototype.move = function (data) {
+        data = data || {};
+        if (data.top) {
+            this.top = data.top;
+            this.div.style("top", this.top + "px");
+        }
+        if (data.left) {
+            this.left = data.left;
+            this.div.style("left", this.left + "px");
+        }
+        return this;
+    };
+
+    Gauge.prototype.renderSample = function (opt) {
+        opt = opt || {};
+        var config = this.mergeConfigs(this.getDefaultConfigs(), opt);
+        var gaugeObj = this.createGauge('sample', config);
+        return this.render('sample', config);
+    };
 
     /**
      * @function <a name="Gauge">Gauge</a>
@@ -192,7 +276,8 @@ define(function (require, exports, module) {
             yellowZones: [ ],
             redZones: [ { from: (200 - (200 * 0.125)), to: 200 } ],
 
-            roundValueBeforeRender: false
+            roundValueBeforeRender: false,
+            style: 'classic',
         };
     }
 
