@@ -103,78 +103,61 @@ require([
             speedometerGauge: new Gauge(
                 'speedometer-gauge',
                 {
-                    top: 192,
+                    top: 251,
                     left: 53,
                     width: 360,
                     height: 360
                 },
                 {
-                    position: "relative",
+                    style: 'classic',
                     max: 360,
                     majorTicks: 13,
                     min: 0,
                     size: 360,
                     redZones: [],
-                    innerFillColor: "#2c2b30",
-                    pointerFillColor: "#e93947",
-                    pointerStrokeColor: "#150507",
-                    pointerOpacity: 1,
-                    pointerShowLabel: false,
-                    pointerUseBaseCircle: true,
-                    pointerBaseCircleAbovePointer: true,
-                    pointerBaseCircleFillColor: "#65686d",
-                    pointerBaseCircleStrokeColor: "#000",
-                    pointerBaseCircleStrokeWidth: "2px",
                     rotation: -45,
                     gap:90,
                     drawGap: false,
                     cutOutPercetage: 0.45,
+                    roundValueBeforeRender: true,
+                    parent: 'dashboard-container-1'
                 }
             ),
 
             remainingFuelGauge: new Gauge(
                 'remaining-fuel-gauge',
                 {
-                    top: 192,
-                    left: -270,
+                    top: 251,
+                    left: 53,
                     width: 360,
                     height: 360
                 },
                 {
-                    position: "relative",
+                    style: 'classic',
                     max: 1,
                     majorTicks: 3,
                     min: 0,
                     initial: 1,
                     size: 360,
                     redZones: [],
-                    innerFillColor: "#2c2b30",
-                    pointerFillColor: "#e93947",
-                    pointerOpacity: 1,
-                    pointerStrokeColor: "#150507",
-                    pointerShowLabel: false,
-                    pointerUseBaseCircle: true,
-                    pointerBaseCircleAbovePointer: true,
-                    pointerBaseCircleFillColor: "#65686d",
-                    pointerBaseCircleStrokeColor: "#000",
-                    pointerBaseCircleStrokeWidth: "2px",
                     rotation: 135,
                     gap: 295,
                     drawGap: false,
                     cutOutPercetage: 0.45,
+                    parent: 'dashboard-container-1'
                 }
             ),
 
             tachometerGauge: new Gauge(
                 'tachometer-gauge',
                 {
-                    top: 192,
-                    left: -15,
+                    top: 251,
+                    left: 633,
                     width: 360,
                     height: 360
                 },
                 {
-                    position: "relative",
+                    style: 'classic',
                     max: 9,
                     min: 0,
                     size: 360,
@@ -183,58 +166,50 @@ require([
                     greenZones: [],
                     yellowZones: [],
                     redZones: [{ from: 7.01, to: 9 }],
-                    innerFillColor: "#2c2b30",
-                    pointerFillColor: "#e93947",
-                    pointerStrokeColor: "#150507",
-                    pointerOpacity: 1,
-                    pointerShowLabel: false,
-                    pointerUseBaseCircle: true,
-                    pointerBaseCircleAbovePointer: true,
-                    pointerBaseCircleFillColor: "#65686d",
-                    pointerBaseCircleStrokeColor: "#000",
-                    pointerBaseCircleStrokeWidth: "2px",
                     rotation: -45,
                     drawGap: false,
                     cutOutPercetage: 0.45,
+                    parent: 'dashboard-container-1'
                 }
             ),
 
             temperatureGauge: new Gauge(
                 'temperature-gauge',
                 {
-                    top: 192,
-                    left: -339,
+                    top: 251,
+                    left: 633,
                     width: 360,
                     height: 360
                 },
                 {
-                    position: "relative",
+                    style: 'classic',
                     max: 140,
                     min: 60,
-                    initial: 60,
+                    initial: 100,
                     majorTicks: 3,
                     size: 360,
                     redZones: [{ from: 139, to: 140 }],
-                    innerFillColor: "#2c2b30",
-                    pointerFillColor: "#e93947",
-                    pointerStrokeColor: "#150507",
-                    pointerOpacity: 1,
-                    pointerShowLabel: false,
-                    pointerUseBaseCircle: true,
-                    pointerBaseCircleAbovePointer: true,
-                    pointerBaseCircleFillColor: "#65686d",
-                    pointerBaseCircleStrokeColor: "#000",
-                    pointerBaseCircleStrokeWidth: "2px",
                     rotation: 135,
                     gap: 295,
                     drawGap: false,
                     cutOutPercetage: 0.45,
+                    parent: 'dashboard-container-1'
                 }
             ),
 
-            centralPanel: new CentralPanel('central-panel', {
-                backgroundColor: "#2b2d33"
-            })
+            centralPanel: new CentralPanel(
+                'central-panel', 
+                {
+                    top: 323,
+                    left: 392,
+                    width: 230,
+                    height: 210,
+                },
+                {
+                    parent: 'dashboard-container-1',
+                    backgroundColor: "#2b2d33"
+                }
+            )
         };
 
 
@@ -243,13 +218,13 @@ require([
             tachometerGauge: new Gauge(
                 'tachometer-gauge-2', 
                 {
-                    top: 246,
-                    left: 654,
+                    top: 873,
+                    left: 652,
                     width: 360,
                     height: 360
                 },
                 {
-                    position: "relative",
+                    style: 'sport',
                     size: 225,
                     max: 8,
                     min: 0,
@@ -257,15 +232,9 @@ require([
                     greenZones: [],
                     yellowZones: [],
                     redZones: [{ from: 6.4, to: 8 }],
-                    innerFillColor: "#2c2b30",
-                    pointerFillColor: "#a2302d",
-                    pointerStrokeColor: "#e2d9df",
-                    pointerShowLabel: false,
-                    pointerUseBaseCircle: true,
-                    pointerBaseCircleFillColor: "#131418",
-                    pointerBaseCircleStrokeColor: "#131418",
-                    pointerBaseCircleRadius: 0.15,
-                    rotation: 0
+                    rotation: 0,
+                    roundValueBeforeRender: true,
+                    parent: 'dashboard-container-2'
                 }
             )
         };
@@ -276,23 +245,15 @@ require([
             waterTempGauge: new Gauge(
                 'water-temp-gauge-3',
                 {
-                    top: 91,
+                    top: 1369,
                     left: 7,
                     width: 360,
                     height: 360
                 },
                 {
-                    position: "relative",
+                    style: 'grey',
                     size: 170,
-                    drawOuterCircle: true,
-                    outerStrokeColor: "#838286",
-                    outerFillColor: "#838286",
-                    innerStrokeColor: "888",
-                    innerFillColor: "#fff",
-                    majorTickColor: "#000",
-                    majorTickWidth: "2px",
                     minorTicks: 4,
-                    minorTickColor: "#000",
                     max: 220,
                     min: 100,
                     initial: 100,
@@ -301,37 +262,23 @@ require([
                     greenZones: [],
                     yellowZones: [],
                     redZones: [{ from: 200.1, to: 219.9 }],
-                    pointerFillColor: "#dc555a",
-                    pointerStrokeColor: "#6f6e73",
-                    pointerShowLabel: false,
-                    pointerUseBaseCircle: true,
-                    pointerBaseCircleAbovePointer: true,
-                    pointerBaseCircleFillColor: "#838286",
-                    pointerBaseCircleStrokeColor: "#838286",
-                    pointerBaseCircleRadius: 0.2,
-                    rotation: -45
+                    rotation: -45,
+                    parent: 'dashboard-container-3'
                 }
             ),
+
             tachometerGauge: new Gauge(
                 'tachometer-gauge-3',
                 {
-                    top: 118,
-                    left: -64,
+                    top: 1400,
+                    left: 509,
                     width: 360,
                     height: 360
                 },
                 {
-                    position: "relative",
+                    style: 'grey',
                     size: 440,
-                    drawOuterCircle: true,
-                    outerStrokeColor: "#838286",
-                    outerFillColor: "#838286",
-                    innerStrokeColor: "888",
-                    innerFillColor: "#fff",
-                    majorTickColor: "#000",
-                    majorTickWidth: "2px",
                     minorTicks: 4,
-                    minorTickColor: "#000",
                     max: 9,
                     min: 0,
                     label: 'RPM',
@@ -339,37 +286,23 @@ require([
                     greenZones: [],
                     yellowZones: [],
                     redZones: [{ from: 7.01, to: 9 }],
-                    pointerFillColor: "#dc555a",
-                    pointerStrokeColor: "#6f6e73",
-                    pointerShowLabel: false,
-                    pointerUseBaseCircle: true,
-                    pointerBaseCircleAbovePointer: true,
-                    pointerBaseCircleFillColor: "#838286",
-                    pointerBaseCircleStrokeColor: "#838286",
-                    pointerBaseCircleRadius: 0.18,
-                    rotation: -45
+                    rotation: -45,
+                    parent: 'dashboard-container-3'
                 }
             ),
+
             turboGauge: new Gauge(
                 'turbo-gauge-3',
                 {
-                    top: 74,
-                    left: -91,
+                    top: 1353,
+                    left: 421,
                     width: 360,
                     height: 360
                 },
                 {
-                    position: "relative",
+                    style: 'grey',
                     size: 170,
-                    drawOuterCircle: true,
-                    outerStrokeColor: "#838286",
-                    outerFillColor: "#838286",
-                    innerStrokeColor: "888",
-                    innerFillColor: "#fff",
-                    majorTickColor: "#000",
-                    majorTickWidth: "2px",
                     minorTicks: 4,
-                    minorTickColor: "#000",
                     max: 200,
                     min: 40,
                     initial: 40,
@@ -378,37 +311,23 @@ require([
                     greenZones: [],
                     yellowZones: [],
                     redZones: [{ from: 150, to: 200 }],
-                    pointerFillColor: "#dc555a",
-                    pointerStrokeColor: "#6f6e73",
-                    pointerShowLabel: false,
-                    pointerUseBaseCircle: true,
-                    pointerBaseCircleAbovePointer: true,
-                    pointerBaseCircleFillColor: "#838286",
-                    pointerBaseCircleStrokeColor: "#838286",
-                    pointerBaseCircleRadius: 0.2,
-                    rotation: -45
+                    rotation: -45,
+                    parent: 'dashboard-container-3'
                 }
             ),
+
             egtGauge: new Gauge(
                 'egt-gauge-3',
                 {
-                    top: 405,
-                    left: -244,
+                    top: 1684,
+                    left: 421,
                     width: 360,
                     height: 360
                 },
                 {
-                    position: "relative",
+                    style: 'grey',
                     size: 170,
-                    drawOuterCircle: true,
-                    outerStrokeColor: "#838286",
-                    outerFillColor: "#838286",
-                    innerStrokeColor: "888",
-                    innerFillColor: "#fff",
-                    majorTickColor: "#000",
-                    majorTickWidth: "2px",
                     minorTicks: 4,
-                    minorTickColor: "#000",
                     max: 220,
                     min: 100,
                     initial: 100,
@@ -417,37 +336,23 @@ require([
                     greenZones: [],
                     yellowZones: [],
                     redZones: [{ from: 200.1, to: 219.9 }],
-                    pointerFillColor: "#dc555a",
-                    pointerStrokeColor: "#6f6e73",
-                    pointerShowLabel: false,
-                    pointerUseBaseCircle: true,
-                    pointerBaseCircleAbovePointer: true,
-                    pointerBaseCircleFillColor: "#838286",
-                    pointerBaseCircleStrokeColor: "#838286",
-                    pointerBaseCircleRadius: 0.2,
-                    rotation: -45
+                    rotation: -45,
+                    parent: 'dashboard-container-3'
                 }
             ),
+
             speedometerGauge: new Gauge(
                 'speedometer-gauge-3',
                 {
-                    top: 118,
-                    left: -308,
+                    top: 1400,
+                    left: 87,
                     width: 360,
                     height: 360
                 },
                 {
-                    position: "relative",
+                    style: 'grey',
                     size: 440,
-                    drawOuterCircle: true,
-                    outerStrokeColor: "#838286",
-                    outerFillColor: "#838286",
-                    innerStrokeColor: "888",
-                    innerFillColor: "#fff",
-                    majorTickColor: "#000",
-                    majorTickWidth: "2px",
                     minorTicks: 4,
-                    minorTickColor: "#000",
                     max: 180,
                     min: 0,
                     label: 'Speed',
@@ -455,37 +360,23 @@ require([
                     greenZones: [],
                     yellowZones: [],
                     redZones: [{ from: 140.01, to: 180 }],
-                    pointerFillColor: "#dc555a",
-                    pointerStrokeColor: "#6f6e73",
-                    pointerShowLabel: false,
-                    pointerUseBaseCircle: true,
-                    pointerBaseCircleAbovePointer: true,
-                    pointerBaseCircleFillColor: "#838286",
-                    pointerBaseCircleStrokeColor: "#838286",
-                    pointerBaseCircleRadius: 0.18,
-                    rotation: -45
+                    rotation: -45,
+                    parent: 'dashboard-container-3'
                 }
             ),
+
             airTempGauge: new Gauge(
                 'air-temp-gauge-3',
                 {
-                    top: 91,
-                    left: -346,
+                    top: 1369,
+                    left: 833,
                     width: 360,
                     height: 360
                 },
                 {
-                    position: "relative",
+                    style: 'grey',
                     size: 170,
-                    drawOuterCircle: true,
-                    outerStrokeColor: "#838286",
-                    outerFillColor: "#838286",
-                    innerStrokeColor: "888",
-                    innerFillColor: "#fff",
-                    majorTickColor: "#000",
-                    majorTickWidth: "2px",
                     minorTicks: 4,
-                    minorTickColor: "#000",
                     max: 220,
                     min: 100,
                     initial: 100,
@@ -494,15 +385,8 @@ require([
                     greenZones: [],
                     yellowZones: [],
                     redZones: [{ from: 200.1, to: 219.9 }],
-                    pointerFillColor: "#dc555a",
-                    pointerStrokeColor: "#6f6e73",
-                    pointerShowLabel: false,
-                    pointerUseBaseCircle: true,
-                    pointerBaseCircleAbovePointer: true,
-                    pointerBaseCircleFillColor: "#838286",
-                    pointerBaseCircleStrokeColor: "#838286",
-                    pointerBaseCircleRadius: 0.2,
-                    rotation: -45
+                    rotation: -45,
+                    parent: 'dashboard-container-3'
                 }
             )
         };
@@ -513,25 +397,17 @@ require([
             remainingFuelGauge: new Gauge(
                 'remaining-fuel-gauge-4',
                 {
-                    top: 290,
-                    left: 89,
+                    top: 2180,
+                    left: 87,
                     width: 360,
                     height: 360
                 },
                 {
-                    position: "relative",
+                    style: 'blue',
                     size: 160,
                     gap: 270,
-                    outerStrokeColor: "#599bcf",
-                    outerFillColor: "#599bcf",
-                    innerStrokeColor: "#599bcf",
-                    innerFillColor: "#599bcf",
-                    majorTickColor: "#000",
-                    majorTickWidth: "2px",
                     minorTicks: 4,
-                    minorTickColor: "#000",
                     label: "Fuel",
-                    labelColor: "#000",
                     max: 1,
                     min: 0,
                     initial: 0,
@@ -539,38 +415,25 @@ require([
                     greenZones: [],
                     yellowZones: [],
                     redZones: [{ from: 0, to: 0.125 }],
-                    pointerFillColor: "#290107",
-                    pointerStrokeColor: "#290107",
-                    pointerShowLabel: false,
-                    pointerUseBaseCircle: true,
-                    pointerBaseCircleFillColor: "#3f4552",
-                    pointerBaseCircleStrokeColor: "#3f4552",
-                    pointerBaseCircleRadius: 0.2,
-                    rotation: 0
+                    rotation: 0,
+                    parent: 'dashboard-container-4'
                 }
             ),
+
             oilTempGauge: new Gauge(
                 'oil-temp-gauge-4', 
                 {
-                    top: 268,
-                    left: -9,
+                    top: 2163,
+                    left: 745,
                     width: 360,
                     height: 360
                 },
                 {
-                    position: "relative",
+                    style: 'blue',
                     size: 160,
                     gap: 270,
-                    outerStrokeColor: "#599bcf",
-                    outerFillColor: "#599bcf",
-                    innerStrokeColor: "#599bcf",
-                    innerFillColor: "#599bcf",
-                    majorTickColor: "#000",
-                    majorTickWidth: "2px",
                     minorTicks: 4,
-                    minorTickColor: "#000",
                     label: "Oil Temp",
-                    labelColor: "#000",
                     max: 1,
                     min: 0,
                     initial: 0,
@@ -578,38 +441,25 @@ require([
                     greenZones: [],
                     yellowZones: [],
                     redZones: [{ from: 0, to: 0.125 }],
-                    pointerFillColor: "#290107",
-                    pointerStrokeColor: "#290107",
-                    pointerShowLabel: false,
-                    pointerUseBaseCircle: true,
-                    pointerBaseCircleFillColor: "#3f4552",
-                    pointerBaseCircleStrokeColor: "#3f4552",
-                    pointerBaseCircleRadius: 0.2,
-                    rotation: 0
+                    rotation: 0,
+                    parent: 'dashboard-container-4'
                 }
             ),
+
             speedometerGauge: new Gauge(
                 'speedometer-gauge-4',
                 {
-                    top: 148,
-                    left: -23,
+                    top: 2044,
+                    left: 223,
                     width: 360,
                     height: 360
                 },
                 {
-                    position: "relative",
+                    style: 'blue',
                     size: 280,
                     gap: 140,
-                    outerStrokeColor: "#599bcf",
-                    outerFillColor: "#599bcf",
-                    innerStrokeColor: "#599bcf",
-                    innerFillColor: "#599bcf",
-                    majorTickColor: "#000",
-                    majorTickWidth: "2px",
                     minorTicks: 4,
-                    minorTickColor: "#000",
                     label: "Speed",
-                    labelColor: "#000",
                     max: 160,
                     min: 0,
                     initial: 0,
@@ -617,38 +467,26 @@ require([
                     greenZones: [],
                     yellowZones: [],
                     redZones: [],
-                    pointerFillColor: "#290107",
-                    pointerStrokeColor: "#290107",
-                    pointerShowLabel: false,
-                    pointerUseBaseCircle: true,
-                    pointerBaseCircleFillColor: "#3f4552",
-                    pointerBaseCircleStrokeColor: "#3f4552",
-                    pointerBaseCircleRadius: 0.2,
-                    rotation: 0
+                    rotation: 0,
+                    roundValueBeforeRender: true,
+                    parent: 'dashboard-container-4'
                 }
             ),
+
             tachometerGauge: new Gauge(
                 'tachometer-gauge-4',
                 {
-                    top: 140,
-                    left: -4,
+                    top: 2036,
+                    left: 499,
                     width: 360,
                     height: 360
                 },
                 {
-                    position: "relative",
+                    style: 'blue',
                     size: 280,
                     gap: 140,
-                    outerStrokeColor: "#599bcf",
-                    outerFillColor: "#599bcf",
-                    innerStrokeColor: "#599bcf",
-                    innerFillColor: "#599bcf",
-                    majorTickColor: "#000",
-                    majorTickWidth: "2px",
                     minorTicks: 4,
-                    minorTickColor: "#000",
                     label: "RPM",
-                    labelColor: "#000",
                     max: 7,
                     min: 0,
                     initial: 0,
@@ -656,14 +494,8 @@ require([
                     greenZones: [],
                     yellowZones: [],
                     redZones: [{ from: 5.8, to: 7 }],
-                    pointerFillColor: "#290107",
-                    pointerStrokeColor: "#290107",
-                    pointerShowLabel: false,
-                    pointerUseBaseCircle: true,
-                    pointerBaseCircleFillColor: "#3f4552",
-                    pointerBaseCircleStrokeColor: "#3f4552",
-                    pointerBaseCircleRadius: 0.2,
-                    rotation: 0
+                    rotation: 0,
+                    parent: 'dashboard-container-4'
                 }
             ),
         };
@@ -685,25 +517,32 @@ require([
 
         // Render car dashboard components
         function render(res) {
-            dashboards.car1.speedometerGauge.render(Math.round(evaluate(res.speed.val)));
+                        
+            // Dashboard 1 elements
+            dashboards.car1.speedometerGauge.render(evaluate(res.speed.val));
             dashboards.car1.tachometerGauge.render(evaluate(res.rpm));
+            dashboards.car1.remainingFuelGauge.render(res);
+            dashboards.car1.temperatureGauge.render(res);
             dashboards.car1.centralPanel.render(res);
 
+            // Dashboard 2 elements
             dashboards.car2.tachometerGauge.render(evaluate(res.rpm));
 
-            // No data yet
-            // dashboards.car3.airTempGauge.render(evaluate(res.rpm));
-            // dashboards.car3.egtGauge.render(evaluate(res.rpm));
-            // dashboards.car3.turboGauge.render(evaluate(res.rpm));
-            // dashboards.car3.waterTempGauge.render(evaluate(res.rpm));
-            dashboards.car3.speedometerGauge.render(Math.round(evaluate(res.speed.val)));
+            // Dashboard 3 elements
+            dashboards.car3.speedometerGauge.render(evaluate(res.speed.val));
             dashboards.car3.tachometerGauge.render(evaluate(res.rpm));
-
             // No data yet
-            // dashboards.car4.oilTempGauge.render(evaluate(res.rpm));
-            // dashboards.car4.remainingFuelGauge.render(evaluate(res.rpm));
-            dashboards.car4.speedometerGauge.render(Math.round(evaluate(res.speed.val)));
+            dashboards.car3.waterTempGauge.render(res);
+            dashboards.car3.turboGauge.render(res);
+            dashboards.car3.egtGauge.render(res);
+            dashboards.car3.airTempGauge.render(res);
+
+            // Dashboard 4 elements
+            dashboards.car4.speedometerGauge.render(evaluate(res.speed.val));
             dashboards.car4.tachometerGauge.render(evaluate(res.rpm));
+            // No data yet
+            dashboards.car4.oilTempGauge.render(res);
+            dashboards.car4.remainingFuelGauge.render(res);
         }
 
         var demoFolder = "car";

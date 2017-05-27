@@ -41,8 +41,8 @@ div.version {
 }
 
 
-/* First dashboard */
-div.dashboard-container {
+/* Dashboard 1 */
+div#dashboard-container-1 {
     background-image: url(/demos/car/img/mercedes.jpg);
     background-repeat: no-repeat;
     background-size: cover;
@@ -50,18 +50,6 @@ div.dashboard-container {
     height: 520px;
     margin-bottom: 50px;
 }
-
-div#control-panel-container {
-    background-color: #2b2d33;
-    color: white;
-    padding: 0;
-    width: 230px;
-    position: absolute;
-    top: 323px;
-    left: 392px;
-    height: 210px;
-}
-
 
 /* Dashboard 2 */
 div#dashboard-container-2 {

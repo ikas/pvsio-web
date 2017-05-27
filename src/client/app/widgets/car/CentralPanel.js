@@ -42,9 +42,28 @@ define(function (require, exports, module) {
      * @memberof module:CentralPanel
      * @instance
      */
-    function CentralPanel(id, opt) {
+    function CentralPanel(id, coords, opt) {
 
         this.backgroundColor = opt.backgroundColor || "#000";
+
+        // Handle coords
+        coords = coords || {};
+        this.top = coords.top || 0;
+        this.left = coords.left || 0;
+        this.width = coords.width || 200;
+        this.height = coords.height || 80;
+
+        // Aux configurations and variables
+        opt.position = opt.position || "absolute";
+        this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
+
+        // Create the gauge element
+        this.div = d3.select(this.parent)
+            .append('div').attr('id', id)
+            .style("position", opt.position)
+            .style("top", this.top + "px").style("left", this.left + "px")
+            .style("width", (this.width) + "px").style("height", (this.height) + "px")
+            .style("background-color", this.backgroundColor);
 
         // ---------------- CURRENT GEAR ---------------------------
         this.gearDisplay = new BasicDisplay(
@@ -54,7 +73,7 @@ define(function (require, exports, module) {
                 borderWidth: 2, 
                 borderStyle: "solid", 
                 borderColor: "white", 
-                parent: "control-panel-container", 
+                parent: id, 
                 fontsize: 22, 
                 backgroundColor: this.backgroundColor
             }
@@ -66,7 +85,7 @@ define(function (require, exports, module) {
             { top: 170, left: 5, width: 70, height: 18 },
             { 
                 fontsize: 18, 
-                parent: "control-panel-container", 
+                parent: id, 
                 backgroundColor: this.backgroundColor 
             }
         );
@@ -77,7 +96,7 @@ define(function (require, exports, module) {
             { top: 33, left: 0, width: 230, height: 1 },
             { 
                 fontsize: 18, 
-                parent: "control-panel-container", 
+                parent: id, 
                 borderWidth: 1, 
                 borderStyle: "solid", 
                 borderColor: "white", 
@@ -91,7 +110,7 @@ define(function (require, exports, module) {
             { top: 170, left: 155, width: 70, height: 18 },
             { 
                 fontsize: 18, 
-                parent: "control-panel-container", 
+                parent: id, 
                 backgroundColor: this.backgroundColor
             }
         );
@@ -103,7 +122,7 @@ define(function (require, exports, module) {
             { 
                 fontsize: 32, 
                 align: "right", 
-                parent: "control-panel-container", 
+                parent: id, 
                 backgroundColor: this.backgroundColor
             }
         );
@@ -115,7 +134,7 @@ define(function (require, exports, module) {
             { 
                 fontsize: 20, 
                 align: "left", 
-                parent: "control-panel-container", 
+                parent: id, 
                 backgroundColor: this.backgroundColor
             }
         );
@@ -126,7 +145,7 @@ define(function (require, exports, module) {
             { top: 73, left: 40, width: 150, height: 1 },
             { 
                 fontsize: 18, 
-                parent: "control-panel-container", 
+                parent: id, 
                 borderWidth: 1, 
                 borderStyle: "solid", 
                 borderColor: "white", 
@@ -140,7 +159,7 @@ define(function (require, exports, module) {
             { top: 4, left: 40, width: 110, height: 25 },
             { 
                 fontsize: 25, 
-                parent: "control-panel-container", 
+                parent: id, 
                 backgroundColor: this.backgroundColor
             }
         );
@@ -151,7 +170,7 @@ define(function (require, exports, module) {
             { top: 80, left: 107, width: 60, height: 18 },
             { 
                 fontsize: 18, 
-                parent: "control-panel-container", 
+                parent: id, 
                 align: "right", 
                 backgroundColor: this.backgroundColor
             }
@@ -162,7 +181,7 @@ define(function (require, exports, module) {
             { top: 102, left: 107, width: 60, height: 18 },
             { 
                 fontsize: 18, 
-                parent: "control-panel-container", 
+                parent: id, 
                 align: "right", 
                 backgroundColor: this.backgroundColor
             }
@@ -173,7 +192,7 @@ define(function (require, exports, module) {
             { top: 124, left: 107, width: 60, height: 18 },
             { 
                 fontsize: 18, 
-                parent: "control-panel-container", 
+                parent: id, 
                 align: "right", 
                 backgroundColor: this.backgroundColor
             }
