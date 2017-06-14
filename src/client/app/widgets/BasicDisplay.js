@@ -1,11 +1,11 @@
 /**
  * @module BasicDisplay
- * @version 2.0
+ * @version 2.1
  * @description Renders a basic digital display.
  *              This module provide APIs for changing the look and feel of
  *              the rendered text, including: cursors, background color, font, size, alignment.
- * @author Paolo Masci, Patrick Oladimeji
- * @date Apr 1, 2015
+ * @author Paolo Masci, Patrick Oladimeji, Henrique Pacheco
+ * @date May 12, 2017
  *
  * @example <caption>Typical use of BasicDisplay APIs within a PVSio-web plugin module.</caption>
  * // Example module that uses BasicDisplay.
@@ -81,11 +81,14 @@ define(function (require, exports, module) {
         var elemClass = id + " displayWidget" + " noselect ";
         if (this.blinking) { elemClass += " blink"; }
         opt.position = opt.position || "absolute";
+        opt.borderRadius = opt.borderRadius || 2;
+        opt.opacity = opt.opacity || 1;
+        this.format = opt.format;
         this.div = d3.select(this.parent)
                         .append("div").style("position", opt.position)
                         .style("top", this.top + "px").style("left", this.left + "px")
                         .style("width", (this.width+this.borderWidth) + "px").style("height", (this.height+this.borderWidth) + "px")
-                        .style("margin", 0).style("padding", 0).style("border-radius", "2px")
+                        .style("margin", 0).style("padding", 0).style("border-radius", opt.borderRadius + "px").style("opacity", opt.opacity)
                         .style("background-color", this.backgroundColor)
                         .style("border-width", this.borderWidth + "px")
                         .style("border-style", this.borderStyle)
@@ -94,10 +97,10 @@ define(function (require, exports, module) {
         this.div.append("span").attr("id", id + "_span").attr("class", id + "_span")
                         .attr("width", this.width).attr("height", this.height)
                         .style("margin", 0).style("padding", 0)
-                        .style("vertical-align", "top").style("border-radius", "2px");
+                        .style("vertical-align", "top").style("border-radius", opt.borderRadius + "px").style("opacity", opt.opacity);
         this.div.append("canvas").attr("id", id + "_canvas").attr("class", id + "_canvas")
                         .attr("width", (this.width-this.borderWidth)).attr("height", (this.height-this.borderWidth))
-                        .style("margin", 0).style("padding", 0).style("border-radius", "2px")
+                        .style("margin", 0).style("padding", 0).style("border-radius", opt.borderRadius + "px").style("opacity", opt.opacity)
                         .style("vertical-align", "top");
         var x2 = this.left + this.width;
         var x3 = this.top + this.height;
@@ -251,23 +254,33 @@ define(function (require, exports, module) {
             } else {
                 this.txt = txt;
             }
+            if (this.format === "mm:ss" && !isNaN(parseFloat(this.txt))) {
+                // value represents seconds, and format to be displayed is mm:ss
+                var val = parseFloat(this.txt);
+                var minutes = Math.floor(val / 60);
+                var seconds = Math.floor(val - (minutes * 60));
+                var minutes_txt = (minutes < 10)? "0" + minutes : minutes;
+                var seconds_txt = (seconds < 10)? "0" + seconds : seconds;
+                this.text2speech = minutes + " minutes and " + seconds + " seconds";
+                this.txt = minutes_txt + ":" + seconds_txt;
+            }
             //read out the display value if audio is enabled for this display widget
             if (opt.auditoryFeedback === "enabled") {
-                Speaker.speak(this.txt.toString());
+                if (this.format === "mm:ss") {
+                    Speaker.speak(this.text2speech);
+                } else {
+                    Speaker.speak(this.txt.toString());
+                }
             }
             this.example = this.txt;
             // set blinking
             var elemClass = document.getElementById(this.id()).getAttribute("class");
-            // If element does not have the class attribute, null is returned - in that case, set an empty string as element class
-            if(!elemClass) {
-                document.getElementById(this.id()).setAttribute('class', '');
-                var elemClass = document.getElementById(this.id()).getAttribute("class");
+            if(elemClass) {
+                elemClass = (opt.blinking || this.blinking) ?
+                                ((elemClass.indexOf("blink") < 0) ? (elemClass + " blink") : elemClass)
+                                : elemClass.replace(" blink", "");
+                document.getElementById(this.id()).setAttribute("class", elemClass);
             }
-
-            elemClass = (opt.blinking || this.blinking) ?
-                            ((elemClass.indexOf("blink") < 0) ? (elemClass + " blink") : elemClass)
-                            : elemClass.replace(" blink", "");
-            document.getElementById(this.id()).setAttribute("class", elemClass);
             // render content
             var context = document.getElementById(this.id() + "_canvas").getContext("2d");
             context.textBaseline = this.textBaseline;

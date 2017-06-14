@@ -77,6 +77,9 @@ define(function (require, exports, module) {
         function getFolderChildren(files, parentPath) {
             var tree = {};
             files.forEach(function (f) {
+                if (f.path.startsWith("/")) {
+                    f.path = f.path.substring(1, f.length);
+                }
                 var args = f.path.split("/");
                 var ptr = tree;
                 args.forEach(function (a) {
@@ -158,8 +161,7 @@ define(function (require, exports, module) {
                             pvsFilesListView.getTreeList().refreshSelectedItem();
 //                            NotificationManager.show("Another application changed " + event.path +
 //                                                     ". PVSio-web has reloaded the file content from disk.");
-                            console.log("Another application changed " + event.path +
-                                                     ". PVSio-web has reloaded the file content from disk.");
+                            console.log("File " + event.path + " automatically reloaded from disk.");
                         }
                     }).catch(function (err) { console.log(err); });
                 }

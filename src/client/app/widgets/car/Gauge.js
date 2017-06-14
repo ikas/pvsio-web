@@ -2,12 +2,12 @@
  * @module Gauge
  * @version 1.0.0
  * @description
- * Gauge renders a basic gauge object (using D3 Gauge Plus library). It assumes that this 
- * library was already loaded (TODO fix this). The gauge will be rendered with the 
- * pointer showing the current value. The initial value is 0. The render method can 
- * then be called, passing the new value as parameter, and the widget will update the gauge 
+ * Gauge renders a basic gauge object (using D3 Gauge Plus library). It assumes that this
+ * library was already loaded (TODO fix this). The gauge will be rendered with the
+ * pointer showing the current value. The initial value is 0. The render method can
+ * then be called, passing the new value as parameter, and the widget will update the gauge
  * to show the new provided value.
- * 
+ *
  * @author Henrique Pacheco
  * @date Mar 25, 2017
  *
@@ -45,7 +45,7 @@
  *           );
  *
  *          // Re-render the Gauge, provinding a new value
- *          gauge.render(10); 
+ *          gauge.render(10);
  *     }
  * });
  */
@@ -57,7 +57,7 @@ define(function (require, exports, module) {
     /**
      * @function <a name="Gauge">Gauge</a>
      * @description Gauge constructor.
-     * 
+     *
      * @param id {String} The ID of the element that will contain the gauge.
      * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
      *        the left, top corner, and the width and height of the (rectangular) display.
@@ -111,8 +111,8 @@ define(function (require, exports, module) {
         coords = coords || {};
         this.top = coords.top || 0;
         this.left = coords.left || 0;
-        this.width = coords.width || 200;
-        this.height = coords.height || 80;
+        this.width = coords.width || 256;
+        this.height = coords.height || 256;
 
         // Aux configurations and variables
         opt.position = opt.position || "absolute";
@@ -127,6 +127,7 @@ define(function (require, exports, module) {
             .style("width", (this.width) + "px").style("height", (this.height) + "px");
 
         // D3 Gauge Plus object
+        opt.size = (this.width > this.height) ? this.height : this.width;
         this.gauge_obj = this.createGauge(id, opt);
 
         return this;
@@ -135,10 +136,10 @@ define(function (require, exports, module) {
     /**
      * @function <a name="Gauge">Gauge</a>
      * @description Create a gauge, apllying the default and style configurations.
-     * 
+     *
      * @param id {String} The ID of the element that will contain the gauge.
      * @param opt {Object} Options object.
-     * 
+     *
      * @memberof module:Gauge
      * @instance
      */
@@ -157,19 +158,19 @@ define(function (require, exports, module) {
 
         // Save configs for further usage
         this.config = config;
-        
+
         // Return the created gauge plus pbject
         return new d3_gauge_plus.Gauge(id, config);
-    }
+    };
 
     /**
      * @function <a name="Gauge">Gauge</a>
      * @description Render method.
-     * 
+     *
      * @param new_value {Float} The new value to set the gauge pointer.
-     * @param opt {Object} Override options when re-rendering. See constructor docs for 
+     * @param opt {Object} Override options when re-rendering. See constructor docs for
      * detailed docs on the available options.
-     * 
+     *
      * @memberof module:Gauge
      * @instance
      */
@@ -220,16 +221,17 @@ define(function (require, exports, module) {
     };
 
     Gauge.prototype.renderSample = function (opt) {
-        opt = opt || {};
-        var config = this.mergeConfigs(this.getDefaultConfigs(), opt);
-        var gaugeObj = this.createGauge('sample', config);
-        return this.render('sample', config);
+        // opt = opt || {};
+        // var config = this.mergeConfigs(this.getDefaultConfigs(), opt);
+        // var gaugeObj = this.createGauge('sample', config);
+        // return this.render('sample', config);
+        return this;
     };
 
     /**
      * @function <a name="Gauge">Gauge</a>
      * @description Returns the default config object.
-     * 
+     *
      * @memberof module:Gauge
      * @instance
      */
@@ -279,13 +281,13 @@ define(function (require, exports, module) {
             roundValueBeforeRender: false,
             style: 'classic',
         };
-    }
+    };
 
 
     /**
      * @function <a name="Gauge">Gauge</a>
      * @description Returns the style configs for the provided style identifier.
-     * 
+     *
      * @memberof module:Gauge
      * @instance
      */
@@ -313,7 +315,7 @@ define(function (require, exports, module) {
                 pointerBaseCircleAbovePointer: true,
                 pointerBaseCircleStrokeColor: "#000",
                 pointerBaseCircleStrokeWidth: "2px",
-            }, 
+            },
             sport: {
                 innerFillColor: "#2c2b30",
                 pointerFillColor: "#a2302d",
@@ -362,13 +364,13 @@ define(function (require, exports, module) {
         };
 
         return (styles.hasOwnProperty(style_identifier)) ? styles[style_identifier] : {};
-    }
+    };
 
 
     /**
      * @function <a name="Gauge">Gauge</a>
      * @description Merges the two config objects provided, with conf2 overriding conf1 values.
-     * 
+     *
      * @memberof module:Gauge
      * @instance
      */
@@ -376,7 +378,7 @@ define(function (require, exports, module) {
         // Second conf provided overrides the first one
         for (var attr in conf2) { conf1[attr] = conf2[attr]; }
         return conf1;
-    }
+    };
 
     module.exports = Gauge;
 });
