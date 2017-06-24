@@ -1,0 +1,92 @@
+.console_log{
+    text-align: left;
+    height: 120px;
+    overflow: auto;
+    color: lime;
+    background: black;
+    font-size: small;
+    padding-left: 10px;
+    white-space: pre-wrap;
+    margin: 10px 0 10px 0;
+}
+
+.pvsio, .sapere {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: steelblue;
+    border-style: solid;
+}
+
+.dbg {
+    background-color: black;
+    overflow: auto;
+}
+
+body{
+    font-family: 'Andale Mono', AndaleMono, monospace;
+}
+
+#sapere_controls{
+    margin: 10px 0 10px 0;
+}
+
+#sapere_dbg{
+    margin: 10px 0 10px 0;
+}
+
+
+/* Added CSS */
+div.version {
+    text-align: center;
+}
+
+
+/* Dashboard 1 */
+div#dashboard-container-1 {
+    background-image: url(/demos/car/img/mercedes.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 1000px;
+    height: 520px;
+    margin-bottom: 50px;
+}
+
+/* Dashboard 2 */
+div#dashboard-container-2 {
+    background-image: url(/demos/car/img/dash2.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 1000px;
+    height: 600px;
+    background-position: center;
+    margin-bottom: 50px;
+}
+
+/* Dashboard 3 */
+div#dashboard-container-3 {
+    background-image: url(/demos/car/img/dash3.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 1000px;
+    height: 565px;
+    background-position: bottom;
+    margin-bottom: 50px;
+}
+
+#tachometer-gauge-3 {
+    z-index: 2;
+}
+
+#speedometer-gauge-3 {
+    z-index: 2;
+}
+
+/* Dashboard 4 */
+div#dashboard-container-4 {
+    background-image: url(/demos/car/img/dash4.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 1000px;
+    height: 600px;
+    background-position: center;
+}
