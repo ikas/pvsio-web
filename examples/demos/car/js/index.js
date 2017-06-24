@@ -220,8 +220,8 @@ require([
                 {
                     top: 873,
                     left: 652,
-                    width: 360,
-                    height: 360
+                    width: 225,
+                    height: 225
                 },
                 {
                     style: 'sport',
@@ -247,8 +247,8 @@ require([
                 {
                     top: 1369,
                     left: 7,
-                    width: 360,
-                    height: 360
+                    width: 170,
+                    height: 170
                 },
                 {
                     style: 'grey',
@@ -272,8 +272,8 @@ require([
                 {
                     top: 1400,
                     left: 509,
-                    width: 360,
-                    height: 360
+                    width: 440,
+                    height: 440
                 },
                 {
                     style: 'grey',
@@ -296,8 +296,8 @@ require([
                 {
                     top: 1353,
                     left: 421,
-                    width: 360,
-                    height: 360
+                    width: 170,
+                    height: 170
                 },
                 {
                     style: 'grey',
@@ -321,8 +321,8 @@ require([
                 {
                     top: 1684,
                     left: 421,
-                    width: 360,
-                    height: 360
+                    width: 170,
+                    height: 170
                 },
                 {
                     style: 'grey',
@@ -346,8 +346,8 @@ require([
                 {
                     top: 1400,
                     left: 87,
-                    width: 360,
-                    height: 360
+                    width: 440,
+                    height: 440
                 },
                 {
                     style: 'grey',
@@ -370,8 +370,8 @@ require([
                 {
                     top: 1369,
                     left: 833,
-                    width: 360,
-                    height: 360
+                    width: 170,
+                    height: 170
                 },
                 {
                     style: 'grey',
@@ -399,8 +399,8 @@ require([
                 {
                     top: 2180,
                     left: 87,
-                    width: 360,
-                    height: 360
+                    width: 160,
+                    height: 160
                 },
                 {
                     style: 'blue',
@@ -425,8 +425,8 @@ require([
                 {
                     top: 2163,
                     left: 745,
-                    width: 360,
-                    height: 360
+                    width: 160,
+                    height: 160
                 },
                 {
                     style: 'blue',
@@ -451,8 +451,8 @@ require([
                 {
                     top: 2044,
                     left: 223,
-                    width: 360,
-                    height: 360
+                    width: 280,
+                    height: 280
                 },
                 {
                     style: 'blue',
@@ -478,8 +478,8 @@ require([
                 {
                     top: 2036,
                     left: 499,
-                    width: 360,
-                    height: 360
+                    width: 280,
+                    height: 280
                 },
                 {
                     style: 'blue',
