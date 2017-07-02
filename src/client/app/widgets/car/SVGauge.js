@@ -7,7 +7,7 @@
 define(function (require, exports, module) {
     "use strict";
 
-    var gauge = require("text!widgets/car/svg/gauge.svg");
+    var gauge = require("text!widgets/car/svg/gauge-panels/gauge-speedometer-panel-8.svg");
 
     function SVGauge(id, coords, opt) {
         opt = opt || {};
