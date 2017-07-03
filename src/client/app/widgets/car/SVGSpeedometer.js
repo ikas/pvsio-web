@@ -43,7 +43,7 @@ define(function (require, exports, module) {
         this.pointer = this.gauge_base.append("div").attr("id", id + "_gauge-sport-pointer")
                                 .attr("style", "position:absolute;" +
                                                "height:" + gauge_size + "px;" +
-                                               "top:0px; left:192px; " +
+                                               "top:0px; left:200px; " +
                                                //"background-color:blue;" + // enable this line to see the div of the pointer, useful for debugging
                                                "padding-top:185px;" +
                                                "transform-origin:center;")
