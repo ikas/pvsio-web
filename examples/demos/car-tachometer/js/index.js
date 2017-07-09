@@ -100,7 +100,7 @@ require([
             dashboard.sport.render(evaluate(res.rpm));
         }
 
-        var demoFolder = "car-svg2";
+        var demoFolder = "car-tachometer";
         //register event listener for websocket connection from the client
         client.addListener('WebSocketConnectionOpened', function (e) {
             console.log("web socket connected");
