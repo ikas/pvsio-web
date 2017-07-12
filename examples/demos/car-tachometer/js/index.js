@@ -77,7 +77,7 @@ require([
         var dashboard = {};
 
         // DASHBOARD 1
-        dashboard.sport = new GaugeSport('gauge-sport', {
+        dashboard.sport = new GaugeSport('svg-tachometer', {
             top: 140, left: 340, width: 360, height: 360
         });
 

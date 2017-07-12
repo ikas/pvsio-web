@@ -20,14 +20,14 @@ require.config({
 
 require([
         "widgets/Button",
-        "widgets/car/SVGThermometer",
+        "widgets/car/GaugeSport",
 
         "widgets/ButtonActionsQueue",
         "stateParser",
         "PVSioWebClient"
     ], function (
         Button,
-        SVGThermometer,
+        GaugeSport,
 
         ButtonActionsQueue,
         stateParser,
@@ -75,8 +75,10 @@ require([
         }
 
         var widgets = {
-            speedometer: new SVGThermometer('widget-container', {
+            speedometer: new GaugeSport('svg-thermometer', {
                 top: 140, left: 340, width: 300, height: 300
+            }, {
+                style: 'thermometer'
             }),
             accelerate: new Button("accelerate", { width: 0, height: 0 }, {
                 callback: onMessageReceived,

@@ -1,6 +1,6 @@
 /**
  * SVG Speedometer widget demo
- * 
+ *
  * @author Henrique Pacheco
  * @date 02/07/17
  */
@@ -20,15 +20,13 @@ require.config({
 
 require([
         "widgets/Button",
-        "widgets/car/SVGSpeedometer",
-
+        "widgets/car/GaugeSport",
         "widgets/ButtonActionsQueue",
         "stateParser",
         "PVSioWebClient"
     ], function (
         Button,
-        SVGSpeedometer,
-
+        GaugeSport,
         ButtonActionsQueue,
         stateParser,
         PVSioWebClient
@@ -75,9 +73,11 @@ require([
         }
 
         var widgets = {
-            speedometer: new SVGSpeedometer('widget-container', {
-                top: 140, left: 340, width: 300, height: 300
-            }),
+            speedometer: new GaugeSport(
+                'svg-speedometer',
+                { top: 140, left: 340, width: 300, height: 300 },
+                { style: 'speedometer' }
+            ),
             accelerate: new Button("accelerate", { width: 0, height: 0 }, {
                 callback: onMessageReceived,
                 evts: ['press/release'],

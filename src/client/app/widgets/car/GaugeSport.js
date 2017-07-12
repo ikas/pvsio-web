@@ -9,17 +9,12 @@
 define(function (require, exports, module) {
     "use strict";
 
-    var panel = require("text!widgets/car/svg/gauge-panels/gauge-tachometer-panel-1.svg"),
-        pointer = require("text!widgets/car/svg/gauge-pointers/gauge-pointer-3.svg");
-
-    var gauge_size = 287.47; // px
-    var start_deg = 50; // deg
-    var range_deg = 250; // deg
-    var max = 10; // x1000 rpm
+    var Pointer = require("widgets/car/Pointer");
 
     function GaugeSport(id, coords, opt) {
+
         this.id = id;
-        opt = opt || {};
+
         // Handle coords
         coords = coords || {};
         this.top = coords.top || 0;
@@ -27,32 +22,54 @@ define(function (require, exports, module) {
         this.width = coords.width || 256;
         this.height = coords.height || 256;
 
-        // Aux configurations and variables
-        opt.position = opt.position || "absolute";
-        this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
+        // Handle options
+        opt = opt || {};
+        this.style_configs = this.getStyleConfigs(opt.style || 'tachometer');
 
-        // Create the gauge element
-        this.div = d3.select(this.parent)
-            .append('div').attr('id', id)
-            .style("position", opt.position)
-            .style("top", this.top + "px").style("left", this.left + "px")
-            .style("width", gauge_size + "px").style("height", gauge_size + "px");
+        // Find panel file to load from style configs
+        var file_to_require = "text!widgets/car/svg/gauge-panels/" + this.style_configs.panel_file;
+        var self = this;
+        require([file_to_require], function(file_required) {
+            self.panel_file = file_required;
 
-        // Add svg image
-        this.gauge_base = this.div.append("div").attr("id", id + "_gauge-sport-panel").html(panel);
-        this.pointer = this.gauge_base.append("div").attr("id", id + "_gauge-sport-pointer")
-                                .attr("style", "position:absolute;" +
-                                               "height:" + gauge_size + "px;" +
-                                               "top:0px; left:124px; " +
-                                               //"background-color:blue;" + // enable this line to see the div of the pointer, useful for debugging
-                                               "padding-top:123.7px;" +
-                                               "transform-origin:center;")
-                                .html(pointer);
+            // Aux configurations and variables
+            opt.position = opt.position || "absolute";
+            self.parent = (opt.parent) ? ("#" + opt.parent) : "body";
 
-        // Set width and height
-        var size = Math.min(this.height, this.width);
-        var scale_factor = size / gauge_size;
-        this.div.style("transform", "scale(" + scale_factor + "," + scale_factor +")");
+            // Create Pointer widget
+            self.pointer = new Pointer(
+                id + "_gauge-sport-pointer",
+                { top: self.style_configs.pointer_top, left: self.style_configs.pointer_left },
+                {
+                    parent: self.id,
+                    style: self.style_configs.pointer_style,
+                    start_deg: self.style_configs.start_deg,
+                    range_deg: self.style_configs.range_deg,
+                    max: self.style_configs.max,
+                    scale: self.style_configs.pointer_scale,
+                }
+            );
+
+            // Create the gauge element
+            self.div = d3.select(self.parent)
+                .append('div').attr('id', id)
+                .style("position", opt.position)
+                .style("top", self.top + "px").style("left", self.left + "px")
+                .style("width", self.width + "px").style("height", self.height + "px");
+
+            // Add svg image
+            self.gauge_base = self.div.html(self.panel_file);
+
+
+            // Set width and height
+            var size = Math.min(self.height, self.width);
+            var scale_factor = size / self.style_configs.gauge_size;
+            self.div.select('svg')
+                .style("transform", "scale(" + scale_factor + "," + scale_factor +")")
+                .style("transform-origin", "0 0");
+
+            return self;
+        });
 
         return this;
     }
@@ -69,10 +86,7 @@ define(function (require, exports, module) {
      * @instance
      */
     GaugeSport.prototype.render = function(value, opt) {
-        function val2deg(value) {
-            return start_deg + (value * range_deg / max);
-        }
-        this.pointer.style('transform', 'rotate(' + val2deg(value) + 'deg)');
+        this.pointer.render(value, opt);
         return this;
     };
 
@@ -104,6 +118,54 @@ define(function (require, exports, module) {
         }
         return this;
     };
+
+
+    GaugeSport.prototype.getStyleConfigs = function (style_id)
+    {
+        switch (style_id) {
+            case 'tachometer':
+                return {
+                    panel_file: 'gauge-tachometer-panel-1.svg',
+                    pointer_style: 1,
+                    gauge_size: 287.47,
+                    start_deg: 52,
+                    range_deg: 250,
+                    max: 10,
+                    pointer_top: 173,
+                    pointer_left: 174,
+                    pointer_scale: 0.7,
+                };
+
+            case 'speedometer':
+                return {
+                    panel_file: 'gauge-speedometer-panel-1.svg',
+                    pointer_style: 2,
+                    gauge_size: 420,
+                    start_deg: 52,
+                    range_deg: 250,
+                    max: 220,
+                    pointer_top: 141,
+                    pointer_left: 145,
+                    pointer_scale: 0.8,
+                };
+
+            case 'thermometer':
+                return {
+                    panel_file: 'gauge-temperature-panel-1.svg',
+                    pointer_style: 8,
+                    gauge_size: 234,
+                    start_deg: 33,
+                    range_deg: 100,
+                    max: 120,
+                    pointer_top: 141,
+                    pointer_left: 219,
+                    pointer_scale: 1,
+                };
+
+            default:
+                break;
+        }
+    }
 
     module.exports = GaugeSport;
 });
