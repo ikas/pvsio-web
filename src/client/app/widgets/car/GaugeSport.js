@@ -162,6 +162,19 @@ define(function (require, exports, module) {
                     pointer_scale: 1,
                 };
 
+            case 'fuel':
+                return {
+                    panel_file: 'gauge-fuel-panel-1.svg',
+                    pointer_style: 3,
+                    gauge_size: 234,
+                    start_deg: 100,
+                    range_deg: 100,
+                    max: 120,
+                    pointer_top: 117,
+                    pointer_left: 159,
+                    pointer_scale: 1,
+                };
+
             default:
                 break;
         }
