@@ -188,6 +188,20 @@ define(function (require, exports, module) {
                     pointer_scale: 1,
                 };
 
+            case 'clock':
+                return {
+                    panel_file: 'gauge-clock-panel-1.svg',
+                    pointer_style: 2,
+                    gauge_size: 154,
+                    start_deg: 178,
+                    range_deg: 360,
+                    min: 0,
+                    max: 60,
+                    pointer_top: 148,
+                    pointer_left: 145,
+                    pointer_scale: 0.7,
+                };
+
             default:
                 break;
         }
