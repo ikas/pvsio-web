@@ -94,19 +94,36 @@ require([
 
         // Set handlers for button clicks
         document.getElementById("empty-tank-button").addEventListener("click", function() {
-            widgets.fuelPressure.render(0);
+            widgets.fuelPressure.render({ fuel: 0 });
         });
         document.getElementById("half-tank-button").addEventListener("click", function() {
-            widgets.fuelPressure.render(50);
+            widgets.fuelPressure.render({ fuel: 50 });
         });
         document.getElementById("full-tank-button").addEventListener("click", function() {
-            widgets.fuelPressure.render(100);
+            widgets.fuelPressure.render({ fuel: 100 });
         });
 
 
         document.getElementById("fill-perc-form").addEventListener("submit", function(e) {
             e.preventDefault();
-            widgets.fuelPressure.render(document.getElementById("perc-input").value);
+            widgets.fuelPressure.render({ fuel: document.getElementById("perc-input").value });
+        })
+
+
+        document.getElementById("cold-temp-button").addEventListener("click", function() {
+            widgets.fuelPressure.render({ temperature: 50 });
+        });
+        document.getElementById("warm-temp-button").addEventListener("click", function() {
+            widgets.fuelPressure.render({ temperature: 90 });
+        });
+        document.getElementById("hot-temp-button").addEventListener("click", function() {
+            widgets.fuelPressure.render({ temperature: 130 });
+        });
+
+
+        document.getElementById("temp-value-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            widgets.fuelPressure.render({ temperature: 50 });
         })
 
         // Re-render widgets

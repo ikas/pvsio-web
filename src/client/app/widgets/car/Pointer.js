@@ -29,6 +29,7 @@ define(function (require, exports, module) {
         this.max = opt.max || 10;
         this.min = opt.min || 0;
         this.scale = opt.scale || 1;
+        this.laps = opt.laps || 1;
 
         // Aux configurations and variables
         opt.position = opt.position || "absolute";
@@ -38,17 +39,21 @@ define(function (require, exports, module) {
         var file_to_require = "text!widgets/car/svg/gauge-pointers/gauge-pointer-" + opt.style + ".svg";
         var self = this;
         require([file_to_require], function(file_required) {
+            // Aod pointer div
             self.div = d3.select(self.parent).append("div")
                 .attr('id', id)
                 .style("position", opt.position)
                 .style("top", self.top + "px")
                 .style("left", self.left + "px")
                 .style("transform-origin", self.style_configs.transform_origin)
+                .style('display', 'block')
+                .style('margin', 'auto')
                 .html(file_required);
 
-
             // Scale added SVG
-            self.div.select('svg').style('transform', 'scale('+self.scale+')').style('transform-origin', '0 0');
+            self.div.select('svg')
+                .style('transform', 'scale('+self.scale+')')
+                .style('transform-origin', '0 0');
 
             return self;
         });
@@ -69,15 +74,16 @@ define(function (require, exports, module) {
      */
     Pointer.prototype.render = function(value, opt) {
         function val2deg(value, start, range, max, min) {
-            return start + (value * range / max);
+            var rangePerc = (value - min) / (max - min);
+            return start + (rangePerc * range);
         }
 
-        if(value < this.min) {
-            value = this.min;
+        if(newValue < (this.min * this.laps)) {
+            newValue = this.min;
         }
 
-        if(value > this.max) {
-            value = this.max;
+        if(newValue > (this.max * this.laps)) {
+            newValue = this.max;
         }
 
         var newValue = val2deg(value, this.start_deg, this.range_deg, this.max, this.min);

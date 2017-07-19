@@ -30,25 +30,35 @@ define(function (require, exports, module) {
         var file_to_require = "text!widgets/car/svg/gauge-panels/" + this.style_configs.panel_file;
         var self = this;
         require([file_to_require], function(file_required) {
-            self.panel_file = file_required;
 
             // Aux configurations and variables
             opt.position = opt.position || "absolute";
             self.parent = (opt.parent) ? ("#" + opt.parent) : "body";
 
-            // Create Pointer widget
-            self.pointer = new Pointer(
-                id + "_gauge-sport-pointer",
-                { top: self.style_configs.pointer_top, left: self.style_configs.pointer_left },
-                {
-                    parent: self.id,
-                    style: self.style_configs.pointer_style,
-                    start_deg: self.style_configs.start_deg,
-                    range_deg: self.style_configs.range_deg,
-                    max: self.style_configs.max,
-                    scale: self.style_configs.pointer_scale,
-                }
-            );
+            // Find configs for Pointer widget(s)
+            self.pointers = [];
+            var pointer_opts = [];
+
+            var pointer_opt = self.style_configs.pointer_opt;
+            if(pointer_opt.constructor === Array) {
+                pointer_opts = pointer_opt;
+            } else {
+                pointer_opts = [pointer_opt];
+            }
+
+            // Add all Pointer widgets to the screen
+            pointer_opts.map(function(opt) {
+                // Create Pointer widget
+                opt.parent = self.id;
+                opt.width = opt.width || "100%";
+                opt.id = opt.id || id;
+
+                self.pointers[opt.id] = (new Pointer(
+                    opt.id,
+                    { top: opt.top, left: opt.left, width: opt.width },
+                    opt
+                ));
+            });
 
             // Create the gauge element
             self.div = d3.select(self.parent)
@@ -57,9 +67,8 @@ define(function (require, exports, module) {
                 .style("top", self.top + "px").style("left", self.left + "px")
                 .style("width", self.width + "px").style("height", self.height + "px");
 
-            // Add svg image
-            self.gauge_base = self.div.html(self.panel_file);
-
+            // Add required svg image
+            self.gauge_base = self.div.html(file_required);
 
             // Set width and height
             var size = Math.min(self.height, self.width);
@@ -86,7 +95,21 @@ define(function (require, exports, module) {
      * @instance
      */
     GaugeSport.prototype.render = function(value, opt) {
-        this.pointer.render(value, opt);
+
+        if(value.constructor === Object) {
+            for (var prop in value) {
+                if (value.hasOwnProperty(prop)) {
+                    var renderValue = (value[prop]);
+                    this.pointers[prop].render(renderValue);
+                }
+            }
+        } else {
+            var self = this;
+            Object.keys(this.pointers).map(function(key, index) {
+                self.pointers[key].render(value, opt);
+            });
+        }
+
         return this;
     };
 
@@ -126,80 +149,129 @@ define(function (require, exports, module) {
             case 'tachometer':
                 return {
                     panel_file: 'gauge-tachometer-panel-1.svg',
-                    pointer_style: 1,
                     gauge_size: 287.47,
-                    start_deg: 52,
-                    range_deg: 250,
-                    max: 10,
-                    pointer_top: 173,
-                    pointer_left: 174,
-                    pointer_scale: 0.7,
+                    pointer_opt: {
+                        top: 173,
+                        left: 174,
+                        max: 10,
+                        style: 1,
+                        start_deg: 52,
+                        range_deg: 250,
+                        scale: 0.7,
+                    }
                 };
 
             case 'speedometer':
                 return {
                     panel_file: 'gauge-speedometer-panel-1.svg',
-                    pointer_style: 2,
                     gauge_size: 420,
-                    start_deg: 52,
-                    range_deg: 250,
-                    max: 220,
-                    pointer_top: 141,
-                    pointer_left: 145,
-                    pointer_scale: 0.8,
+                    pointer_opt: {
+                        top: 141,
+                        left: 145,
+                        start_deg: 52,
+                        range_deg: 250,
+                        max: 220,
+                        style: 2,
+                        scale: 0.8,
+                    }
                 };
 
             case 'thermometer':
                 return {
                     panel_file: 'gauge-temperature-panel-1.svg',
-                    pointer_style: 8,
                     gauge_size: 234,
-                    start_deg: 33,
-                    range_deg: 100,
-                    max: 120,
-                    pointer_top: 141,
-                    pointer_left: 219,
-                    pointer_scale: 1,
+                    pointer_opt: {
+                        top: 141,
+                        left: 219,
+                        style: 8,
+                        start_deg: 33,
+                        range_deg: 100,
+                        max: 120,
+                    }
                 };
 
             case 'fuel':
                 return {
                     panel_file: 'gauge-fuel-panel-1.svg',
-                    pointer_style: 3,
                     gauge_size: 234,
-                    start_deg: 100,
-                    range_deg: 158,
-                    max: 100,
-                    pointer_top: 117,
-                    pointer_left: 159,
-                    pointer_scale: 1,
+                    pointer_opt: {
+                        top: 117,
+                        left: 159,
+                        style: 3,
+                        start_deg: 100,
+                        range_deg: 158,
+                        max: 100,
+                    }
                 };
 
             case 'fuel-pressure':
                 return {
                     panel_file: 'gauge-combo-fuel-pressure-panel-1.svg',
-                    pointer_style: 3,
                     gauge_size: 134,
-                    start_deg: -45,
-                    range_deg: -89,
-                    max: 100,
-                    pointer_top: 190,
-                    pointer_left: 230,
-                    pointer_scale: 1,
+                    pointer_opt: [
+                        {
+                            id: 'temperature',
+                            top: 190,
+                            left: 150,
+                            style: 3,
+                            start_deg: 50,
+                            range_deg: 80,
+                            min: 50,
+                            max: 130,
+                        },
+                        {
+                            id: 'fuel',
+                            top: 190,
+                            left: 230,
+                            style: 3,
+                            start_deg: -45,
+                            range_deg: -89,
+                            max: 100,
+                        }
+                    ]
                 };
 
             case 'clock':
                 return {
-                    panel_file: 'gauge-clock-panel-1.svg',
-                    pointer_style: 2,
-                    gauge_size: 154,
-                    start_deg: 178,
-                    range_deg: 360,
-                    min: 0,
-                    max: 60,
-                    pointer_top: 148,
-                    pointer_left: 145,
-                    pointer_scale: 0.7,
+                    panel_file: 'gauge-clock-panel-2.svg',
+                    gauge_size: 62,
+                    pointer_opt: [
+                        {
+                            id: 'seconds',
+                            top: 148,
+                            left: 145,
+                            width: "50%",
+                            style: 2,
+                            start_deg: 178,
+                            range_deg: 360,
+                            min: 0,
+                            max: 60,
+                            scale: 0.65,
+                        },
+                        {
+                            id: 'minutes',
+                            top: 148,
+                            left: 145,
+                            style: 2,
+                            start_deg: 178,
+                            range_deg: 360,
+                            min: 0,
+                            max: 60,
+                            scale: 0.55,
+                        },
+                        {
+                            id: 'hours',
+                            top: 148,
+                            left: 145,
+                            style: 2,
+                            start_deg: 178,
+                            range_deg: 360,
+                            min: 0,
+                            max: 12,
+                            laps: 2,
+                            scale: 0.45,
+                        }
+                    ]
                 };
 
             default:

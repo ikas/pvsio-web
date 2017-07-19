@@ -94,7 +94,11 @@ require([
 
         setInterval(function() {
             var current = new Date();
-            widgets.clock.render(current.getSeconds());
+            widgets.clock.render({
+                seconds: current.getSeconds(),
+                minutes: current.getMinutes(),
+                hours: current.getHours(),
+            });
         }, 1000);
 
         var demoFolder = "car-clock";

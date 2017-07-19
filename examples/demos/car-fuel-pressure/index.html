@@ -21,14 +21,27 @@
             <div id="widget-container"></div>
 
             <div class="container text-center">
-                <button id="empty-tank-button">Empty Fuel Tank</button>
-                <button id="half-tank-button">Half Fuel Tank</button>
-                <button id="full-tank-button">Full Fuel Tank</button>
+                <div class="col-xs-6">
+                    <button id="cold-temp-button">Cold Temperature</button>
+                    <button id="warm-temp-button">Warm Temperature</button>
+                    <button id="hot-temp-button">Hot Temperature</button>
 
-                <form id="fill-perc-form">
-                    <input id="perc-input" placeholder="Fill % (0-100)" />
-                    <button>Submit</button>
-                </form>
+                    <form id="temp-value-form">
+                        <input id="temp-input" placeholder="Temp. ºC (50-130)" />
+                        <button>Submit</button>
+                    </form>
+                </div>
+
+                <div class="col-xs-6">
+                    <button id="empty-tank-button">Empty Fuel Tank</button>
+                    <button id="half-tank-button">Half Fuel Tank</button>
+                    <button id="full-tank-button">Full Fuel Tank</button>
+
+                    <form id="fill-perc-form">
+                        <input id="perc-input" placeholder="Fill % (0-100)" />
+                        <button>Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
         <div id="splash" class="demo-splash">
