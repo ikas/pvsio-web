@@ -1,5 +1,5 @@
 /**
- * SVG Fuel widget demo
+ * SVG Fuel pressure widget demo
  *
  * @author Henrique Pacheco
  * @date 02/07/17
@@ -75,10 +75,10 @@ require([
         }
 
         var widgets = {
-            fuel: new GaugeSport('svg-fuel', {
-                top: 140, left: 340, width: 300, height: 300
+            fuelPressure: new GaugeSport('svg-fuel-pressure', {
+                top: 140, left: 340, width: 400, height: 400
             }, {
-                style: 'fuel'
+                style: 'fuel-pressure'
             }),
             accelerate: new Button("accelerate", { width: 0, height: 0 }, {
                 callback: onMessageReceived,
@@ -94,27 +94,27 @@ require([
 
         // Set handlers for button clicks
         document.getElementById("empty-tank-button").addEventListener("click", function() {
-            widgets.fuel.render(0);
+            widgets.fuelPressure.render(0);
         });
         document.getElementById("half-tank-button").addEventListener("click", function() {
-            widgets.fuel.render(50);
+            widgets.fuelPressure.render(50);
         });
         document.getElementById("full-tank-button").addEventListener("click", function() {
-            widgets.fuel.render(100);
+            widgets.fuelPressure.render(100);
         });
 
 
         document.getElementById("fill-perc-form").addEventListener("submit", function(e) {
             e.preventDefault();
-            widgets.fuel.render(document.getElementById("perc-input").value);
+            widgets.fuelPressure.render(document.getElementById("perc-input").value);
         })
 
         // Re-render widgets
         function render(res) {
-            widgets.fuel.render(evaluate(res.speed.val));
+            widgets.fuelPressure.render(evaluate(res.speed.val));
         }
 
-        var demoFolder = "car-fuel";
+        var demoFolder = "car-fuel-pressure";
         //register event listener for websocket connection from the client
         client.addListener('WebSocketConnectionOpened', function (e) {
             console.log("web socket connected");

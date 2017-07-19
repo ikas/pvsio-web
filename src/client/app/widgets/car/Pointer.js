@@ -27,8 +27,8 @@ define(function (require, exports, module) {
         this.start_deg = opt.start_deg || 50; // deg
         this.range_deg = opt.range_deg || 250; // deg
         this.max = opt.max || 10;
+        this.min = opt.min || 0;
         this.scale = opt.scale || 1;
-
 
         // Aux configurations and variables
         opt.position = opt.position || "absolute";
@@ -43,10 +43,6 @@ define(function (require, exports, module) {
                 .style("position", opt.position)
                 .style("top", self.top + "px")
                 .style("left", self.left + "px")
-                //.style("z-index", "1000")
-                //.style("width", self.width + "px") -- width attr purposedly ignored to assume pointer width
-                //.style("height", self.height + "px") -- same here
-                //.style("padding-top", self.style_configs.padding_top+"px")
                 .style("transform-origin", self.style_configs.transform_origin)
                 .html(file_required);
 
@@ -72,10 +68,20 @@ define(function (require, exports, module) {
      * @instance
      */
     Pointer.prototype.render = function(value, opt) {
-        function val2deg(value, start, range, max) {
+        function val2deg(value, start, range, max, min) {
             return start + (value * range / max);
         }
-        this.div.style('transform', 'rotate(' + val2deg(value, this.start_deg, this.range_deg, this.max) + 'deg)');
+
+        if(value < this.min) {
+            value = this.min;
+        }
+
+        if(value > this.max) {
+            value = this.max;
+        }
+
+        var newValue = val2deg(value, this.start_deg, this.range_deg, this.max, this.min);
+        this.div.style('transform', 'rotate(' + newValue + 'deg)');
         return this;
     };
 
