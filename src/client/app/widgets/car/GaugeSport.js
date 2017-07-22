@@ -204,6 +204,21 @@ define(function (require, exports, module) {
                     }
                 };
 
+            case 'pressure':
+                return {
+                    panel_file: 'gauge-pressure-panel-1.svg',
+                    gauge_size: 450,
+                    pointer_opt: {
+                        top: 160,
+                        left: 126,
+                        style: 5,
+                        start_deg: 134,
+                        range_deg: 89,
+                        max: 100,
+                        scale: 0.8,
+                    }
+                };
+
             case 'fuel-temp':
                 return {
                     panel_file: 'gauge-combo-fuel-pressure-panel-1.svg',

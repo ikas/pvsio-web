@@ -142,6 +142,12 @@ define(function (require, exports, module) {
                     transform_origin: "50% 18%",
                 };
 
+            case 5:
+                return {
+                    padding_top: 185,
+                    transform_origin: "50% 18%",
+                };
+
             case 8:
                 return {
                     padding_top: 185,
