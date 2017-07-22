@@ -155,9 +155,9 @@ define(function (require, exports, module) {
                         left: 174,
                         max: 10,
                         style: 1,
-                        start_deg: 52,
+                        start_deg: 50,
                         range_deg: 250,
-                        scale: 0.7,
+                        scale: 0.9,
                     }
                 };
 
@@ -204,7 +204,7 @@ define(function (require, exports, module) {
                     }
                 };
 
-            case 'fuel-pressure':
+            case 'fuel-temp':
                 return {
                     panel_file: 'gauge-combo-fuel-pressure-panel-1.svg',
                     gauge_size: 134,

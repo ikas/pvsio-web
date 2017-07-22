@@ -109,11 +109,6 @@ require([
             widgets.fuel.render(document.getElementById("perc-input").value);
         })
 
-        // Re-render widgets
-        function render(res) {
-            widgets.fuel.render(evaluate(res.speed.val));
-        }
-
         var demoFolder = "car-fuel";
         //register event listener for websocket connection from the client
         client.addListener('WebSocketConnectionOpened', function (e) {

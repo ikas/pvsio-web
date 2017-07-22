@@ -1,5 +1,5 @@
 /**
- * SVG Fuel pressure widget demo
+ * SVG Fuel/temperature widget demo
  *
  * @author Henrique Pacheco
  * @date 02/07/17
@@ -75,10 +75,10 @@ require([
         }
 
         var widgets = {
-            fuelPressure: new GaugeSport('svg-fuel-pressure', {
+            fuelTemp: new GaugeSport('svg-fuel-temp', {
                 top: 140, left: 340, width: 400, height: 400
             }, {
-                style: 'fuel-pressure'
+                style: 'fuel-temp'
             }),
             accelerate: new Button("accelerate", { width: 0, height: 0 }, {
                 callback: onMessageReceived,
@@ -94,44 +94,44 @@ require([
 
         // Set handlers for button clicks
         document.getElementById("empty-tank-button").addEventListener("click", function() {
-            widgets.fuelPressure.render({ fuel: 0 });
+            widgets.fuelTemp.render({ fuel: 0 });
         });
         document.getElementById("half-tank-button").addEventListener("click", function() {
-            widgets.fuelPressure.render({ fuel: 50 });
+            widgets.fuelTemp.render({ fuel: 50 });
         });
         document.getElementById("full-tank-button").addEventListener("click", function() {
-            widgets.fuelPressure.render({ fuel: 100 });
+            widgets.fuelTemp.render({ fuel: 100 });
         });
 
 
         document.getElementById("fill-perc-form").addEventListener("submit", function(e) {
             e.preventDefault();
-            widgets.fuelPressure.render({ fuel: document.getElementById("perc-input").value });
+            widgets.fuelTemp.render({ fuel: document.getElementById("perc-input").value });
         })
 
 
         document.getElementById("cold-temp-button").addEventListener("click", function() {
-            widgets.fuelPressure.render({ temperature: 50 });
+            widgets.fuelTemp.render({ temperature: 50 });
         });
         document.getElementById("warm-temp-button").addEventListener("click", function() {
-            widgets.fuelPressure.render({ temperature: 90 });
+            widgets.fuelTemp.render({ temperature: 90 });
         });
         document.getElementById("hot-temp-button").addEventListener("click", function() {
-            widgets.fuelPressure.render({ temperature: 130 });
+            widgets.fuelTemp.render({ temperature: 130 });
         });
 
 
         document.getElementById("temp-value-form").addEventListener("submit", function(e) {
             e.preventDefault();
-            widgets.fuelPressure.render({ temperature: 50 });
+            widgets.fuelTemp.render({ temperature: document.getElementById("temp-input").value });
         })
 
         // Re-render widgets
         function render(res) {
-            widgets.fuelPressure.render(evaluate(res.speed.val));
+            widgets.fuelTemp.render(evaluate(res.speed.val));
         }
 
-        var demoFolder = "car-fuel-pressure";
+        var demoFolder = "car-fuel-temperature";
         //register event listener for websocket connection from the client
         client.addListener('WebSocketConnectionOpened', function (e) {
             console.log("web socket connected");

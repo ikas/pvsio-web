@@ -78,12 +78,12 @@ define(function (require, exports, module) {
             return start + (rangePerc * range);
         }
 
-        if(newValue < (this.min * this.laps)) {
-            newValue = this.min;
+        if(value < (this.min * this.laps)) {
+            value = this.min;
         }
 
-        if(newValue > (this.max * this.laps)) {
-            newValue = this.max;
+        if(value > (this.max * this.laps)) {
+            value = this.max;
         }
 
         var newValue = val2deg(value, this.start_deg, this.range_deg, this.max, this.min);
