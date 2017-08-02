@@ -76,9 +76,10 @@ require([
 
         var widgets = {
             gearbox: new Gearbox('svg-gearbox', {
-                top: 140, left: 340, width: 300, height: 300
+                top: 100, left: 300, width: 300, height: 300
             }, {
-                style: 'gearbox'
+                style: 'gearbox',
+                parent: 'widget-container'
             }),
             accelerate: new Button("accelerate", { width: 0, height: 0 }, {
                 callback: onMessageReceived,

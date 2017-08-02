@@ -30,27 +30,29 @@ define(function (require, exports, module) {
         // Aux configurations and variables
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
 
-        // Create the gauge element
-        this.div = d3.select(this.parent)
+        // Create wrapper div
+        this.wrapper = d3.select(this.parent)
             .append('div').attr('id', id)
-            .style("position", opt.position)
+            .style("position", 'relative')
             .style("top", this.top + "px").style("left", this.left + "px")
             .style("width", this.width + "px").style("height", this.height + "px");
 
-        // Add required svg image
-        this.gearbox = this.div.html(gearboxPanel);
+        // Create the gauge element
+        this.panel = this.wrapper
+            .append('div').attr('id', id + '_panel')
+            .style("position", 'absolute')
+            .html(gearboxPanel);
 
         // Add required svg image
-        this.stick = d3.select(this.parent)
-            .append('div').attr('id', 'gearbox-stick')
-            .style('z-index', '1000')
-            .style("position", opt.position)
+        this.stick = this.wrapper
+            .append('div').attr('id', id + '_stick')
+            .style("position", 'absolute')
             .style("-webkit-transition", "all 0.3s ease")
             .style("-moz-transition", "all 0.3s ease")
             .style("-ms-transition", "all 0.3s ease")
             .style("-o-transition", "all 0.3s ease")
             .style("transition", "all 0.3s ease")
-            .style("transform", "scale(1.2)")
+            .style("transform", "scale(1)")
             .html(gearboxStick);
 
         // Starts at P
@@ -59,7 +61,7 @@ define(function (require, exports, module) {
         // Set width and height
         var size = Math.min(this.height, this.width);
         var scale_factor = size / 133;
-        this.div.select('svg')
+        this.panel.select('svg')
             .style("transform", "scale(" + scale_factor + "," + scale_factor +")")
             .style("transform-origin", "0 0");
         return this;
@@ -70,17 +72,17 @@ define(function (require, exports, module) {
     {
         switch (gear) {
             case 'D':
-                this.stick.style("top", "50%").style("left", "26.8%");
+                this.stick.style("top", "55%").style("left", "36.8%");
                 break;
             case 'N':
-                this.stick.style("top", "41%").style("left", "26.8%");
+                this.stick.style("top", "40%").style("left", "36.8%");
                 break;
             case 'R':
-                this.stick.style("top", "35%").style("left", "26.8%");
+                this.stick.style("top", "25%").style("left", "36.8%");
                 break;
             case 'P':
             default:
-                this.stick.style("top", "23%").style("left", "26.8%");
+                this.stick.style("top", "0%").style("left", "36.8%");
                 break;
         }
     };
@@ -104,17 +106,17 @@ define(function (require, exports, module) {
 
 
     Gearbox.prototype.remove = function () {
-        this.div.remove();
+        this.wrapper.remove();
         return this;
     };
 
     Gearbox.prototype.hide = function () {
-        this.div.style("display", "none");
+        this.wrapper.style("display", "none");
         return this;
     };
 
     Gearbox.prototype.reveal = function () {
-        this.div.style("display", "block");
+        this.wrapper.style("display", "block");
         return this;
     };
 
@@ -122,11 +124,11 @@ define(function (require, exports, module) {
         data = data || {};
         if (data.top) {
             this.top = data.top;
-            this.div.style("top", this.top + "px");
+            this.wrapper.style("top", this.top + "px");
         }
         if (data.left) {
             this.left = data.left;
-            this.div.style("left", this.left + "px");
+            this.wrapper.style("left", this.left + "px");
         }
         return this;
     };
