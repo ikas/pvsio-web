@@ -75,8 +75,18 @@ require([
         var widgets = {
             speedometer: new GaugeSport(
                 'svg-speedometer',
-                { top: 140, left: 340, width: 300, height: 300 },
+                { top: 100, left: 100, width: 200, height: 200 },
                 { style: 'speedometer' }
+            ),
+            speedometer2: new GaugeSport(
+                'svg-speedometer2',
+                { top: 100, left: 400, width: 200, height: 200 },
+                { style: 'speedometer2' }
+            ),
+            speedometer3: new GaugeSport(
+                'svg-speedometer3',
+                { top: 130, left: 700, width: 200, height: 200 },
+                { style: 'speedometer3' }
             ),
             accelerate: new Button("accelerate", { width: 0, height: 0 }, {
                 callback: onMessageReceived,
@@ -93,6 +103,8 @@ require([
         // Re-render widgets
         function render(res) {
             widgets.speedometer.render(evaluate(res.speed.val));
+            widgets.speedometer2.render(evaluate(res.speed.val));
+            widgets.speedometer3.render(evaluate(res.speed.val));
         }
 
         var demoFolder = "car-speedometer";

@@ -14,10 +14,8 @@ define(function (require, exports, module) {
         opt = opt || {};
         // Handle coords
         coords = coords || {};
-        this.top = coords.top || 0;
-        this.left = coords.left || 0;
-        this.width = coords.width || 256;
-        this.height = coords.height || 256;
+        this.top = coords.top || "50%";
+        this.left = coords.left || "50%";
 
         // Handle options
         opt = opt || {};
@@ -39,12 +37,12 @@ define(function (require, exports, module) {
         var file_to_require = "text!widgets/car/svg/gauge-pointers/gauge-pointer-" + opt.style + ".svg";
         var self = this;
         require([file_to_require], function(file_required) {
-            // Aod pointer div
+            // Add pointer div
             self.div = d3.select(self.parent).append("div")
-                .attr('id', id)
+                .attr('id', id + '_pointer')
                 .style("position", opt.position)
-                .style("top", self.top + "px")
-                .style("left", self.left + "px")
+                .style("top", self.top)
+                .style("left", self.left)
                 .style("transform-origin", self.style_configs.transform_origin)
                 .style('display', 'block')
                 .style('margin', 'auto')
@@ -54,6 +52,14 @@ define(function (require, exports, module) {
             self.div.select('svg')
                 .style('transform', 'scale('+self.scale+')')
                 .style('transform-origin', '0 0');
+
+            // Get SVG's width and height to set it on the main div - and scale main div also
+            var height = self.div.select('svg').style('height');
+            var width = self.div.select('svg').style('width');
+            self.div
+                .style("width", width)
+                .style("height", height)
+                .style("transform", "scale("+ self.scale +")");
 
             return self;
         });
@@ -87,7 +93,7 @@ define(function (require, exports, module) {
         }
 
         var newValue = val2deg(value, this.start_deg, this.range_deg, this.max, this.min);
-        this.div.style('transform', 'rotate(' + newValue + 'deg)');
+        this.div.style('transform', 'rotate(' + newValue + 'deg) scale('+this.scale+')');
         return this;
     };
 
@@ -145,7 +151,7 @@ define(function (require, exports, module) {
             case 5:
                 return {
                     padding_top: 185,
-                    transform_origin: "50% 18%",
+                    transform_origin: "50% 4.5%",
                 };
 
             case 8:
