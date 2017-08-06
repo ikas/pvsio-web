@@ -12,17 +12,66 @@
     </head>
     <body>
         <div id="content" class="content" style="display:none;">
-            <div class="text-center" style="width:1000px;">
-                Car controls: <br>
-                [up arrow key] Accelerate <br>
-                [down arrow key] Brake <br>
+
+            <!-- Controls div -->
+            <div class="col-xs-12">
+                <h2>Controls: </h2>
+                <h5>[up arrow key] Accelerate</h5>
+                <h5>[down arrow key] Brake</h5>
             </div>
 
-            <div id="widget-container"></div>
+            <!-- Speedometer -->
+            <div class="col-xs-12">
+                <h1>Speedometer</h1>
+                <div id="speedometer-container" style="height: 300px;"></div>
+            </div>
+
+            <!-- Tachometer -->
+            <div class="col-xs-12">
+                <h1>Tachomter</h1>
+                <div id="tachometer-container" style="height: 300px;"></div>
+            </div>
+
+            <!-- Clock -->
+            <div class="col-xs-12">
+                <h1>Clock</h1>
+                <div id="clock-container" style="height: 300px;"></div>
+            </div>
+
+            <!-- Thermometer -->
+            <div class="col-xs-12">
+                <h1>Thermometer</h1>
+                <div id="thermometer-container" style="height: 300px;"></div>
+            </div>
+
+
+            <!-- Fuel -->
+            <div class="col-xs-12">
+                <h1>Fuel</h1>
+
+                <div class="col-xs-12">
+                    <button id="empty-tank-button" class="btn btn-sm btn-danger">Empty Fuel Tank</button>
+                    <button id="half-tank-button" class="btn btn-sm btn-warning">Half Fuel Tank</button>
+                    <button id="full-tank-button" class="btn btn-sm btn-success">Full Fuel Tank</button>
+
+                    <div class="form-group">
+                        <label for="perc-input">Fill % (0-100)</label>
+                        <input type="text" class="form-control" id="perc-input" style="width:auto;">
+                    </div>
+                </div>
+
+                <div class="col-xs-12">
+                    <div id="fuel-container" style="height: 300px;"></div>
+                </div>
+            </div>
+
         </div>
+
+
+        <!-- Loading screen -->
         <div id="splash" class="demo-splash">
             <div class="loader">
-                <div class="version">Car Fuel</div>
+                <div class="version">SVG Widgets Library</div>
                 <div class="bar">
                     Loading
                     <div></div>

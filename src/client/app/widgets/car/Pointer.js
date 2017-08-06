@@ -160,6 +160,12 @@ define(function (require, exports, module) {
                     transform_origin: "top center",
                 };
 
+            case 9:
+                return {
+                    padding_top: 185,
+                    transform_origin: "50% 9%",
+                };
+
             default:
                 break;
         }

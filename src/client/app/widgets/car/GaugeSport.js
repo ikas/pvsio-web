@@ -19,8 +19,8 @@ define(function (require, exports, module) {
         coords = coords || {};
         this.top = coords.top || 0;
         this.left = coords.left || 0;
-        this.width = coords.width || 256;
-        this.height = coords.height || 256;
+        this.width = coords.width || 250;
+        this.height = coords.height || 250;
 
         // Handle options
         opt = opt || {};
@@ -63,24 +63,26 @@ define(function (require, exports, module) {
             self.div = d3.select(self.parent)
                 .append('div').attr('id', id)
                 .style("position", opt.position)
-                .style("top", self.top + "px").style("left", self.left + "px");
+                .style("top", self.top + "px").style("left", self.left + "px")
+                .style("width", self.width + "px").style("height", self.height + "px")
+                .html(file_required);
 
-            // Add required svg image
-            self.gauge_base = self.div.html(file_required);
+            // Get SVG's width and height as integer
+            var svgHeight = parseFloat(self.div.select('svg').style('height').replace('px', ''));
+            var svgWidth = parseFloat(self.div.select('svg').style('width').replace('px', ''));
 
-            // Set width and height
-            var scale = self.style_configs.scale || "1";
-            self.div.select('svg')
-                .style("transform-origin", "0 0");
+            // Calc max deficit between width and height for the original div
+            var widthDeficit = svgWidth - self.width;
+            var heightDeficit = svgHeight - self.height;
 
-            // Get SVG's width and height to set it on the main div - and scale main div also
-            var height = self.div.select('svg').style('height');
-            var width = self.div.select('svg').style('width');
-            self.div
-                .style("width", width)
-                .style("height", height)
-                .style("transform", "scale("+ scale +")")
-                .style("transform-origin", "left top");
+            if(widthDeficit == heightDeficit || widthDeficit > heightDeficit) {
+                var ratio = self.width / svgWidth;
+            } else {
+                var ratio = self.height / svgHeight;
+            }
+
+            // Set transform origin attributes and scale the SVG elements
+            self.div.select('svg').style("transform-origin", "0 0").style('transform', 'scale('+ratio+')');
 
             return self;
         });
@@ -151,16 +153,26 @@ define(function (require, exports, module) {
     GaugeSport.prototype.getStyleConfigs = function (style_id)
     {
         switch (style_id) {
+
+            // Tachomter styles
             case 'tachometer':
                 return {
                     panel_file: 'gauge-tachometer-panel-1.svg',
-                    gauge_size: 287.47,
                     pointer_opt: {
                         max: 10,
                         style: 1,
-                        start_deg: 50,
-                        range_deg: 250,
-                        scale: 0.9,
+                        start_deg: 56,
+                        range_deg: 248,
+                    }
+                };
+            case 'tachometer2':
+                return {
+                    panel_file: 'gauge-tachometer-panel-2.svg',
+                    pointer_opt: {
+                        max: 8,
+                        style: 9,
+                        start_deg: 56,
+                        range_deg: 248,
                     }
                 };
 
@@ -168,32 +180,26 @@ define(function (require, exports, module) {
             case 'speedometer':
                 return {
                     panel_file: 'gauge-speedometer-panel-1.svg',
-                    scale: 0.6,
                     pointer_opt: {
                         start_deg: 55,
                         range_deg: 252,
                         max: 220,
                         style: 2,
-                        width: "6px",
                     }
                 };
             case 'speedometer2':
                 return {
                     panel_file: 'gauge-speedometer-panel-2.svg',
-                    scale: 0.62,
                     pointer_opt: {
                         start_deg: 90,
                         range_deg: 240,
                         max: 200,
                         style: 1,
-                        scale: 0.9,
-                        width: "10px",
                     }
                 };
             case 'speedometer3':
                 return {
                     panel_file: 'gauge-speedometer-panel-3.svg',
-                    scale: 1.2,
                     pointer_opt: {
                         top: "82%",
                         left: "46%",
@@ -201,15 +207,12 @@ define(function (require, exports, module) {
                         range_deg: 190,
                         max: 180,
                         style: 5,
-                        scale: 0.9,
-                        width: "10px",
                     }
                 };
 
             case 'thermometer':
                 return {
                     panel_file: 'gauge-temperature-panel-1.svg',
-                    gauge_size: 234,
                     pointer_opt: {
                         style: 8,
                         start_deg: 33,
@@ -221,7 +224,6 @@ define(function (require, exports, module) {
             case 'fuel':
                 return {
                     panel_file: 'gauge-fuel-panel-1.svg',
-                    gauge_size: 234,
                     pointer_opt: {
                         style: 3,
                         start_deg: 100,
@@ -233,20 +235,17 @@ define(function (require, exports, module) {
             case 'pressure':
                 return {
                     panel_file: 'gauge-pressure-panel-1.svg',
-                    gauge_size: 450,
                     pointer_opt: {
                         style: 5,
                         start_deg: 134,
                         range_deg: 89,
                         max: 100,
-                        scale: 0.8,
                     }
                 };
 
             case 'fuel-temp':
                 return {
                     panel_file: 'gauge-combo-fuel-pressure-panel-1.svg',
-                    gauge_size: 134,
                     pointer_opt: [
                         {
                             id: 'temperature',
@@ -269,17 +268,14 @@ define(function (require, exports, module) {
             case 'clock':
                 return {
                     panel_file: 'gauge-clock-panel-2.svg',
-                    gauge_size: 62,
                     pointer_opt: [
                         {
                             id: 'seconds',
-                            width: "50%",
                             style: 2,
                             start_deg: 178,
                             range_deg: 360,
                             min: 0,
                             max: 60,
-                            scale: 0.65,
                         },
                         {
                             id: 'minutes',
@@ -288,7 +284,6 @@ define(function (require, exports, module) {
                             range_deg: 360,
                             min: 0,
                             max: 60,
-                            scale: 0.55,
                         },
                         {
                             id: 'hours',
@@ -298,7 +293,6 @@ define(function (require, exports, module) {
                             min: 0,
                             max: 12,
                             laps: 2,
-                            scale: 0.45,
                         }
                     ]
                 };

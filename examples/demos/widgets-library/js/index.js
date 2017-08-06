@@ -1,5 +1,5 @@
 /**
- * SVG Clock widget demo
+ * SVG Speedometer widget demo
  *
  * @author Henrique Pacheco
  * @date 02/07/17
@@ -21,14 +21,12 @@ require.config({
 require([
         "widgets/Button",
         "widgets/car/GaugeSport",
-
         "widgets/ButtonActionsQueue",
         "stateParser",
         "PVSioWebClient"
     ], function (
         Button,
         GaugeSport,
-
         ButtonActionsQueue,
         stateParser,
         PVSioWebClient
@@ -67,7 +65,7 @@ require([
                 // parse and render new state
                 var res = event.data.toString();
                 if (res.indexOf("(#") === 0) {
-                    //render(stateParser.parse(res));
+                    render(stateParser.parse(res));
                 }
             } else {
                 console.log(err);
@@ -75,11 +73,53 @@ require([
         }
 
         var widgets = {
-            clock: new GaugeSport('svg-clock', {
-                top: 140, left: 340, width: 300, height: 300
-            }, {
-                style: 'clock'
-            }),
+
+            // Speedometer idgets
+            speedometer: new GaugeSport(
+                'svg-speedometer',
+                { top: 90, left: 30 },
+                { style: 'speedometer', parent: 'speedometer-container' }
+            ),
+            speedometer2: new GaugeSport(
+                'svg-speedometer2',
+                { top: 90, left: 330 },
+                { style: 'speedometer2', parent: 'speedometer-container' }
+            ),
+            speedometer3: new GaugeSport(
+                'svg-speedometer3',
+                { top: 120, left: 630 },
+                { style: 'speedometer3', parent: 'speedometer-container' }
+            ),
+
+            // Tachometer widgets
+            tachometer1: new GaugeSport(
+                'svg-tachometer1',
+                { top: 90, left: 30 },
+                { style: 'tachometer', parent: 'tachometer-container' }
+            ),
+            tachometer2: new GaugeSport(
+                'svg-tachometer2',
+                { top: 90, left: 330 },
+                { style: 'tachometer2', parent: 'tachometer-container' }
+            ),
+
+
+            // Clock widgets
+            clock1: new GaugeSport(
+                'svg-clock1',
+                { top: 90, left: 30 },
+                { style: 'clock', parent: 'clock-container' }
+            ),
+
+
+            // Fuel widgets
+            fuel1: new GaugeSport(
+                'svg-fuel1',
+                { top: 30, left: 15 },
+                { style: 'fuel', parent: 'fuel-container' }
+            ),
+
+
             accelerate: new Button("accelerate", { width: 0, height: 0 }, {
                 callback: onMessageReceived,
                 evts: ['press/release'],
@@ -92,16 +132,42 @@ require([
             })
         };
 
-        setInterval(function() {
+        // Render widgets
+        function render(res) {
+            // Spedometer render methods
+            widgets.speedometer.render(evaluate(res.speed.val));
+            widgets.speedometer2.render(evaluate(res.speed.val));
+            widgets.speedometer3.render(evaluate(res.speed.val));
+
+            // Tachometer render methods
+            widgets.tachometer1.render(evaluate(res.rpm));
+            widgets.tachometer2.render(evaluate(res.rpm));
+
+            // Clock render methods
             var current = new Date();
-            widgets.clock.render({
+            widgets.clock1.render({
                 seconds: current.getSeconds(),
                 minutes: current.getMinutes(),
                 hours: current.getHours(),
             });
-        }, 1000);
+        }
 
-        var demoFolder = "car-clock";
+        // Fuel event handlers
+        document.getElementById("empty-tank-button").addEventListener("click", function() {
+            widgets.fuel1.render(0);
+        });
+        document.getElementById("half-tank-button").addEventListener("click", function() {
+            widgets.fuel1.render(50);
+        });
+        document.getElementById("full-tank-button").addEventListener("click", function() {
+            widgets.fuel1.render(100);
+        });
+        document.getElementById("perc-input").addEventListener("change", function(e) {
+            widgets.fuel1.render(document.getElementById("perc-input").value);
+        });
+
+
+        var demoFolder = "widgets-library";
         //register event listener for websocket connection from the client
         client.addListener('WebSocketConnectionOpened', function (e) {
             console.log("web socket connected");
