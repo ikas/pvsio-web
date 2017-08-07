@@ -87,8 +87,13 @@ require([
             ),
             speedometer3: new GaugeSport(
                 'svg-speedometer3',
-                { top: 120, left: 630 },
+                { top: 90, left: 630 },
                 { style: 'speedometer3', parent: 'speedometer-container' }
+            ),
+            speedometer4: new GaugeSport(
+                'svg-speedometer4',
+                { top: 390, left: 30 },
+                { style: 'speedometer4', parent: 'speedometer-container' }
             ),
 
             // Tachometer widgets
@@ -138,6 +143,7 @@ require([
             widgets.speedometer.render(evaluate(res.speed.val));
             widgets.speedometer2.render(evaluate(res.speed.val));
             widgets.speedometer3.render(evaluate(res.speed.val));
+            widgets.speedometer4.render(evaluate(res.speed.val));
 
             // Tachometer render methods
             widgets.tachometer1.render(evaluate(res.rpm));

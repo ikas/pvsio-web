@@ -14,8 +14,10 @@ define(function (require, exports, module) {
         opt = opt || {};
         // Handle coords
         coords = coords || {};
-        this.top = coords.top || "50%";
-        this.left = coords.left || "50%";
+        this.top = coords.top || 125;
+        this.left = coords.left || 125;
+        this.width = coords.left || 250;
+        this.height = coords.height || 250;
 
         // Handle options
         opt = opt || {};
@@ -26,7 +28,6 @@ define(function (require, exports, module) {
         this.range_deg = opt.range_deg || 250; // deg
         this.max = opt.max || 10;
         this.min = opt.min || 0;
-        this.scale = opt.scale || 1;
         this.laps = opt.laps || 1;
 
         // Aux configurations and variables
@@ -41,25 +42,25 @@ define(function (require, exports, module) {
             self.div = d3.select(self.parent).append("div")
                 .attr('id', id + '_pointer')
                 .style("position", opt.position)
-                .style("top", self.top)
-                .style("left", self.left)
+                .style("top", self.top + 'px')
+                .style("left", self.left + 'px')
                 .style("transform-origin", self.style_configs.transform_origin)
                 .style('display', 'block')
                 .style('margin', 'auto')
                 .html(file_required);
 
-            // Scale added SVG
-            self.div.select('svg')
-                .style('transform', 'scale('+self.scale+')')
-                .style('transform-origin', '0 0');
+            // Get SVG's width and height as integer
+            var svgHeight = parseFloat(self.div.select('svg').style('height').replace('px', ''));
 
-            // Get SVG's width and height to set it on the main div - and scale main div also
-            var height = self.div.select('svg').style('height');
-            var width = self.div.select('svg').style('width');
-            self.div
-                .style("width", width)
-                .style("height", height)
-                .style("transform", "scale("+ self.scale +")");
+            // Calc max deficit between width and height for the original div
+            var heightDeficit = svgHeight - self.height;
+
+            var ratio = self.height / svgHeight;
+
+            // Set transform origin attributes and scale the SVG elements
+            self.div.select('svg')
+                .style('transform', 'scale('+ratio+')')
+                .style("transform-origin", 'center top');
 
             return self;
         });
@@ -93,7 +94,7 @@ define(function (require, exports, module) {
         }
 
         var newValue = val2deg(value, this.start_deg, this.range_deg, this.max, this.min);
-        this.div.style('transform', 'rotate(' + newValue + 'deg) scale('+this.scale+')');
+        this.div.style('transform', 'rotate(' + newValue + 'deg)');
         return this;
     };
 
@@ -132,37 +133,31 @@ define(function (require, exports, module) {
         switch (style_id) {
             case 1:
                 return {
-                    padding_top: 185,
-                    transform_origin: "top center",
+                    transform_origin: "center top",
                 };
 
             case 2:
                 return {
-                    padding_top: 185,
-                    transform_origin: "top center",
+                    transform_origin: "center top",
                 };
 
             case 3:
                 return {
-                    padding_top: 185,
                     transform_origin: "50% 18%",
                 };
 
             case 5:
                 return {
-                    padding_top: 185,
                     transform_origin: "50% 4.5%",
                 };
 
             case 8:
                 return {
-                    padding_top: 185,
-                    transform_origin: "top center",
+                    transform_origin: "center top",
                 };
 
             case 9:
                 return {
-                    padding_top: 185,
                     transform_origin: "50% 9%",
                 };
 

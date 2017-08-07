@@ -51,10 +51,13 @@ define(function (require, exports, module) {
                 // Create Pointer widget
                 opt.parent = self.id;
                 opt.id = opt.id || id;
+                opt.top = opt.top || (self.height / 2);
+                opt.left = opt.left || (self.width / 2);
+                opt.height = opt.height || 0.85 * (self.height / 2);
 
                 self.pointers[opt.id] = (new Pointer(
                     opt.id,
-                    { top: opt.top, left: opt.left, width: opt.width },
+                    { top: opt.top, left: opt.left, height: opt.height },
                     opt
                 ));
             });
@@ -161,7 +164,7 @@ define(function (require, exports, module) {
                     pointer_opt: {
                         max: 10,
                         style: 1,
-                        start_deg: 56,
+                        start_deg: 58,
                         range_deg: 248,
                     }
                 };
@@ -201,12 +204,20 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-speedometer-panel-3.svg',
                     pointer_opt: {
-                        top: "82%",
-                        left: "46%",
                         start_deg: 85,
                         range_deg: 190,
                         max: 180,
                         style: 5,
+                    }
+                };
+            case 'speedometer4':
+                return {
+                    panel_file: 'gauge-speedometer-panel-4.svg',
+                    pointer_opt: {
+                        start_deg: 78,
+                        range_deg: 204,
+                        max: 220,
+                        style: 2,
                     }
                 };
 
@@ -276,6 +287,7 @@ define(function (require, exports, module) {
                             range_deg: 360,
                             min: 0,
                             max: 60,
+                            height: 100
                         },
                         {
                             id: 'minutes',
@@ -284,6 +296,7 @@ define(function (require, exports, module) {
                             range_deg: 360,
                             min: 0,
                             max: 60,
+                            height: 80
                         },
                         {
                             id: 'hours',
@@ -293,6 +306,7 @@ define(function (require, exports, module) {
                             min: 0,
                             max: 12,
                             laps: 2,
+                            height: 60
                         }
                     ]
                 };
