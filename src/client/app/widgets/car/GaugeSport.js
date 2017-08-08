@@ -286,19 +286,7 @@ define(function (require, exports, module) {
                         max: 100,
                     }
                 };
-
-            case 'pressure':
-                return {
-                    panel_file: 'gauge-pressure-panel-1.svg',
-                    pointer_opt: {
-                        style: 5,
-                        start_deg: 134,
-                        range_deg: 89,
-                        max: 100,
-                    }
-                };
-
-            case 'fuel-temp':
+            case 'fuel2':
                 return {
                     panel_file: 'gauge-combo-fuel-pressure-panel-1.svg',
                     pointer_opt: [
@@ -309,15 +297,31 @@ define(function (require, exports, module) {
                             range_deg: 80,
                             min: 50,
                             max: 130,
+                            height: 80,
+                            top: 106,
+                            left: 85,
                         },
                         {
                             id: 'fuel',
                             style: 3,
-                            start_deg: -45,
-                            range_deg: -89,
+                            start_deg: -48,
+                            range_deg: -88,
                             max: 100,
+                            height: 80,
+                            top: 106,
+                            left: 130,
                         }
                     ]
+                };
+            case 'pressure':
+                return {
+                    panel_file: 'gauge-pressure-panel-1.svg',
+                    pointer_opt: {
+                        style: 5,
+                        start_deg: 134,
+                        range_deg: 89,
+                        max: 100,
+                    }
                 };
 
             case 'clock':

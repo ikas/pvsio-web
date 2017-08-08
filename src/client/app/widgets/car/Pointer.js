@@ -44,7 +44,6 @@ define(function (require, exports, module) {
                 .style("position", opt.position)
                 .style("top", self.top + 'px')
                 .style("left", self.left + 'px')
-                .style("transform-origin", self.style_configs.transform_origin)
                 .style('display', 'block')
                 .style('margin', 'auto')
                 .html(file_required);
@@ -55,12 +54,12 @@ define(function (require, exports, module) {
             // Calc max deficit between width and height for the original div
             var heightDeficit = svgHeight - self.height;
 
-            var ratio = self.height / svgHeight;
+            self.scaleRatio = self.height / svgHeight;
 
             // Set transform origin attributes and scale the SVG elements
             self.div.select('svg')
-                .style('transform', 'scale('+ratio+')')
-                .style("transform-origin", 'center top');
+                .style('transform', 'scale('+self.scaleRatio+')')
+                .style("transform-origin", self.style_configs.transform_origin);
 
             return self;
         });
@@ -94,7 +93,7 @@ define(function (require, exports, module) {
         }
 
         var newValue = val2deg(value, this.start_deg, this.range_deg, this.max, this.min);
-        this.div.style('transform', 'rotate(' + newValue + 'deg)');
+        this.div.select('svg').style('transform', 'rotate(' + newValue + 'deg) scale('+this.scaleRatio+')');
         return this;
     };
 

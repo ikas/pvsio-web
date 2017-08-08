@@ -141,7 +141,12 @@ require([
             fuel1: new GaugeSport(
                 'svg-fuel1',
                 { top: 30, left: 15 },
-                { style: 'fuel', parent: 'fuel-container' }
+                { style: 'fuel', parent: 'fuel-temp-container' }
+            ),
+            fuel2: new GaugeSport(
+                'svg-fuel2',
+                { top: 30, left: 315 },
+                { style: 'fuel2', parent: 'fuel-temp-container' }
             ),
 
 
@@ -183,17 +188,24 @@ require([
         }
 
         // Fuel event handlers
-        document.getElementById("empty-tank-button").addEventListener("click", function() {
-            widgets.fuel1.render(0);
-        });
-        document.getElementById("half-tank-button").addEventListener("click", function() {
-            widgets.fuel1.render(50);
-        });
-        document.getElementById("full-tank-button").addEventListener("click", function() {
-            widgets.fuel1.render(100);
+        $('.fuel-change').click(function () {
+            var val = $(this).data('fuel');
+            widgets.fuel1.render(val);
+            widgets.fuel2.render({ fuel: val });
         });
         document.getElementById("perc-input").addEventListener("change", function(e) {
             widgets.fuel1.render(document.getElementById("perc-input").value);
+            widgets.fuel2.render({ fuel: document.getElementById("perc-input").value });
+        });
+
+
+        // Temp event handlers
+        $('.temp-change').click(function () {
+            var val = $(this).data('temp');
+            widgets.fuel2.render({ temperature: val });
+        });
+        document.getElementById("temp-input").addEventListener("change", function(e) {
+            widgets.fuel2.render({ temperature: document.getElementById("temp-input").value });
         });
 
 
