@@ -220,6 +220,48 @@ define(function (require, exports, module) {
                         style: 2,
                     }
                 };
+            case 'speedometer5':
+                return {
+                    panel_file: 'gauge-speedometer-panel-5.svg',
+                    pointer_opt: {
+                        start_deg: 60,
+                        range_deg: 240,
+                        max: 240,
+                        style: 2,
+                    }
+                };
+            case 'speedometer6':
+                return {
+                    panel_file: 'gauge-speedometer-panel-6.svg',
+                    pointer_opt: {
+                        start_deg: 50,
+                        range_deg: 260,
+                        max: 200,
+                        style: 2,
+                    }
+                };
+            case 'speedometer7':
+                return {
+                    panel_file: 'gauge-speedometer-panel-7.svg',
+                    pointer_opt: {
+                        start_deg: 56,
+                        range_deg: 248,
+                        max: 140,
+                        style: 2,
+                    }
+                };
+            case 'speedometer8':
+                return {
+                    panel_file: 'gauge-speedometer-panel-8.svg',
+                    pointer_opt: {
+                        top: 110,
+                        left: 102,
+                        start_deg: 53,
+                        range_deg: 254,
+                        max: 220,
+                        style: 3,
+                    }
+                };
 
             case 'thermometer':
                 return {
@@ -236,9 +278,11 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-fuel-panel-1.svg',
                     pointer_opt: {
+                        top: 83,
+                        left: 106,
                         style: 3,
-                        start_deg: 100,
-                        range_deg: 158,
+                        start_deg: 109,
+                        range_deg: 142,
                         max: 100,
                     }
                 };
