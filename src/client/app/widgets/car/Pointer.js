@@ -152,7 +152,7 @@ define(function (require, exports, module) {
 
             case 8:
                 return {
-                    transform_origin: "center top",
+                    transform_origin: "50% 10%",
                 };
 
             case 9:

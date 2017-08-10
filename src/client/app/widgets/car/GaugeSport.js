@@ -267,10 +267,13 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-temperature-panel-1.svg',
                     pointer_opt: {
+                        top: 113,
+                        left: 195,
                         style: 8,
-                        start_deg: 33,
-                        range_deg: 100,
-                        max: 120,
+                        start_deg: 45,
+                        range_deg: 90,
+                        max: 130,
+                        min: 50,
                     }
                 };
 

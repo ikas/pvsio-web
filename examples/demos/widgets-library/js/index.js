@@ -92,27 +92,27 @@ require([
             ),
             speedometer4: new GaugeSport(
                 'svg-speedometer4',
-                { top: 390, left: 30 },
+                { top: 90, left: 930 },
                 { style: 'speedometer4', parent: 'speedometer-container' }
             ),
             speedometer5: new GaugeSport(
                 'svg-speedometer5',
-                { top: 390, left: 330 },
+                { top: 390, left: 30 },
                 { style: 'speedometer5', parent: 'speedometer-container' }
             ),
             speedometer6: new GaugeSport(
                 'svg-speedometer6',
-                { top: 390, left: 630 },
+                { top: 390, left: 330 },
                 { style: 'speedometer6', parent: 'speedometer-container' }
             ),
             speedometer7: new GaugeSport(
                 'svg-speedometer7',
-                { top: 690, left: 30 },
+                { top: 390, left: 630 },
                 { style: 'speedometer7', parent: 'speedometer-container' }
             ),
             speedometer8: new GaugeSport(
                 'svg-speedometer8',
-                { top: 690, left: 330 },
+                { top: 390, left: 930 },
                 { style: 'speedometer8', parent: 'speedometer-container' }
             ),
 
@@ -141,19 +141,26 @@ require([
             fuel1: new GaugeSport(
                 'svg-fuel1',
                 { top: 30, left: 15 },
-                { style: 'fuel', parent: 'fuel-temp-container' }
+                { style: 'fuel', parent: 'fuel-temp-pressure-container' }
             ),
             fuel2: new GaugeSport(
                 'svg-fuel2',
                 { top: 30, left: 315 },
-                { style: 'fuel2', parent: 'fuel-temp-container' }
+                { style: 'fuel2', parent: 'fuel-temp-pressure-container' }
             ),
 
             // Pressure widgets
             pressure1: new GaugeSport(
                 'svg-pressure1',
-                { top: 30, left: 15 },
-                { style: 'pressure', parent: 'presssure-container' }
+                { top: 30, left: 615 },
+                { style: 'pressure', parent: 'fuel-temp-pressure-container' }
+            ),
+
+            // Temperature widgets
+            temperature1: new GaugeSport(
+                'svg-thermometer1',
+                { top: 30, left: 915 },
+                { style: 'thermometer', parent: 'fuel-temp-pressure-container' }
             ),
 
             accelerate: new Button("accelerate", { width: 0, height: 0 }, {
@@ -205,13 +212,16 @@ require([
         });
 
 
-        // Temp event handlers
+        // Temperature event handlers
         $('.temp-change').click(function () {
             var val = $(this).data('temp');
             widgets.fuel2.render({ temperature: val });
+            widgets.temperature1.render(val);
         });
         document.getElementById("temp-input").addEventListener("change", function(e) {
-            widgets.fuel2.render({ temperature: document.getElementById("temp-input").value });
+            var val = document.getElementById("temp-input").value;
+            widgets.fuel2.render({ temperature: val });
+            widgets.temperature1.render(val);
         });
 
         // Pressure event handlers
