@@ -174,8 +174,31 @@ define(function (require, exports, module) {
                     pointer_opt: {
                         max: 8,
                         style: 9,
-                        start_deg: 56,
-                        range_deg: 248,
+                        start_deg: 69,
+                        range_deg: 222,
+                    }
+                };
+            case 'tachometer3':
+                return {
+                    panel_file: 'gauge-tachometer-panel-3.svg',
+                    pointer_opt: {
+                        max: 8,
+                        style: 1,
+                        height: 90,
+                        start_deg: 74,
+                        range_deg: 108,
+                    }
+                };
+            case 'tachometer4':
+                return {
+                    panel_file: 'gauge-tachometer-panel-4.svg',
+                    pointer_opt: {
+                        top: 110,
+                        left: 107,
+                        max: 8,
+                        style: 3,
+                        start_deg: 71,
+                        range_deg: 220,
                     }
                 };
 

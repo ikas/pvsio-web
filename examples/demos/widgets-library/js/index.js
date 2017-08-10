@@ -127,6 +127,16 @@ require([
                 { top: 90, left: 330 },
                 { style: 'tachometer2', parent: 'tachometer-container' }
             ),
+            tachometer3: new GaugeSport(
+                'svg-tachometer3',
+                { top: 90, left: 630 },
+                { style: 'tachometer3', parent: 'tachometer-container' }
+            ),
+            tachometer4: new GaugeSport(
+                'svg-tachometer4',
+                { top: 90, left: 930 },
+                { style: 'tachometer4', parent: 'tachometer-container' }
+            ),
 
 
             // Clock widgets
@@ -190,6 +200,8 @@ require([
             // Tachometer render methods
             widgets.tachometer1.render(evaluate(res.rpm));
             widgets.tachometer2.render(evaluate(res.rpm));
+            widgets.tachometer3.render(evaluate(res.rpm));
+            widgets.tachometer4.render(evaluate(res.rpm));
 
             // Clock render methods
             var current = new Date();
