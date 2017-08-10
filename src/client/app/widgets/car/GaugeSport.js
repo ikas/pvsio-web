@@ -317,9 +317,11 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-pressure-panel-1.svg',
                     pointer_opt: {
+                        top: 155,
+                        left: 105,
                         style: 5,
-                        start_deg: 134,
-                        range_deg: 89,
+                        start_deg: 138,
+                        range_deg: 82,
                         max: 100,
                     }
                 };

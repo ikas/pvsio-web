@@ -149,6 +149,12 @@ require([
                 { style: 'fuel2', parent: 'fuel-temp-container' }
             ),
 
+            // Pressure widgets
+            pressure1: new GaugeSport(
+                'svg-pressure1',
+                { top: 30, left: 15 },
+                { style: 'pressure', parent: 'presssure-container' }
+            ),
 
             accelerate: new Button("accelerate", { width: 0, height: 0 }, {
                 callback: onMessageReceived,
@@ -206,6 +212,15 @@ require([
         });
         document.getElementById("temp-input").addEventListener("change", function(e) {
             widgets.fuel2.render({ temperature: document.getElementById("temp-input").value });
+        });
+
+        // Pressure event handlers
+        $('.pressure-change').click(function () {
+            var val = $(this).data('pressure');
+            widgets.pressure1.render(val);
+        });
+        document.getElementById("pressure-input").addEventListener("change", function(e) {
+            widgets.pressure1.render(document.getElementById("pressure-input").value);
         });
 
 
