@@ -300,6 +300,7 @@ define(function (require, exports, module) {
                     }
                 };
 
+            // Fuel widgets
             case 'fuel':
                 return {
                     panel_file: 'gauge-fuel-panel-1.svg',
@@ -339,6 +340,32 @@ define(function (require, exports, module) {
                         }
                     ]
                 };
+            case 'fuel3':
+                return {
+                    panel_file: 'gauge-fuel-panel-2.svg',
+                    pointer_opt: {
+                        top: 113,
+                        left: 195,
+                        style: 7,
+                        height: 80,
+                        start_deg: 44,
+                        range_deg: 92,
+                        max: 100,
+                    }
+                };
+            case 'fuel4':
+                return {
+                    panel_file: 'gauge-fuel-panel-3.svg',
+                    pointer_opt: {
+                        top: 106,
+                        left: 106,
+                        style: 3,
+                        start_deg: 90,
+                        range_deg: 180,
+                        max: 100,
+                    }
+                };
+
             case 'pressure':
                 return {
                     panel_file: 'gauge-pressure-panel-1.svg',

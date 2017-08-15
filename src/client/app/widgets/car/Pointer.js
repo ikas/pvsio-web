@@ -150,6 +150,11 @@ define(function (require, exports, module) {
                     transform_origin: "50% 4.5%",
                 };
 
+            case 7:
+                return {
+                    transform_origin: "50% 0%",
+                };
+
             case 8:
                 return {
                     transform_origin: "50% 10%",

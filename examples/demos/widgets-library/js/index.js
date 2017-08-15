@@ -150,26 +150,36 @@ require([
             // Fuel widgets
             fuel1: new GaugeSport(
                 'svg-fuel1',
-                { top: 30, left: 15 },
+                { top: 30, left: 915 },
                 { style: 'fuel', parent: 'fuel-temp-pressure-container' }
             ),
             fuel2: new GaugeSport(
                 'svg-fuel2',
-                { top: 30, left: 315 },
+                { top: 30, left: 615 },
                 { style: 'fuel2', parent: 'fuel-temp-pressure-container' }
+            ),
+            fuel3: new GaugeSport(
+                'svg-fuel3',
+                { top: 30, left: 15 },
+                { style: 'fuel3', parent: 'fuel-temp-pressure-container' }
+            ),
+            fuel4: new GaugeSport(
+                'svg-fuel4',
+                { top: 30, left: 315 },
+                { style: 'fuel4', parent: 'fuel-temp-pressure-container' }
             ),
 
             // Pressure widgets
             pressure1: new GaugeSport(
                 'svg-pressure1',
-                { top: 30, left: 615 },
+                { top: 330, left: 15 },
                 { style: 'pressure', parent: 'fuel-temp-pressure-container' }
             ),
 
             // Temperature widgets
             temperature1: new GaugeSport(
                 'svg-thermometer1',
-                { top: 30, left: 915 },
+                { top: 330, left: 315 },
                 { style: 'thermometer', parent: 'fuel-temp-pressure-container' }
             ),
 
@@ -217,10 +227,15 @@ require([
             var val = $(this).data('fuel');
             widgets.fuel1.render(val);
             widgets.fuel2.render({ fuel: val });
+            widgets.fuel3.render(val);
+            widgets.fuel4.render(val);
         });
         document.getElementById("perc-input").addEventListener("change", function(e) {
-            widgets.fuel1.render(document.getElementById("perc-input").value);
-            widgets.fuel2.render({ fuel: document.getElementById("perc-input").value });
+            var val = document.getElementById("perc-input").value;
+            widgets.fuel1.render(val);
+            widgets.fuel2.render({ fuel: val });
+            widgets.fuel3.render(val);
+            widgets.fuel4.render(val);
         });
 
 
@@ -249,7 +264,6 @@ require([
         var demoFolder = "widgets-library";
         //register event listener for websocket connection from the client
         client.addListener('WebSocketConnectionOpened', function (e) {
-            console.log("web socket connected");
             //start pvs process
             client.getWebSocket()
                 .startPVSProcess({name: "main.pvs", demoName: demoFolder + "/pvs"}, function (err, event) {
@@ -260,10 +274,9 @@ require([
                 start_tick();
             });
         }).addListener("WebSocketConnectionClosed", function (e) {
-            console.log("web socket closed");
+
         }).addListener("processExited", function (e) {
             var msg = "Warning!!!\r\nServer process exited. See console for details.";
-            console.log(msg);
         });
 
         client.connectToServer();
