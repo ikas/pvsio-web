@@ -165,6 +165,11 @@ define(function (require, exports, module) {
                     transform_origin: "50% 9%",
                 };
 
+            case 15:
+                return {
+                    transform_origin: "50% 50%",
+                };
+
             default:
                 break;
         }

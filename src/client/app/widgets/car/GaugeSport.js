@@ -495,6 +495,37 @@ define(function (require, exports, module) {
                     ]
                 };
 
+
+            // Compass styles
+            case 'compass':
+                return {
+                    panel_file: 'gauge-compass-panel-1.svg',
+                    pointer_opt: {
+                        top: 25,
+                        left: 112,
+                        style: 15,
+                        start_deg: 180,
+                        range_deg: 360,
+                        height: 220,
+                        min: 0,
+                        max: 100,
+                    }
+                };
+            case 'compass2':
+                return {
+                    panel_file: 'gauge-compass-panel-2.svg',
+                    pointer_opt: {
+                        top: 25,
+                        left: 112,
+                        style: 15,
+                        start_deg: 180,
+                        range_deg: 360,
+                        height: 220,
+                        min: 0,
+                        max: 100,
+                    }
+                };
+
             default:
                 console.log('Style ' + style_id + ' does not match a valid style.');
                 break;

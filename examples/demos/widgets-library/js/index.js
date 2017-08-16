@@ -193,6 +193,19 @@ require([
                 { style: 'thermometer', parent: 'fuel-temp-pressure-container' }
             ),
 
+
+            // Compass widgets
+            compass1: new GaugeSport(
+                'svg-compass1',
+                { top: 30, left: 15 },
+                { style: 'compass', parent: 'compass-container' }
+            ),
+            compass2: new GaugeSport(
+                'svg-compass2',
+                { top: 30, left: 315 },
+                { style: 'compass2', parent: 'compass-container' }
+            ),
+
             accelerate: new Button("accelerate", { width: 0, height: 0 }, {
                 callback: onMessageReceived,
                 evts: ['press/release'],
@@ -278,6 +291,14 @@ require([
         });
         document.getElementById("pressure-input").addEventListener("change", function(e) {
             widgets.pressure1.render(document.getElementById("pressure-input").value);
+        });
+
+
+        // Compass event handlers
+        $('.compass-change').click(function () {
+            var angle = $(this).data('angle');
+            widgets.compass1.render(angle);
+            widgets.compass2.render(angle);
         });
 
 
