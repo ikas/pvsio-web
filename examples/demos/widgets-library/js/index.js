@@ -145,6 +145,16 @@ require([
                 { top: 90, left: 30 },
                 { style: 'clock', parent: 'clock-container' }
             ),
+            clock2: new GaugeSport(
+                'svg-clock2',
+                { top: 90, left: 330 },
+                { style: 'clock2', parent: 'clock-container' }
+            ),
+            clock3: new GaugeSport(
+                'svg-clock3',
+                { top: 90, left: 630 },
+                { style: 'clock3', parent: 'clock-container' }
+            ),
 
 
             // Fuel widgets
@@ -216,6 +226,16 @@ require([
             // Clock render methods
             var current = new Date();
             widgets.clock1.render({
+                seconds: current.getSeconds(),
+                minutes: current.getMinutes(),
+                hours: current.getHours(),
+            });
+            widgets.clock2.render({
+                seconds: current.getSeconds(),
+                minutes: current.getMinutes(),
+                hours: current.getHours(),
+            });
+            widgets.clock3.render({
                 seconds: current.getSeconds(),
                 minutes: current.getMinutes(),
                 hours: current.getHours(),
