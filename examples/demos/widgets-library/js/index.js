@@ -218,10 +218,20 @@ require([
 
 
             // Gearbox widgets
-            gearbox: new Gearbox(
+            gearbox1: new Gearbox(
                 'svg-gearbox',
                 { top: 15, left: 15, width: 250, height: 250 },
-                { parent: 'gearbox-container' }
+                { parent: 'gearbox-container', style: 'auto' }
+            ),
+            gearbox2: new Gearbox(
+                'svg-gearbox2',
+                { top: 15, left: 315, width: 250, height: 250 },
+                { parent: 'gearbox-container', style: 'manual' }
+            ),
+            gearbox3: new Gearbox(
+                'svg-gearbox3',
+                { top: 15, left: 615, width: 250, height: 250 },
+                { parent: 'gearbox-container', style: 'manual2' }
             ),
 
 
@@ -330,7 +340,9 @@ require([
         // Gearbox event handlers
         $(".change-gear-button").click(function() {
             var gear = $(this).data('gear');
-            widgets.gearbox.render(gear);
+            widgets.gearbox1.render(gear);
+            widgets.gearbox2.render(gear);
+            widgets.gearbox3.render(gear);
         });
 
 

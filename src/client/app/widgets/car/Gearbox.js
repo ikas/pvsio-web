@@ -34,6 +34,7 @@ define(function (require, exports, module) {
         this.wrapper = d3.select(this.parent)
             .append('div').attr('id', id)
             .style("position", 'relative')
+            .style("display", 'inline')
             .style("top", this.top + "px").style("left", this.left + "px")
             .style("width", this.width + "px").style("height", this.height + "px");
 
@@ -41,6 +42,7 @@ define(function (require, exports, module) {
         this.panel = this.wrapper
             .append('div').attr('id', id + '_panel')
             .style("position", 'absolute')
+            .style("width", this.width + "px").style("height", this.height + "px")
             .html(gearboxPanel);
 
         // Add required svg image
@@ -71,18 +73,24 @@ define(function (require, exports, module) {
     Gearbox.prototype.setStickPosition = function(gear)
     {
         switch (gear) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
             case 'D':
-                this.stick.style("top", "55%").style("left", "36.8%");
+                this.stick.style("top", 0.55 * this.height + "px").style("left", 0.345 * this.width + "px");
                 break;
             case 'N':
-                this.stick.style("top", "40%").style("left", "36.8%");
+                this.stick.style("top", 0.4 * this.height + "px").style("left", 0.345 * this.width + "px");
                 break;
             case 'R':
-                this.stick.style("top", "25%").style("left", "36.8%");
+                this.stick.style("top", 0.25 * this.height + "px").style("left", 0.345 * this.width + "px");
                 break;
             case 'P':
             default:
-                this.stick.style("top", "0%").style("left", "36.8%");
+                this.stick.style("top", 0 * this.height + "px").style("left", 0.345  * this.width + "px");
                 break;
         }
     };
