@@ -21,12 +21,14 @@ require.config({
 require([
         "widgets/Button",
         "widgets/car/GaugeSport",
+        "widgets/car/Gearbox",
         "widgets/ButtonActionsQueue",
         "stateParser",
         "PVSioWebClient"
     ], function (
         Button,
         GaugeSport,
+        Gearbox,
         ButtonActionsQueue,
         stateParser,
         PVSioWebClient
@@ -116,6 +118,7 @@ require([
                 { style: 'speedometer8', parent: 'speedometer-container' }
             ),
 
+
             // Tachometer widgets
             tachometer1: new GaugeSport(
                 'svg-tachometer1',
@@ -184,12 +187,14 @@ require([
                 { style: 'fuel4', parent: 'fuel-temp-pressure-container' }
             ),
 
+
             // Pressure widgets
             pressure1: new GaugeSport(
                 'svg-pressure1',
                 { top: 330, left: 15 },
                 { style: 'pressure', parent: 'fuel-temp-pressure-container' }
             ),
+
 
             // Temperature widgets
             temperature1: new GaugeSport(
@@ -211,6 +216,16 @@ require([
                 { style: 'compass2', parent: 'compass-container' }
             ),
 
+
+            // Gearbox widgets
+            gearbox: new Gearbox(
+                'svg-gearbox',
+                { top: 15, left: 15, width: 250, height: 250 },
+                { parent: 'gearbox-container' }
+            ),
+
+
+            // Car controls
             accelerate: new Button("accelerate", { width: 0, height: 0 }, {
                 callback: onMessageReceived,
                 evts: ['press/release'],
@@ -309,6 +324,13 @@ require([
             var angle = $(this).data('angle');
             widgets.compass1.render(angle);
             widgets.compass2.render(angle);
+        });
+
+
+        // Gearbox event handlers
+        $(".change-gear-button").click(function() {
+            var gear = $(this).data('gear');
+            widgets.gearbox.render(gear);
         });
 
 
