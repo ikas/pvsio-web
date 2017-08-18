@@ -57,9 +57,10 @@ define(function (require, exports, module) {
             self.scaleRatio = self.height / svgHeight;
 
             // Set transform origin attributes and scale the SVG elements
+            var origin = self.style_configs.transform_origin || "center top";
             self.div.select('svg')
                 .style('transform', 'scale('+self.scaleRatio+')')
-                .style("transform-origin", self.style_configs.transform_origin);
+                .style("transform-origin", origin);
 
             return self;
         });
@@ -170,8 +171,28 @@ define(function (require, exports, module) {
                     transform_origin: "50% 50%",
                 };
 
+            case 16:
+                return {
+                    transform_origin: "center top",
+                };
+
+            case 17:
+                return {
+                    transform_origin: "50% 25%",
+                };
+
+            case 18:
+                return {
+                    transform_origin: "50% 16%",
+                };
+
+            case 19:
+                return {
+                    transform_origin: "50% 35%",
+                };
+
             default:
-                break;
+                return {};
         }
     }
 

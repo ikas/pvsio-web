@@ -312,11 +312,12 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-fuel-panel-1.svg',
                     pointer_opt: {
-                        top: 83,
-                        left: 106,
-                        style: 3,
-                        start_deg: 109,
-                        range_deg: 142,
+                        top: 90,
+                        left: 120,
+                        height: 80,
+                        style: 16,
+                        start_deg: 98,
+                        range_deg: 164,
                         max: 100,
                     }
                 };
@@ -398,7 +399,9 @@ define(function (require, exports, module) {
                     pointer_opt: [
                         {
                             id: 'seconds',
-                            style: 2,
+                            top: 11,
+                            left: 113,
+                            style: 19,
                             start_deg: 178,
                             range_deg: 360,
                             min: 0,
@@ -407,7 +410,9 @@ define(function (require, exports, module) {
                         },
                         {
                             id: 'minutes',
-                            style: 2,
+                            top: 90,
+                            left: 113,
+                            style: 18,
                             start_deg: 178,
                             range_deg: 360,
                             min: 0,
@@ -416,7 +421,9 @@ define(function (require, exports, module) {
                         },
                         {
                             id: 'hours',
-                            style: 2,
+                            top: 93,
+                            left: 113,
+                            style: 17,
                             start_deg: 178,
                             range_deg: 360,
                             min: 0,
@@ -432,7 +439,9 @@ define(function (require, exports, module) {
                     pointer_opt: [
                         {
                             id: 'seconds',
-                            style: 2,
+                            top: 11,
+                            left: 113,
+                            style: 19,
                             start_deg: 178,
                             range_deg: 360,
                             min: 0,
@@ -441,7 +450,9 @@ define(function (require, exports, module) {
                         },
                         {
                             id: 'minutes',
-                            style: 2,
+                            top: 90,
+                            left: 113,
+                            style: 18,
                             start_deg: 178,
                             range_deg: 360,
                             min: 0,
@@ -450,7 +461,9 @@ define(function (require, exports, module) {
                         },
                         {
                             id: 'hours',
-                            style: 2,
+                            top: 93,
+                            left: 113,
+                            style: 17,
                             start_deg: 178,
                             range_deg: 360,
                             min: 0,
@@ -466,7 +479,9 @@ define(function (require, exports, module) {
                     pointer_opt: [
                         {
                             id: 'seconds',
-                            style: 2,
+                            top: 11,
+                            left: 113,
+                            style: 19,
                             start_deg: 178,
                             range_deg: 360,
                             min: 0,
@@ -475,7 +490,9 @@ define(function (require, exports, module) {
                         },
                         {
                             id: 'minutes',
-                            style: 2,
+                            top: 90,
+                            left: 113,
+                            style: 18,
                             start_deg: 178,
                             range_deg: 360,
                             min: 0,
@@ -484,7 +501,49 @@ define(function (require, exports, module) {
                         },
                         {
                             id: 'hours',
-                            style: 2,
+                            top: 93,
+                            left: 113,
+                            style: 17,
+                            start_deg: 178,
+                            range_deg: 360,
+                            min: 0,
+                            max: 12,
+                            laps: 2,
+                            height: 60
+                        }
+                    ]
+                };
+            case 'clock4':
+                return {
+                    panel_file: 'gauge-clock-panel-4.svg',
+                    pointer_opt: [
+                        {
+                            id: 'seconds',
+                            top: 11,
+                            left: 113,
+                            style: 19,
+                            start_deg: 178,
+                            range_deg: 360,
+                            min: 0,
+                            max: 60,
+                            height: 100
+                        },
+                        {
+                            id: 'minutes',
+                            top: 90,
+                            left: 113,
+                            style: 18,
+                            start_deg: 178,
+                            range_deg: 360,
+                            min: 0,
+                            max: 60,
+                            height: 80
+                        },
+                        {
+                            id: 'hours',
+                            top: 93,
+                            left: 113,
+                            style: 17,
                             start_deg: 178,
                             range_deg: 360,
                             min: 0,
