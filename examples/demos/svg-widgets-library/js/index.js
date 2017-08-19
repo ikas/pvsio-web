@@ -352,7 +352,7 @@ require([
         });
 
 
-        var demoFolder = "widgets-library";
+        var demoFolder = "svg-widgets-library";
         //register event listener for websocket connection from the client
         client.addListener('WebSocketConnectionOpened', function (e) {
             //start pvs process

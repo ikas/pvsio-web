@@ -24,6 +24,10 @@ define(function (require, exports, module) {
 
         // Handle options
         opt = opt || {};
+        this.opt = opt;
+
+        this.pointerOverrideOpts = opt.pointer || {};
+
         this.style_configs = this.getStyleConfigs(opt.style || 'tachometer');
 
         // Find panel file to load from style configs
@@ -48,16 +52,17 @@ define(function (require, exports, module) {
 
             // Add all Pointer widgets to the screen
             pointer_opts.map(function(opt) {
+
+                // Override default configs with the ones provided
+                opt = self.mergeConfigs(opt, self.pointerOverrideOpts);
+
                 // Create Pointer widget
                 opt.parent = self.id;
                 opt.id = opt.id || id;
-                opt.top = opt.top || (self.height / 2);
-                opt.left = opt.left || (self.width / 2);
-                opt.height = opt.height || 0.85 * (self.height / 2);
 
                 self.pointers[opt.id] = (new Pointer(
                     opt.id,
-                    { top: opt.top, left: opt.left, height: opt.height },
+                    { top: opt.top, left: opt.left, height: opt.height, width: opt.width },
                     opt
                 ));
             });
@@ -69,6 +74,10 @@ define(function (require, exports, module) {
                 .style("top", self.top + "px").style("left", self.left + "px")
                 .style("width", self.width + "px").style("height", self.height + "px")
                 .html(file_required);
+
+            if(opt['z-index'] !== undefined) {
+                self.div.style('z-index', self.opt['z-index'])
+            }
 
             // Get SVG's width and height as integer
             var svgHeight = parseFloat(self.div.select('svg').style('height').replace('px', ''));
@@ -153,6 +162,20 @@ define(function (require, exports, module) {
     };
 
 
+    /**
+     * @function <a name="Gauge">Gauge</a>
+     * @description Merges the two config objects provided, with conf2 overriding conf1 values.
+     *
+     * @memberof module:Gauge
+     * @instance
+     */
+    GaugeSport.prototype.mergeConfigs = function(conf1, conf2) {
+        // Second conf provided overrides the first one
+        for (var attr in conf2) { conf1[attr] = conf2[attr]; }
+        return conf1;
+    };
+
+
     GaugeSport.prototype.getStyleConfigs = function (style_id)
     {
         switch (style_id) {
@@ -193,12 +216,10 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-tachometer-panel-4.svg',
                     pointer_opt: {
-                        top: 110,
-                        left: 107,
                         max: 8,
-                        style: 3,
-                        start_deg: 71,
-                        range_deg: 220,
+                        style: 10,
+                        start_deg: 68,
+                        range_deg: 230,
                     }
                 };
 
@@ -272,7 +293,7 @@ define(function (require, exports, module) {
                         start_deg: 56,
                         range_deg: 248,
                         max: 140,
-                        style: 2,
+                        style: 10,
                     }
                 };
             case 'speedometer8':
@@ -439,37 +460,40 @@ define(function (require, exports, module) {
                     pointer_opt: [
                         {
                             id: 'seconds',
-                            top: 11,
-                            left: 113,
                             style: 19,
                             start_deg: 178,
                             range_deg: 360,
                             min: 0,
                             max: 60,
-                            height: 100
+                            top: 38,
+                            left: 67,
+                            width: 7,
+                            height: 50
                         },
                         {
                             id: 'minutes',
-                            top: 90,
-                            left: 113,
                             style: 18,
                             start_deg: 178,
                             range_deg: 360,
                             min: 0,
                             max: 60,
-                            height: 80
+                            top: 60,
+                            left: 67,
+                            width: 7,
+                            height: 50
                         },
                         {
                             id: 'hours',
-                            top: 93,
-                            left: 113,
                             style: 17,
                             start_deg: 178,
                             range_deg: 360,
                             min: 0,
                             max: 12,
                             laps: 2,
-                            height: 60
+                            top: 61,
+                            left: 67,
+                            width: 7,
+                            height: 50
                         }
                     ]
                 };

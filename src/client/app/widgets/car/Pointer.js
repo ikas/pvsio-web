@@ -16,7 +16,7 @@ define(function (require, exports, module) {
         coords = coords || {};
         this.top = coords.top || 125;
         this.left = coords.left || 125;
-        this.width = coords.left || 250;
+        this.width = coords.width || 250;
         this.height = coords.height || 250;
 
         // Handle options
@@ -44,23 +44,15 @@ define(function (require, exports, module) {
                 .style("position", opt.position)
                 .style("top", self.top + 'px')
                 .style("left", self.left + 'px')
+                .style("height", self.height + 'px')
+                .style("width", self.width + 'px')
                 .style('display', 'block')
                 .style('margin', 'auto')
                 .html(file_required);
 
-            // Get SVG's width and height as integer
-            var svgHeight = parseFloat(self.div.select('svg').style('height').replace('px', ''));
-
-            // Calc max deficit between width and height for the original div
-            var heightDeficit = svgHeight - self.height;
-
-            self.scaleRatio = self.height / svgHeight;
-
-            // Set transform origin attributes and scale the SVG elements
+            // Set transform origin attribute on the SVG element
             var origin = self.style_configs.transform_origin || "center top";
-            self.div.select('svg')
-                .style('transform', 'scale('+self.scaleRatio+')')
-                .style("transform-origin", origin);
+            self.div.select('svg').style("transform-origin", origin);
 
             return self;
         });
@@ -94,7 +86,7 @@ define(function (require, exports, module) {
         }
 
         var newValue = val2deg(value, this.start_deg, this.range_deg, this.max, this.min);
-        this.div.select('svg').style('transform', 'rotate(' + newValue + 'deg) scale('+this.scaleRatio+')');
+        this.div.select('svg').style('transform', 'rotate(' + newValue + 'deg)');
         return this;
     };
 
@@ -164,6 +156,11 @@ define(function (require, exports, module) {
             case 9:
                 return {
                     transform_origin: "50% 9%",
+                };
+
+            case 10:
+                return {
+                    transform_origin: "50% 17.5%",
                 };
 
             case 15:

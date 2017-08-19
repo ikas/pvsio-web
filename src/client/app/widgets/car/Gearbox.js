@@ -93,8 +93,6 @@ define(function (require, exports, module) {
             var stickWidth = (0.33 * self.width);
             var stickHeight = (0.33 * self.height);
 
-            console.log(stickHeight, stickWidth)
-
             // Create the stick HTML element
             self.stick = self.wrapper
                 .append('div').attr('id', self.id + '_stick')

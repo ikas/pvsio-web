@@ -15,7 +15,7 @@
    id="svg47731"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="gauge-sport-pointer-7.svg">
+   sodipodi:docname="gauge-pointer-10.svg">
   <defs
      id="defs47733">
     <clipPath
@@ -1140,20 +1140,20 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="-450.93328"
+     inkscape:zoom="5.6"
+     inkscape:cx="91.923863"
      inkscape:cy="69.632096"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g51053"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1855"
-     inkscape:window-height="1056"
-     inkscape:window-x="65"
-     inkscape:window-y="24"
+     inkscape:window-width="1920"
+     inkscape:window-height="980"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata47736">
@@ -1163,7 +1163,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1176,7 +1176,7 @@
        id="g51053"
        transform="matrix(-0.71933978,0.69465839,-0.69465839,-0.71933978,888.50565,658.96003)">
       <path
-         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
          d="m 377.62414,440.15936 -54.707,50.40527 -54.7119,50.40528 4.3017,4.30663 4.3067,4.30176 50.4052,-54.70703 50.4053,-54.71191"
          id="path23143"
          inkscape:connector-curvature="0" />
