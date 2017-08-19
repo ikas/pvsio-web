@@ -22,6 +22,7 @@ require([
         "widgets/Button",
         "widgets/car/GaugeSport",
         "widgets/car/Gearbox",
+        "widgets/car/Clock",
         "widgets/ButtonActionsQueue",
         "stateParser",
         "PVSioWebClient"
@@ -29,6 +30,7 @@ require([
         Button,
         GaugeSport,
         Gearbox,
+        Clock,
         ButtonActionsQueue,
         stateParser,
         PVSioWebClient
@@ -81,7 +83,7 @@ require([
                 {
                     style: 'speedometer7',
                     parent: 'dashboard-container',
-                    pointer: { top: 190, left: 190 }
+                    pointer: { top: 190, left: 190, width: 71 }
                 }
             ),
             tachometer: new GaugeSport(
@@ -90,16 +92,31 @@ require([
                 {
                     style: 'tachometer4',
                     parent: 'dashboard-container',
-                    pointer: { top: 190, left: 190 }
+                    pointer: { top: 190, left: 190, width: 71 }
                 }
             ),
-            clock: new GaugeSport(
+            clock: new Clock(
                 'svg-clock',
                 { top: 355, left: 185, width: 140, height: 140 },
                 {
                     style: 'clock2',
                     parent: 'dashboard-container',
-                    'z-index': '1'
+                    'z-index': '1',
+                    seconds: {
+                        top: 37,
+                        left: 67,
+                        width: 7,
+                    },
+                    minutes: {
+                        top: 61,
+                        left: 67,
+                        width: 6,
+                    },
+                    hours: {
+                        top: 61,
+                        left: 67,
+                        width: 6,
+                    },
                 }
             ),
             fuel: new GaugeSport(

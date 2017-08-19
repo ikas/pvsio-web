@@ -220,6 +220,9 @@ define(function (require, exports, module) {
                         style: 10,
                         start_deg: 68,
                         range_deg: 230,
+                        top: 110,
+                        left: 106,
+                        width: 38,
                     }
                 };
 
@@ -234,6 +237,7 @@ define(function (require, exports, module) {
                         range_deg: 252,
                         max: 220,
                         style: 2,
+                        width: 8,
                     }
                 };
             case 'speedometer2':
@@ -250,9 +254,12 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-speedometer-panel-3.svg',
                     pointer_opt: {
-                        start_deg: 85,
-                        range_deg: 190,
-                        max: 180,
+                        top: 122,
+                        left: 114,
+                        width: 20,
+                        start_deg: 79,
+                        range_deg: 200,
+                        max: 190,
                         style: 5,
                     }
                 };
@@ -264,6 +271,7 @@ define(function (require, exports, module) {
                         range_deg: 204,
                         max: 220,
                         style: 2,
+                        width: 8,
                     }
                 };
             case 'speedometer5':
@@ -274,6 +282,7 @@ define(function (require, exports, module) {
                         range_deg: 240,
                         max: 240,
                         style: 2,
+                        width: 8,
                     }
                 };
             case 'speedometer6':
@@ -284,6 +293,7 @@ define(function (require, exports, module) {
                         range_deg: 260,
                         max: 200,
                         style: 2,
+                        width: 8,
                     }
                 };
             case 'speedometer7':
@@ -306,6 +316,7 @@ define(function (require, exports, module) {
                         range_deg: 254,
                         max: 220,
                         style: 3,
+                        width: 38,
                     }
                 };
 
@@ -356,6 +367,7 @@ define(function (require, exports, module) {
                             height: 80,
                             top: 106,
                             left: 85,
+                            width: 38,
                         },
                         {
                             id: 'fuel',
@@ -366,6 +378,7 @@ define(function (require, exports, module) {
                             height: 80,
                             top: 106,
                             left: 130,
+                            width: 38,
                         }
                     ]
                 };
@@ -373,12 +386,12 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-fuel-panel-2.svg',
                     pointer_opt: {
-                        top: 113,
-                        left: 195,
-                        style: 7,
-                        height: 80,
-                        start_deg: 44,
-                        range_deg: 92,
+                        style: 10,
+                        top: 100,
+                        left: 168,
+                        width: 34,
+                        start_deg: 36,
+                        range_deg: 108,
                         max: 100,
                     }
                 };
@@ -389,6 +402,7 @@ define(function (require, exports, module) {
                         top: 106,
                         left: 106,
                         style: 3,
+                        width: 38,
                         start_deg: 90,
                         range_deg: 180,
                         max: 100,
@@ -403,180 +417,15 @@ define(function (require, exports, module) {
                     panel_file: 'gauge-pressure-panel-1.svg',
                     pointer_opt: {
                         top: 155,
-                        left: 105,
+                        left: 110,
                         style: 5,
-                        start_deg: 138,
-                        range_deg: 82,
+                        width: 20,
+                        start_deg: 136,
+                        range_deg: 84,
                         max: 100,
                     }
                 };
 
-
-
-            // Clock styles
-            case 'clock':
-                return {
-                    panel_file: 'gauge-clock-panel-2.svg',
-                    pointer_opt: [
-                        {
-                            id: 'seconds',
-                            top: 11,
-                            left: 113,
-                            style: 19,
-                            start_deg: 178,
-                            range_deg: 360,
-                            min: 0,
-                            max: 60,
-                            height: 100
-                        },
-                        {
-                            id: 'minutes',
-                            top: 90,
-                            left: 113,
-                            style: 18,
-                            start_deg: 178,
-                            range_deg: 360,
-                            min: 0,
-                            max: 60,
-                            height: 80
-                        },
-                        {
-                            id: 'hours',
-                            top: 93,
-                            left: 113,
-                            style: 17,
-                            start_deg: 178,
-                            range_deg: 360,
-                            min: 0,
-                            max: 12,
-                            laps: 2,
-                            height: 60
-                        }
-                    ]
-                };
-            case 'clock2':
-                return {
-                    panel_file: 'gauge-clock-panel-1.svg',
-                    pointer_opt: [
-                        {
-                            id: 'seconds',
-                            style: 19,
-                            start_deg: 178,
-                            range_deg: 360,
-                            min: 0,
-                            max: 60,
-                            top: 38,
-                            left: 67,
-                            width: 7,
-                            height: 50
-                        },
-                        {
-                            id: 'minutes',
-                            style: 18,
-                            start_deg: 178,
-                            range_deg: 360,
-                            min: 0,
-                            max: 60,
-                            top: 60,
-                            left: 67,
-                            width: 7,
-                            height: 50
-                        },
-                        {
-                            id: 'hours',
-                            style: 17,
-                            start_deg: 178,
-                            range_deg: 360,
-                            min: 0,
-                            max: 12,
-                            laps: 2,
-                            top: 61,
-                            left: 67,
-                            width: 7,
-                            height: 50
-                        }
-                    ]
-                };
-            case 'clock3':
-                return {
-                    panel_file: 'gauge-clock-panel-3.svg',
-                    pointer_opt: [
-                        {
-                            id: 'seconds',
-                            top: 11,
-                            left: 113,
-                            style: 19,
-                            start_deg: 178,
-                            range_deg: 360,
-                            min: 0,
-                            max: 60,
-                            height: 100
-                        },
-                        {
-                            id: 'minutes',
-                            top: 90,
-                            left: 113,
-                            style: 18,
-                            start_deg: 178,
-                            range_deg: 360,
-                            min: 0,
-                            max: 60,
-                            height: 80
-                        },
-                        {
-                            id: 'hours',
-                            top: 93,
-                            left: 113,
-                            style: 17,
-                            start_deg: 178,
-                            range_deg: 360,
-                            min: 0,
-                            max: 12,
-                            laps: 2,
-                            height: 60
-                        }
-                    ]
-                };
-            case 'clock4':
-                return {
-                    panel_file: 'gauge-clock-panel-4.svg',
-                    pointer_opt: [
-                        {
-                            id: 'seconds',
-                            top: 11,
-                            left: 113,
-                            style: 19,
-                            start_deg: 178,
-                            range_deg: 360,
-                            min: 0,
-                            max: 60,
-                            height: 100
-                        },
-                        {
-                            id: 'minutes',
-                            top: 90,
-                            left: 113,
-                            style: 18,
-                            start_deg: 178,
-                            range_deg: 360,
-                            min: 0,
-                            max: 60,
-                            height: 80
-                        },
-                        {
-                            id: 'hours',
-                            top: 93,
-                            left: 113,
-                            style: 17,
-                            start_deg: 178,
-                            range_deg: 360,
-                            min: 0,
-                            max: 12,
-                            laps: 2,
-                            height: 60
-                        }
-                    ]
-                };
 
 
             // Compass styles

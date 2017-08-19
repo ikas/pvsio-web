@@ -22,6 +22,7 @@ require([
         "widgets/Button",
         "widgets/car/GaugeSport",
         "widgets/car/Gearbox",
+        "widgets/car/Clock",
         "widgets/ButtonActionsQueue",
         "stateParser",
         "PVSioWebClient"
@@ -29,6 +30,7 @@ require([
         Button,
         GaugeSport,
         Gearbox,
+        Clock,
         ButtonActionsQueue,
         stateParser,
         PVSioWebClient
@@ -110,12 +112,12 @@ require([
             speedometer7: new GaugeSport(
                 'svg-speedometer7',
                 { top: 390, left: 630 },
-                { style: 'speedometer7', parent: 'speedometer-container' }
+                { style: 'speedometer7', parent: 'speedometer-container', pointer: { top: 107, left: 112, width: 36 }}
             ),
             speedometer8: new GaugeSport(
                 'svg-speedometer8',
                 { top: 390, left: 930 },
-                { style: 'speedometer8', parent: 'speedometer-container' }
+                { style: 'speedometer8', parent: 'speedometer-container', pointer: { width: 42 }}
             ),
 
 
@@ -143,22 +145,22 @@ require([
 
 
             // Clock widgets
-            clock1: new GaugeSport(
+            clock1: new Clock(
                 'svg-clock1',
                 { top: 90, left: 30 },
                 { style: 'clock', parent: 'clock-container' }
             ),
-            clock2: new GaugeSport(
+            clock2: new Clock(
                 'svg-clock2',
                 { top: 90, left: 330 },
                 { style: 'clock2', parent: 'clock-container' }
             ),
-            clock3: new GaugeSport(
+            clock3: new Clock(
                 'svg-clock3',
                 { top: 90, left: 630 },
                 { style: 'clock3', parent: 'clock-container' }
             ),
-            clock4: new GaugeSport(
+            clock4: new Clock(
                 'svg-clock4',
                 { top: 90, left: 930 },
                 { style: 'clock4', parent: 'clock-container' }
