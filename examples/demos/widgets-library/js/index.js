@@ -233,6 +233,11 @@ require([
                 { top: 15, left: 615, width: 250, height: 250 },
                 { parent: 'gearbox-container', style: 'manual2' }
             ),
+            gearbox4: new Gearbox(
+                'svg-gearbox4',
+                { top: 15, left: 915, width: 250, height: 250 },
+                { parent: 'gearbox-container', style: 'manual3' }
+            ),
 
 
             // Car controls
@@ -343,6 +348,7 @@ require([
             widgets.gearbox1.render(gear);
             widgets.gearbox2.render(gear);
             widgets.gearbox3.render(gear);
+            widgets.gearbox4.render(gear);
         });
 
 

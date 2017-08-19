@@ -9,11 +9,8 @@
 define(function (require, exports, module) {
     "use strict";
 
-    var gearboxPanel = require("text!widgets/car/svg/gear-box/gear-box-auto.svg");
-    var gearboxStick = require("text!widgets/car/svg/gear-box/gear-stick.svg");
-
-    function Gearbox(id, coords, opt) {
-
+    function Gearbox(id, coords, opt)
+    {
         this.id = id;
 
         // Handle coords
@@ -30,70 +27,129 @@ define(function (require, exports, module) {
         // Aux configurations and variables
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
 
+        // Find style configs -- defaults to "auto"
+        this.style = opt.style;
+        this.style_configs = this.getStyleConfigs(opt.style || 'auto');
+
+        // Create wrapper div
+        this.buildWrapper();
+
+        // Find panel file to load from style configs -- if any
+        if(this.style_configs.panel !== undefined) {
+            this.loadPanel();
+        }
+
+        // Find stick file to load from style configs -- if any
+        if(this.style_configs.stick !== undefined) {
+            this.loadStick();
+        }
+
+        return this;
+    }
+
+
+    // Build wrapper HTML
+    Gearbox.prototype.buildWrapper = function() {
         // Create wrapper div
         this.wrapper = d3.select(this.parent)
-            .append('div').attr('id', id)
-            .style("position", 'relative')
-            .style("display", 'inline')
+            .append('div').attr('id', this.id)
+            .style("position", 'absolute')
             .style("top", this.top + "px").style("left", this.left + "px")
             .style("width", this.width + "px").style("height", this.height + "px");
+    }
 
-        // Create the gauge element
-        this.panel = this.wrapper
-            .append('div').attr('id', id + '_panel')
-            .style("position", 'absolute')
-            .style("width", this.width + "px").style("height", this.height + "px")
-            .html(gearboxPanel);
 
-        // Add required svg image
-        this.stick = this.wrapper
-            .append('div').attr('id', id + '_stick')
-            .style("position", 'absolute')
-            .style("-webkit-transition", "all 0.3s ease")
-            .style("-moz-transition", "all 0.3s ease")
-            .style("-ms-transition", "all 0.3s ease")
-            .style("-o-transition", "all 0.3s ease")
-            .style("transition", "all 0.3s ease")
-            .style("transform", "scale(1)")
-            .html(gearboxStick);
+    // Load panel SVG file
+    Gearbox.prototype.loadPanel = function()
+    {
+        // Find the name of the file to load
+        var file_to_require = "text!widgets/car/svg/gear-box/" + this.style_configs.panel;
+        var self = this;
+        require([file_to_require], function(file_required) {
+            // Create the panel HTML element
+            self.panel = self.wrapper
+                .append('div').attr('id', self.id + '_panel')
+                .style("position", 'absolute')
+                .style("width", self.width + "px").style("height", self.height + "px")
+                .html(file_required);
 
-        // Starts at P
-        this.setStickPosition('P');
+            // Set width and height and scale SVG accordingly
+            var scale = Math.min(self.height, self.width) / 133;
+            self.panel.select('svg')
+                .style("transform", "scale(" + scale + "," + scale +")")
+                .style("transform-origin", "0 0");
+        });
+    }
 
-        // Set width and height
-        var size = Math.min(this.height, this.width);
-        var scale_factor = size / 133;
-        this.panel.select('svg')
-            .style("transform", "scale(" + scale_factor + "," + scale_factor +")")
-            .style("transform-origin", "0 0");
-        return this;
+
+    // Load stick SVG file
+    Gearbox.prototype.loadStick = function()
+    {
+        // Find the name of the file to load
+        var file_to_require = "text!widgets/car/svg/gear-box/" + this.style_configs.stick;
+        var self = this;
+        require([file_to_require], function(file_required) {
+
+            var stickWidth = (0.33 * self.width);
+            var stickHeight = (0.33 * self.height);
+
+            console.log(stickHeight, stickWidth)
+
+            // Create the stick HTML element
+            self.stick = self.wrapper
+                .append('div').attr('id', self.id + '_stick')
+                .style("width", stickWidth + "px").style("height", stickHeight + "px")
+                .style("position", 'absolute')
+                .style("-webkit-transition", "all 0.3s ease")
+                .style("-moz-transition", "all 0.3s ease")
+                .style("-ms-transition", "all 0.3s ease")
+                .style("-o-transition", "all 0.3s ease")
+                .style("transition", "all 0.3s ease")
+                .style("z-index", "1")
+                .html(file_required);
+
+            // Get SVG's width and height as integer
+            var svgHeight = parseFloat(self.stick.select('svg').style('height').replace('px', ''));
+            var svgWidth = parseFloat(self.stick.select('svg').style('width').replace('px', ''));
+
+            // Calc max deficit between width and height for the original div
+            var widthDeficit = svgWidth - stickWidth;
+            var heightDeficit = svgHeight - stickHeight;
+
+            if(widthDeficit == heightDeficit || widthDeficit > heightDeficit) {
+                var ratio = stickWidth / svgWidth;
+            } else {
+                var ratio = stickHeight / svgHeight;
+            }
+
+            // Set transform origin attributes and scale the SVG elements
+            self.stick.select('svg').style("transform-origin", "0 0").style('transform', 'scale('+ratio+')');
+
+            // Set sticker initial positios
+            self.setStickPosition('P');
+        });
     }
 
 
     Gearbox.prototype.setStickPosition = function(gear)
     {
-        switch (gear) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 'D':
-                this.stick.style("top", 0.55 * this.height + "px").style("left", 0.345 * this.width + "px");
-                break;
-            case 'N':
-                this.stick.style("top", 0.4 * this.height + "px").style("left", 0.345 * this.width + "px");
-                break;
-            case 'R':
-                this.stick.style("top", 0.25 * this.height + "px").style("left", 0.345 * this.width + "px");
-                break;
-            case 'P':
-            default:
-                this.stick.style("top", 0 * this.height + "px").style("left", 0.345  * this.width + "px");
-                break;
-        }
+        var leftPerc = this.getLeftOffset(gear);
+        var topPerc = this.getTopOffset(gear);
+        this.stick.style("top", topPerc * this.height + "px").style("left", leftPerc * this.width + "px");
     };
+
+
+    Gearbox.prototype.getLeftOffset = function(gear)
+    {
+        return this.style_configs.leftOffsets[gear];
+    }
+
+
+    Gearbox.prototype.getTopOffset = function(gear)
+    {
+        return this.style_configs.topOffsets[gear];
+    }
+
 
     /**
      * @function <a name="Gearbox">Gearbox</a>
@@ -140,6 +196,132 @@ define(function (require, exports, module) {
         }
         return this;
     };
+
+
+    Gearbox.prototype.getStyleConfigs = function (style_id)
+    {
+        switch (style_id) {
+            case 'auto':
+                return {
+                    panel: 'gear-box-auto.svg',
+                    stick: 'gear-stick.svg',
+                    leftOffsets: {
+                        1: 0.345,
+                        2: 0.345,
+                        3: 0.345,
+                        4: 0.345,
+                        5: 0.345,
+                        6: 0.345,
+                        'D': 0.345,
+                        'N': 0.345,
+                        'R': 0.345,
+                        'P': 0.345,
+                    },
+                    topOffsets: {
+                        1: 0.55,
+                        2: 0.55,
+                        3: 0.55,
+                        4: 0.55,
+                        5: 0.55,
+                        6: 0.55,
+                        'D': 0.55,
+                        'N': 0.4,
+                        'R': 0.25,
+                        'P': 0,
+                    }
+                };
+
+            case 'manual':
+                return {
+                    stick: 'gear-stick-1.svg',
+                    leftOffsets: {
+                        1: 0.25,
+                        2: 0.25,
+                        3: 0.40,
+                        4: 0.40,
+                        5: 0.55,
+                        6: 0.55,
+                        'D': 0.325,
+                        'N': 0.325,
+                        'R': 0.10,
+                        'P': 0.325,
+                    },
+                    topOffsets: {
+                        1: 0.10,
+                        2: 0.52,
+                        3: 0.10,
+                        4: 0.52,
+                        5: 0.10,
+                        6: 0.52,
+                        'D': 0.31,
+                        'N': 0.31,
+                        'R': 0.10,
+                        'P': 0.31,
+                    }
+                };
+
+            case 'manual2':
+                return {
+                    stick: 'gear-stick-2.svg',
+                    leftOffsets: {
+                        1: 0.25,
+                        2: 0.25,
+                        3: 0.40,
+                        4: 0.40,
+                        5: 0.55,
+                        6: 0.55,
+                        'D': 0.325,
+                        'N': 0.325,
+                        'R': 0.55,
+                        'P': 0.325,
+                    },
+                    topOffsets: {
+                        1: 0.10,
+                        2: 0.52,
+                        3: 0.10,
+                        4: 0.52,
+                        5: 0.10,
+                        6: 0.10,
+                        'D': 0.31,
+                        'N': 0.31,
+                        'R': 0.52,
+                        'P': 0.31,
+                    }
+                };
+            case 'manual3':
+                return {
+                    stick: 'gear-stick-3.svg',
+                    leftOffsets: {
+                        1: 0.25,
+                        2: 0.40,
+                        3: 0.40,
+                        4: 0.55,
+                        5: 0.55,
+                        6: 0.55,
+                        'D': 0.325,
+                        'N': 0.325,
+                        'R': 0.25,
+                        'P': 0.325,
+                    },
+                    topOffsets: {
+                        1: 0.52,
+                        2: 0.10,
+                        3: 0.52,
+                        4: 0.10,
+                        5: 0.52,
+                        6: 0.52,
+                        'D': 0.31,
+                        'N': 0.31,
+                        'R': 0.10,
+                        'P': 0.31,
+                    }
+                };
+
+            default:
+                console.log('Style ' + style_id + ' does not match a valid Gearbox style.');
+                break;
+        }
+    }
 
     module.exports = Gearbox;
 });
