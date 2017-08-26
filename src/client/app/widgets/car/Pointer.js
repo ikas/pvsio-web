@@ -171,7 +171,7 @@ define(function (require, exports, module) {
 
             case 9:
                 return {
-                    transform_origin: "50% 9%",
+                    transform_origin: "50% 20%",
                 };
 
             case 10:

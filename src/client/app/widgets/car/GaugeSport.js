@@ -212,10 +212,12 @@ define(function (require, exports, module) {
                     panel_file: 'gauge-tachometer-panel-3.svg',
                     pointer_opt: {
                         max: 8,
-                        style: 1,
-                        height: 90,
-                        start_deg: 74,
+                        start_deg: 73,
                         range_deg: 108,
+                        style: 9,
+                        width: 8,
+                        top: 105,
+                        left: 112.5,
                     }
                 };
             case 'tachometer4':
@@ -303,8 +305,10 @@ define(function (require, exports, module) {
                         start_deg: 49,
                         range_deg: 266,
                         max: 120,
-                        style: 2,
+                        style: 9,
                         width: 8,
+                        top: 105,
+                        left: 112.5,
                     }
                 };
             case 'speedometer7':
