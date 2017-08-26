@@ -30,6 +30,7 @@ define(function (require, exports, module) {
         this.min = opt.min || 0;
         this.laps = opt.laps || 1;
         this.transition = opt.transition || 0;
+        this.initial = opt.initial || this.min;
 
         // Aux configurations and variables
         opt.position = opt.position || "absolute";
@@ -60,6 +61,9 @@ define(function (require, exports, module) {
                 .style("-ms-transition", "all "+self.transition+"s ease")
                 .style("-o-transition", "all "+self.transition+"s ease")
                 .style("transition", "all "+self.transition+"s ease");
+
+            // Set initial position
+            self.render(self.initial);
 
             return self;
         });

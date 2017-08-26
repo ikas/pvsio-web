@@ -79,7 +79,7 @@ require([
         var widgets = {
 
             // Speedometer idgets
-            speedometer: new GaugeSport(
+            speedometer1: new GaugeSport(
                 'svg-speedometer',
                 { top: 90, left: 30 },
                 { style: 'speedometer', parent: 'speedometer-container' }
@@ -257,15 +257,21 @@ require([
 
         // Render widgets
         function render(res) {
+
+            // TODO check this out -- some of the gauges use mph, so the conversion is
+            // being made here, but it should be provided from the pvs file
+            var kph = evaluate(res.speed.val);
+            var mph = kph / 1.609344;
+
             // Spedometer render methods
-            widgets.speedometer.render(evaluate(res.speed.val));
-            widgets.speedometer2.render(evaluate(res.speed.val));
-            widgets.speedometer3.render(evaluate(res.speed.val));
-            widgets.speedometer4.render(evaluate(res.speed.val));
-            widgets.speedometer5.render(evaluate(res.speed.val));
-            widgets.speedometer6.render(evaluate(res.speed.val));
-            widgets.speedometer7.render(evaluate(res.speed.val));
-            widgets.speedometer8.render(evaluate(res.speed.val));
+            widgets.speedometer1.render(mph);
+            widgets.speedometer2.render(mph);
+            widgets.speedometer3.render(kph);
+            widgets.speedometer4.render(mph);
+            widgets.speedometer5.render(kph);
+            widgets.speedometer6.render(mph);
+            widgets.speedometer7.render(mph);
+            widgets.speedometer8.render(kph);
 
             // Tachometer render methods
             widgets.tachometer1.render(evaluate(res.rpm));
