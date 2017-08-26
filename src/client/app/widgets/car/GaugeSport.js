@@ -186,9 +186,12 @@ define(function (require, exports, module) {
                     panel_file: 'gauge-tachometer-panel-1.svg',
                     pointer_opt: {
                         max: 10,
-                        style: 1,
+                        style: 3,
                         start_deg: 58,
                         range_deg: 248,
+                        width: 38,
+                        top: 110,
+                        left: 110,
                     }
                 };
             case 'tachometer2':
@@ -196,9 +199,12 @@ define(function (require, exports, module) {
                     panel_file: 'gauge-tachometer-panel-2.svg',
                     pointer_opt: {
                         max: 8,
-                        style: 9,
-                        start_deg: 69,
-                        range_deg: 222,
+                        style: 20,
+                        start_deg: 65,
+                        range_deg: 233,
+                        top: 105,
+                        left: 112,
+                        width: 26,
                     }
                 };
             case 'tachometer3':
@@ -347,14 +353,15 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-fuel-panel-1.svg',
                     pointer_opt: {
-                        top: 90,
-                        left: 120,
+                        top: 115,
+                        left: 119,
                         height: 80,
                         style: 16,
-                        start_deg: 98,
-                        range_deg: 164,
+                        start_deg: 115,
+                        range_deg: 127,
                         max: 100,
                         transition: 0.3,
+                        width: 18,
                     }
                 };
             case 'fuel2':
@@ -363,27 +370,25 @@ define(function (require, exports, module) {
                     pointer_opt: [
                         {
                             id: 'temperature',
-                            style: 3,
-                            start_deg: 50,
-                            range_deg: 80,
+                            style: 21,
+                            start_deg: 44,
+                            range_deg: 92,
                             min: 50,
                             max: 130,
-                            height: 80,
-                            top: 106,
-                            left: 85,
-                            width: 38,
+                            top: 94,
+                            left: 76,
+                            width: 30,
                             transition: 0.3,
                         },
                         {
                             id: 'fuel',
-                            style: 3,
-                            start_deg: -48,
-                            range_deg: -88,
+                            style: 21,
+                            start_deg: -44,
+                            range_deg: -92,
                             max: 100,
-                            height: 80,
-                            top: 106,
-                            left: 130,
-                            width: 38,
+                            top: 94,
+                            left: 144,
+                            width: 30,
                             transition: 0.3,
                         }
                     ]

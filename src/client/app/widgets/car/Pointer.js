@@ -204,6 +204,16 @@ define(function (require, exports, module) {
                     transform_origin: "50% 35%",
                 };
 
+            case 20:
+                return {
+                    transform_origin: "50% 22%",
+                };
+
+            case 21:
+                return {
+                    transform_origin: "50% 35%",
+                };
+
             default:
                 return {};
         }
