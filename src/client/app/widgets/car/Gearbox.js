@@ -90,8 +90,11 @@ define(function (require, exports, module) {
         var self = this;
         require([file_to_require], function(file_required) {
 
-            var stickWidth = (0.33 * self.width);
-            var stickHeight = (0.33 * self.height);
+            var widthRatio = self.style_configs.widthRatio || 0.33;
+            var heightRatio = self.style_configs.heightRatio || 0.33;
+
+            var stickWidth = (widthRatio * self.width);
+            var stickHeight = (heightRatio * self.height);
 
             // Create the stick HTML element
             self.stick = self.wrapper
@@ -231,88 +234,97 @@ define(function (require, exports, module) {
 
             case 'manual':
                 return {
+                    panel: 'gear-box-man.svg',
                     stick: 'gear-stick-1.svg',
                     leftOffsets: {
-                        1: 0.25,
-                        2: 0.25,
-                        3: 0.40,
-                        4: 0.40,
-                        5: 0.55,
-                        6: 0.55,
-                        'D': 0.325,
-                        'N': 0.325,
-                        'R': 0.10,
-                        'P': 0.325,
+                        1: 0.1,
+                        2: 0.1,
+                        3: 0.2,
+                        4: 0.2,
+                        5: 0.35,
+                        6: 0.35,
+                        'D': 0.18,
+                        'N': 0.18,
+                        'R': 0,
+                        'P': 0.18,
                     },
                     topOffsets: {
-                        1: 0.10,
-                        2: 0.52,
-                        3: 0.10,
-                        4: 0.52,
-                        5: 0.10,
-                        6: 0.52,
-                        'D': 0.31,
-                        'N': 0.31,
-                        'R': 0.10,
-                        'P': 0.31,
-                    }
+                        1: 0.08,
+                        2: 0.4,
+                        3: 0.08,
+                        4: 0.4,
+                        5: 0.08,
+                        6: 0.4,
+                        'D': 0.25,
+                        'N': 0.25,
+                        'R': 0.08,
+                        'P': 0.25,
+                    },
+                    widthRatio: 0.5,
+                    heightRatio: 0.5,
                 };
 
             case 'manual2':
                 return {
+                    panel: 'gear-box-man.svg',
                     stick: 'gear-stick-2.svg',
                     leftOffsets: {
-                        1: 0.25,
-                        2: 0.25,
-                        3: 0.40,
-                        4: 0.40,
-                        5: 0.55,
-                        6: 0.55,
-                        'D': 0.325,
-                        'N': 0.325,
-                        'R': 0.55,
-                        'P': 0.325,
+                        1: 0.1,
+                        2: 0.1,
+                        3: 0.18,
+                        4: 0.18,
+                        5: 0.35,
+                        6: 0.35,
+                        'D': 0.18,
+                        'N': 0.18,
+                        'R': 0.35,
+                        'P': 0.18,
                     },
                     topOffsets: {
-                        1: 0.10,
-                        2: 0.52,
-                        3: 0.10,
-                        4: 0.52,
-                        5: 0.10,
-                        6: 0.10,
-                        'D': 0.31,
-                        'N': 0.31,
-                        'R': 0.52,
-                        'P': 0.31,
-                    }
+                        1: 0.08,
+                        2: 0.4,
+                        3: 0.08,
+                        4: 0.4,
+                        5: 0.08,
+                        6: 0.08,
+                        'D': 0.25,
+                        'N': 0.25,
+                        'R': 0.4,
+                        'P': 0.25,
+                    },
+                    widthRatio: 0.5,
+                    heightRatio: 0.5,
                 };
             case 'manual3':
                 return {
+                    panel: 'gear-box-man.svg',
                     stick: 'gear-stick-3.svg',
                     leftOffsets: {
-                        1: 0.25,
-                        2: 0.40,
-                        3: 0.40,
-                        4: 0.55,
-                        5: 0.55,
-                        6: 0.55,
-                        'D': 0.325,
-                        'N': 0.325,
-                        'R': 0.25,
-                        'P': 0.325,
+                        1: 0.1,
+                        2: 0.18,
+                        3: 0.18,
+                        4: 0.35,
+                        5: 0.35,
+                        6: 0.35,
+                        'D': 0.18,
+                        'N': 0.18,
+                        'R': 0.1,
+                        'P': 0.18,
                     },
                     topOffsets: {
-                        1: 0.52,
-                        2: 0.10,
-                        3: 0.52,
-                        4: 0.10,
-                        5: 0.52,
-                        6: 0.52,
-                        'D': 0.31,
-                        'N': 0.31,
-                        'R': 0.10,
-                        'P': 0.31,
-                    }
+                        1: 0.4,
+                        2: 0.08,
+                        3: 0.4,
+                        4: 0.08,
+                        5: 0.4,
+                        6: 0.4,
+                        'D': 0.25,
+                        'N': 0.25,
+                        'R': 0.08,
+                        'P': 0.25,
+                    },
+                    widthRatio: 0.5,
+                    heightRatio: 0.5,
                 };
 
             default:

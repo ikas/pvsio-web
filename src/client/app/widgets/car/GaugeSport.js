@@ -236,8 +236,10 @@ define(function (require, exports, module) {
                         start_deg: 54.5,
                         range_deg: 254.5,
                         max: 140,
-                        style: 2,
-                        width: 8,
+                        style: 4,
+                        top: 111,
+                        left: 111,
+                        width: 34,
                     }
                 };
             case 'speedometer2':
