@@ -117,7 +117,7 @@ require([
             speedometer8: new GaugeSport(
                 'svg-speedometer8',
                 { top: 390, left: 930 },
-                { style: 'speedometer8', parent: 'speedometer-container', pointer: { width: 42 }}
+                { style: 'speedometer8', parent: 'speedometer-container' }
             ),
 
 

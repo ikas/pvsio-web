@@ -252,10 +252,13 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-speedometer-panel-2.svg',
                     pointer_opt: {
-                        start_deg: 91,
+                        start_deg: 90,
                         range_deg: 240,
                         max: 120,
-                        style: 1,
+                        style: 23,
+                        top: 110,
+                        left: 113.5,
+                        width: 23,
                     }
                 };
             case 'speedometer3':
@@ -318,13 +321,13 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-speedometer-panel-8.svg',
                     pointer_opt: {
-                        top: 110,
-                        left: 102,
-                        start_deg: 52,
-                        range_deg: 257,
+                        top: 108,
+                        left: 108,
+                        start_deg: 48,
+                        range_deg: 264,
                         max: 220,
-                        style: 3,
-                        width: 38,
+                        style: 22,
+                        width: 34,
                     }
                 };
 
