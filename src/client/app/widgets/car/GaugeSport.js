@@ -334,6 +334,7 @@ define(function (require, exports, module) {
                         range_deg: 90,
                         max: 130,
                         min: 50,
+                        transition: 0.3,
                     }
                 };
 
@@ -351,6 +352,7 @@ define(function (require, exports, module) {
                         start_deg: 98,
                         range_deg: 164,
                         max: 100,
+                        transition: 0.3,
                     }
                 };
             case 'fuel2':
@@ -368,6 +370,7 @@ define(function (require, exports, module) {
                             top: 106,
                             left: 85,
                             width: 38,
+                            transition: 0.3,
                         },
                         {
                             id: 'fuel',
@@ -379,6 +382,7 @@ define(function (require, exports, module) {
                             top: 106,
                             left: 130,
                             width: 38,
+                            transition: 0.3,
                         }
                     ]
                 };
@@ -393,6 +397,7 @@ define(function (require, exports, module) {
                         start_deg: 36,
                         range_deg: 108,
                         max: 100,
+                        transition: 0.3,
                     }
                 };
             case 'fuel4':
@@ -406,6 +411,7 @@ define(function (require, exports, module) {
                         start_deg: 90,
                         range_deg: 180,
                         max: 100,
+                        transition: 0.3,
                     }
                 };
 
@@ -423,6 +429,7 @@ define(function (require, exports, module) {
                         start_deg: 136,
                         range_deg: 84,
                         max: 100,
+                        transition: 0.3,
                     }
                 };
 
@@ -441,6 +448,7 @@ define(function (require, exports, module) {
                         height: 220,
                         min: 0,
                         max: 100,
+                        transition: 0.5,
                     }
                 };
             case 'compass2':
@@ -455,6 +463,7 @@ define(function (require, exports, module) {
                         height: 220,
                         min: 0,
                         max: 100,
+                        transition: 0.5,
                     }
                 };
 

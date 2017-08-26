@@ -29,6 +29,7 @@ define(function (require, exports, module) {
         this.max = opt.max || 10;
         this.min = opt.min || 0;
         this.laps = opt.laps || 1;
+        this.transition = opt.transition || 0;
 
         // Aux configurations and variables
         opt.position = opt.position || "absolute";
@@ -52,7 +53,13 @@ define(function (require, exports, module) {
 
             // Set transform origin attribute on the SVG element
             var origin = self.style_configs.transform_origin || "center top";
-            self.div.select('svg').style("transform-origin", origin);
+            self.div.select('svg')
+                .style("transform-origin", origin)
+                .style("-webkit-transition", "all "+self.transition+"s ease")
+                .style("-moz-transition", "all "+self.transition+"s ease")
+                .style("-ms-transition", "all "+self.transition+"s ease")
+                .style("-o-transition", "all "+self.transition+"s ease")
+                .style("transition", "all "+self.transition+"s ease");
 
             return self;
         });
