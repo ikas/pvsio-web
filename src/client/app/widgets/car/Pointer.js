@@ -24,8 +24,8 @@ define(function (require, exports, module) {
         this.style_configs = this.getStyleConfigs(opt.style || 1);
 
         //this.height = 287.47; // px
-        this.start_deg = opt.start_deg || 50; // deg
-        this.range_deg = opt.range_deg || 250; // deg
+        this.min_degree = opt.min_degree || 90; // deg
+        this.max_degree = opt.max_degree || 270; // deg
         this.max = opt.max || 10;
         this.min = opt.min || 0;
         this.laps = opt.laps || 1;
@@ -83,9 +83,9 @@ define(function (require, exports, module) {
      * @instance
      */
     Pointer.prototype.render = function(value, opt) {
-        function val2deg(value, start, range, max, min) {
+        function val2deg(value, min_degree, max_degree, max, min) {
             var rangePerc = (value - min) / (max - min);
-            return start + (rangePerc * range);
+            return min_degree + (rangePerc * (max_degree - min_degree));
         }
 
         if(value < (this.min * this.laps)) {
@@ -96,7 +96,7 @@ define(function (require, exports, module) {
             value = this.max;
         }
 
-        var newValue = val2deg(value, this.start_deg, this.range_deg, this.max, this.min);
+        var newValue = val2deg(value, this.min_degree, this.max_degree, this.max, this.min);
         this.div.select('svg').style('transform', 'rotate(' + newValue + 'deg)');
         return this;
     };
