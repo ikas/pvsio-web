@@ -241,7 +241,8 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-speedometer-panel-1.svg',
                     pointer_opt: {
-                        min_degree: 54.5,
+                        min_degree: 64,
+                        min: 10,
                         max_degree: 309,
                         max: 140,
                         style: 4,
