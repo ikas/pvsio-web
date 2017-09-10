@@ -2,6 +2,9 @@
  * @module Pointer
  * @version 1.0.0
  * @author Henrique Pacheco
+ * @desc This module is responsible for building Pointer elements that can be used by the GaugeSport
+ * and Clock widgets.
+ *
  * @date July 12, 2017
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
@@ -9,21 +12,46 @@
 define(function (require, exports, module) {
     "use strict";
 
+    /**
+     * @function constructor
+     * @description Constructor for the Pointer widget.
+     * @param id {String} The id of the widget instance.
+     * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
+     *        the left, top corner, and the width and height of the (rectangular) display.
+     *        Default is { top: 125, left: 125, width: 250, height: 250 }.
+     * @param opt {Object} Options:
+     *          <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
+     *          <li>position (String): value for the CSS property position (default is "absolute").</li>
+     *          <li>style (String): a valid style identifier (default is 1).</li>
+     *          <li>min_degree (Float): The minimum degree of range for the pointer movement (default is 90).</li>
+     *          <li>min (Float): The minimum absolute value for the movement of the pointer (default is 0).</li>
+     *          <li>max_degree (Float): The maximum degree of range for the pointer movement (default is 270).</li>
+     *          <li>max (Float): The maximum absolute value for the movement of the pointer (default is 10).</li>
+     *          <li>initial (Float): The initial absolute value for the movement of the pointer (default is min value).</li>
+     *          <li>transition (Float): number of milliseconds to be applied in the CSS property transition (default is 0).</li>
+     *          <li>laps (Float): The number of laps that should be taken into account in the pointer rotation.
+     * An example of usage of this configuration is with an hour pointer in a clock - The minimum value is 0,
+     * the maximum value is 24, but the pointer completes 2 laps between min and max values.</li>
+     * @returns {Pointer} The created instance of the widget Pointer.
+     * @memberof module:Pointer
+     * @instance
+     */
     function Pointer(id, coords, opt) {
+
+        // Save id for later usage
         this.id = id;
-        opt = opt || {};
-        // Handle coords
+
+        // Handle coords object
         coords = coords || {};
         this.top = coords.top || 125;
         this.left = coords.left || 125;
         this.width = coords.width || 250;
         this.height = coords.height || 250;
 
-        // Handle options
+        // Handle options and default values
         opt = opt || {};
-        this.style_configs = this.getStyleConfigs(opt.style || 1);
-
-        //this.height = 287.47; // px
+        opt.position = opt.position || "absolute";
+        this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
         this.min_degree = opt.min_degree || 90; // deg
         this.max_degree = opt.max_degree || 270; // deg
         this.max = opt.max || 10;
@@ -31,10 +59,10 @@ define(function (require, exports, module) {
         this.laps = opt.laps || 1;
         this.transition = opt.transition || 0;
         this.initial = opt.initial || this.min;
+        this.style_id = opt.style || 1;
 
-        // Aux configurations and variables
-        opt.position = opt.position || "absolute";
-        this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
+        // Get style configurations
+        this.style_configs = this.getStyleConfigs(this.style_id);
 
         // Find pointer file to load from style configs
         var file_to_require = "text!widgets/car/svg/gauge-pointers/gauge-pointer-" + opt.style + ".svg";
@@ -72,13 +100,10 @@ define(function (require, exports, module) {
     }
 
     /**
-     * @function <a name="Pointer">Pointer</a>
-     * @description Render method.
-     *
-     * @param value {Float} The new value to set the gauge pointer.
-     * @param opt {Object} Override options when re-rendering. See constructor docs for
-     * detailed docs on the available options.
-     *
+     * @function render
+     * @description Render method of the Pointer widget. Re-renders the pointer with the provided new value and configurations.
+     * @param value {Float} The new value absolute value of the pointer (should be in the range of min and max values provided).
+     * @param opt {Object} Override options when re-rendering. See constructor docs for detailed docs on the available options.
      * @memberof module:Pointer
      * @instance
      */
@@ -101,22 +126,46 @@ define(function (require, exports, module) {
         return this;
     };
 
-
+    /**
+     * @function remove
+     * @description Removes the instance of the Pointer widget.
+     * @memberof module:Pointer
+     * @instance
+     */
     Pointer.prototype.remove = function () {
         this.div.remove();
         return this;
     };
 
+    /**
+     * @function hide
+     * @description Hides the instance of the Pointer widget.
+     * @memberof module:Pointer
+     * @instance
+     */
     Pointer.prototype.hide = function () {
         this.div.style("display", "none");
         return this;
     };
 
+    /**
+     * @function reveal
+     * @description Reveal the instance of the Pointer widget.
+     * @memberof module:Pointer
+     * @instance
+     */
     Pointer.prototype.reveal = function () {
         this.div.style("display", "block");
         return this;
     };
 
+    /**
+     * @function move
+     * @description Hides the instance of the Pointer widget.
+     * @param data {Object} An object with the new coordinate values (top and/or left).
+     * @memberof module:Pointer
+     * @instance
+     */
     Pointer.prototype.move = function (data) {
         data = data || {};
         if (data.top) {
@@ -131,6 +180,16 @@ define(function (require, exports, module) {
     };
 
 
+    /**
+     * @function getStyleConfigs
+     * @description Returns the style configurations for the provided style identifier. The possible styles for the
+     * Pointer widget are the numbers from 1-5, 7-10 and 15-23.
+     * @param style_id {string} The style identifier.
+     * @returns {Object} An object of configurations for the provided style identifier.
+     * @throws Will throw an error if the provided style identifier is not valid.
+     * @memberof module:Pointer
+     * @instance
+     */
     Pointer.prototype.getStyleConfigs = function (style_id)
     {
         switch (style_id) {
@@ -225,7 +284,7 @@ define(function (require, exports, module) {
                 };
 
             default:
-                return {};
+                throw 'Style identifier ' + style_id + ' does not match a valid Pointer style.';
         }
     }
 

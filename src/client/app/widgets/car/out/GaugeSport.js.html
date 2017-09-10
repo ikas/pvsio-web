@@ -30,6 +30,9 @@
  * @module GaugeSport
  * @version 1.0.0
  * @author Paolo Masci
+ * @desc This module helps you building gauge widgets using SVG files. Uses the Pointer module to
+ * draw pointers for the gauges.
+ *
  * @date June 25, 2017
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
@@ -39,6 +42,22 @@ define(function (require, exports, module) {
 
     var Pointer = require("widgets/car/Pointer");
 
+    /**
+     * @function constructor
+     * @description Constructor for the GaugeSport widget.
+     * @param id {String} The id of the widget instance.
+     * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
+     *        the left, top corner, and the width and height of the (rectangular) display.
+     *        Default is { top: 0, left: 0, width: 250, height: 250 }.
+     * @param opt {Object} Options:
+     *          &lt;li>parent (String): the HTML element where the display will be appended (default is "body").&lt;/li>
+     *          &lt;li>position (String): value for the CSS property position (default is "absolute").&lt;/li>
+     *          &lt;li>style (String): a valid style identifier (default is "tachometer").&lt;/li>
+     *          &lt;li>z-index (String): value for the CSS property z-index (if not provided, no z-index is applied).&lt;/li>
+     * @returns {GaugeSport} The created instance of the widget GaugeSport.
+     * @memberof module:GaugeSport
+     * @instance
+     */
     function GaugeSport(id, coords, opt) {
 
         this.id = id;
@@ -72,28 +91,30 @@ define(function (require, exports, module) {
             var pointer_opts = [];
 
             var pointer_opt = self.style_configs.pointer_opt;
-            if(pointer_opt.constructor === Array) {
-                pointer_opts = pointer_opt;
-            } else {
-                pointer_opts = [pointer_opt];
+            if(pointer_opt !== undefined) {
+                if(pointer_opt.constructor === Array) {
+                    pointer_opts = pointer_opt;
+                } else {
+                    pointer_opts = [pointer_opt];
+                }
+
+                // Add all Pointer widgets to the screen
+                pointer_opts.map(function(opt) {
+
+                    // Override default configs with the ones provided
+                    opt = self.mergeConfigs(opt, self.pointerOverrideOpts);
+
+                    // Create Pointer widget
+                    opt.parent = self.id;
+                    opt.id = opt.id || id;
+
+                    self.pointers[opt.id] = (new Pointer(
+                        opt.id,
+                        { top: opt.top, left: opt.left, height: opt.height, width: opt.width },
+                        opt
+                    ));
+                });
             }
-
-            // Add all Pointer widgets to the screen
-            pointer_opts.map(function(opt) {
-
-                // Override default configs with the ones provided
-                opt = self.mergeConfigs(opt, self.pointerOverrideOpts);
-
-                // Create Pointer widget
-                opt.parent = self.id;
-                opt.id = opt.id || id;
-
-                self.pointers[opt.id] = (new Pointer(
-                    opt.id,
-                    { top: opt.top, left: opt.left, height: opt.height, width: opt.width },
-                    opt
-                ));
-            });
 
             // Create the gauge element
             self.div = d3.select(self.parent)
@@ -131,51 +152,63 @@ define(function (require, exports, module) {
     }
 
     /**
-     * @function &lt;a name="GaugeSport">GaugeSport&lt;/a>
-     * @description Render method.
-     *
-     * @param value {Float} The new value to set the gauge pointer.
-     * @param opt {Object} Override options when re-rendering. See constructor docs for
-     * detailed docs on the available options.
-     *
+     * @function render
+     * @description Render method of the GaugeSport widget. Calls the render method of the associated pointers of this widget,
+     * with the provided value.
+     * @param value {Float} The new value of the pointer of the gauge (should be in the range of min and max values provided).
+     * @param opt {Object} Override options when re-rendering. See constructor docs for detailed docs on the available options.
      * @memberof module:GaugeSport
      * @instance
      */
     GaugeSport.prototype.render = function(value, opt) {
-
-        if(value.constructor === Object) {
-            for (var prop in value) {
-                if (value.hasOwnProperty(prop)) {
-                    var renderValue = (value[prop]);
-                    this.pointers[prop].render(renderValue);
-                }
-            }
-        } else {
-            var self = this;
-            Object.keys(this.pointers).map(function(key, index) {
-                self.pointers[key].render(value, opt);
-            });
-        }
-
+        var self = this;
+        Object.keys(this.pointers).map(function(key, index) {
+            self.pointers[key].render(value, opt);
+        });
         return this;
     };
 
 
+    /**
+     * @function remove
+     * @description Removes the instance of the GaugeSport widget.
+     * @memberof module:GaugeSport
+     * @instance
+     */
     GaugeSport.prototype.remove = function () {
         this.div.remove();
         return this;
     };
 
+    /**
+     * @function hide
+     * @description Hides the instance of the GaugeSport widget.
+     * @memberof module:GaugeSport
+     * @instance
+     */
     GaugeSport.prototype.hide = function () {
         this.div.style("display", "none");
         return this;
     };
 
+    /**
+     * @function reveal
+     * @description Reveals the instance of the GaugeSport widget.
+     * @memberof module:GaugeSport
+     * @instance
+     */
     GaugeSport.prototype.reveal = function () {
         this.div.style("display", "block");
         return this;
     };
 
+    /**
+     * @function move
+     * @description Hides the instance of the GaugeSport widget.
+     * @param data {Object} An object with the new coordinate values (top and/or left).
+     * @memberof module:GaugeSport
+     * @instance
+     */
     GaugeSport.prototype.move = function (data) {
         data = data || {};
         if (data.top) {
@@ -189,11 +222,12 @@ define(function (require, exports, module) {
         return this;
     };
 
-
     /**
-     * @function &lt;a name="Gauge">Gauge&lt;/a>
-     * @description Merges the two config objects provided, with conf2 overriding conf1 values.
-     *
+     * @function mergeConfigs
+     * @description Merges the two configuration objects provided, with conf2 overriding conf1 values.
+     * @param conf1 {Object} The first object of configurations to be merged.
+     * @param conf2 {Object} The second object of configurations to be merged. The values on this object
+     * will override the values provided by conf1 object.
      * @memberof module:GaugeSport
      * @instance
      */
@@ -204,10 +238,38 @@ define(function (require, exports, module) {
     };
 
 
-    GaugeSport.prototype.getStyleConfigs = function (style_id)
-    {
+    /**
+     * @function getStyleConfigs
+     * @description Returns the style configurations for the provided style identifier. The possible styles for the
+     * GaugeSport widget are:
+     * &lt;li>tachomter&lt;/li>
+     * &lt;li>tachomter2&lt;/li>
+     * &lt;li>tachomter3&lt;/li>
+     * &lt;li>tachomter4&lt;/li>
+     * &lt;li>speedomter&lt;/li>
+     * &lt;li>speedomter2&lt;/li>
+     * &lt;li>speedomter3&lt;/li>
+     * &lt;li>speedomter4&lt;/li>
+     * &lt;li>speedomter5&lt;/li>
+     * &lt;li>speedomter6&lt;/li>
+     * &lt;li>speedomter7&lt;/li>
+     * &lt;li>speedomter8&lt;/li>
+     * &lt;li>thermometer&lt;/li>
+     * &lt;li>fuel&lt;/li>
+     * &lt;li>fuel2&lt;/li>
+     * &lt;li>fuel3&lt;/li>
+     * &lt;li>fuel4&lt;/li>
+     * &lt;li>pressure&lt;/li>
+     * &lt;li>compass&lt;/li>
+     * &lt;li>compass2&lt;/li>
+     * @param style_id {string} The style identifier.
+     * @returns {Object} An object of configurations for the provided style identifier.
+     * @throws Will throw an error if the provided style identifier is not valid.
+     * @memberof module:GaugeSport
+     * @instance
+     */
+    GaugeSport.prototype.getStyleConfigs = function (style_id) {
         switch (style_id) {
-
             // Tachomter styles
             case 'tachometer':
                 return {
@@ -215,8 +277,8 @@ define(function (require, exports, module) {
                     pointer_opt: {
                         max: 10,
                         style: 3,
-                        start_deg: 58,
-                        range_deg: 248,
+                        min_degree: 58,
+                        max_degree: 306,
                         width: 38,
                         top: 110,
                         left: 110,
@@ -228,8 +290,8 @@ define(function (require, exports, module) {
                     pointer_opt: {
                         max: 8,
                         style: 20,
-                        start_deg: 65,
-                        range_deg: 233,
+                        min_degree: 65,
+                        max_degree: 298,
                         top: 105,
                         left: 112,
                         width: 26,
@@ -240,8 +302,8 @@ define(function (require, exports, module) {
                     panel_file: 'gauge-tachometer-panel-3.svg',
                     pointer_opt: {
                         max: 8,
-                        start_deg: 73,
-                        range_deg: 108,
+                        min_degree: 73,
+                        max_degree: 181,
                         style: 9,
                         width: 8,
                         top: 105,
@@ -254,8 +316,8 @@ define(function (require, exports, module) {
                     pointer_opt: {
                         max: 8,
                         style: 10,
-                        start_deg: 68,
-                        range_deg: 230,
+                        min_degree: 68,
+                        max_degree: 298,
                         top: 110,
                         left: 106,
                         width: 38,
@@ -269,8 +331,9 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-speedometer-panel-1.svg',
                     pointer_opt: {
-                        start_deg: 54.5,
-                        range_deg: 254.5,
+                        min_degree: 64,
+                        min: 10,
+                        max_degree: 309,
                         max: 140,
                         style: 4,
                         top: 111,
@@ -282,8 +345,8 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-speedometer-panel-2.svg',
                     pointer_opt: {
-                        start_deg: 90,
-                        range_deg: 240,
+                        min_degree: 90,
+                        max_degree: 330,
                         max: 120,
                         style: 23,
                         top: 110,
@@ -298,8 +361,8 @@ define(function (require, exports, module) {
                         top: 122,
                         left: 114,
                         width: 20,
-                        start_deg: 79,
-                        range_deg: 200,
+                        min_degree: 79,
+                        max_degree: 279,
                         max: 190,
                         style: 5,
                     }
@@ -308,8 +371,8 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-speedometer-panel-4.svg',
                     pointer_opt: {
-                        start_deg: 78,
-                        range_deg: 206,
+                        min_degree: 78,
+                        max_degree: 284,
                         max: 140,
                         style: 2,
                         width: 8,
@@ -319,8 +382,8 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-speedometer-panel-5.svg',
                     pointer_opt: {
-                        start_deg: 60,
-                        range_deg: 244,
+                        min_degree: 60,
+                        max_degree: 304,
                         max: 240,
                         style: 2,
                         width: 8,
@@ -330,8 +393,8 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-speedometer-panel-6.svg',
                     pointer_opt: {
-                        start_deg: 49,
-                        range_deg: 266,
+                        min_degree: 49,
+                        max_degree: 315,
                         max: 120,
                         style: 9,
                         width: 8,
@@ -343,8 +406,8 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-speedometer-panel-7.svg',
                     pointer_opt: {
-                        start_deg: 55,
-                        range_deg: 253,
+                        min_degree: 55,
+                        max_degree: 308,
                         max: 140,
                         style: 10,
                     }
@@ -355,8 +418,8 @@ define(function (require, exports, module) {
                     pointer_opt: {
                         top: 108,
                         left: 108,
-                        start_deg: 48,
-                        range_deg: 264,
+                        min_degree: 48,
+                        max_degree: 312,
                         max: 220,
                         style: 22,
                         width: 34,
@@ -373,8 +436,8 @@ define(function (require, exports, module) {
                         top: 113,
                         left: 195,
                         style: 8,
-                        start_deg: 45,
-                        range_deg: 90,
+                        min_degree: 45,
+                        max_degree: 135,
                         max: 130,
                         min: 50,
                         transition: 0.3,
@@ -392,8 +455,8 @@ define(function (require, exports, module) {
                         left: 119,
                         height: 80,
                         style: 16,
-                        start_deg: 115,
-                        range_deg: 127,
+                        min_degree: 115,
+                        max_degree: 242,
                         max: 100,
                         transition: 0.3,
                         width: 18,
@@ -406,8 +469,8 @@ define(function (require, exports, module) {
                         {
                             id: 'temperature',
                             style: 21,
-                            start_deg: 44,
-                            range_deg: 92,
+                            min_degree: 44,
+                            max_degree: 136,
                             min: 50,
                             max: 130,
                             top: 94,
@@ -418,8 +481,8 @@ define(function (require, exports, module) {
                         {
                             id: 'fuel',
                             style: 21,
-                            start_deg: -44,
-                            range_deg: -92,
+                            min_degree: -44,
+                            max_degree: -136,
                             max: 100,
                             top: 94,
                             left: 144,
@@ -436,8 +499,8 @@ define(function (require, exports, module) {
                         top: 100,
                         left: 168,
                         width: 34,
-                        start_deg: 36,
-                        range_deg: 108,
+                        min_degree: 36,
+                        max_degree: 144,
                         max: 100,
                         transition: 0.3,
                     }
@@ -450,8 +513,8 @@ define(function (require, exports, module) {
                         left: 106,
                         style: 3,
                         width: 38,
-                        start_deg: 90,
-                        range_deg: 180,
+                        min_degree: 90,
+                        max_degree: 270,
                         max: 100,
                         transition: 0.3,
                     }
@@ -468,8 +531,8 @@ define(function (require, exports, module) {
                         left: 110,
                         style: 5,
                         width: 20,
-                        start_deg: 136,
-                        range_deg: 84,
+                        min_degree: 136,
+                        max_degree: 220,
                         max: 100,
                         transition: 0.3,
                     }
@@ -485,8 +548,8 @@ define(function (require, exports, module) {
                         top: 25,
                         left: 112,
                         style: 15,
-                        start_deg: 180,
-                        range_deg: 360,
+                        min_degree: 180,
+                        max_degree: 540,
                         height: 220,
                         min: 0,
                         max: 100,
@@ -500,8 +563,8 @@ define(function (require, exports, module) {
                         top: 25,
                         left: 112,
                         style: 15,
-                        start_deg: 180,
-                        range_deg: 360,
+                        min_degree: 180,
+                        max_degree: 540,
                         height: 220,
                         min: 0,
                         max: 100,
@@ -509,9 +572,22 @@ define(function (require, exports, module) {
                     }
                 };
 
+            case 'example':
+                return {
+                    panel_file: 'example.svg',
+                    pointer_opt: {
+                        max: 10,
+                        style: 3,
+                        min_degree: 58,
+                        max_degree: 306,
+                        width: 38,
+                        top: 110,
+                        left: 110,
+                    }
+                }
+
             default:
-                console.log('Style ' + style_id + ' does not match a valid style.');
-                break;
+                throw 'Style identifier ' + style_id + ' does not match a valid GaugeSport style.';
         }
     }
 
@@ -527,13 +603,13 @@ define(function (require, exports, module) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-CentralPanel.html">CentralPanel</a></li><li><a href="module-Clock.html">Clock</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GaugeSport.html">GaugeSport</a></li><li><a href="module-Gearbox.html">Gearbox</a></li><li><a href="module-Pointer.html">Pointer</a></li><li><a href="module-SVGauge.html">SVGauge</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-CentralPanel.html">CentralPanel</a></li><li><a href="module-Clock.html">Clock</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GaugeSport.html">GaugeSport</a></li><li><a href="module-Gearbox.html">Gearbox</a></li><li><a href="module-Pointer.html">Pointer</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sat Sep 02 2017 17:06:04 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sun Sep 10 2017 19:45:59 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

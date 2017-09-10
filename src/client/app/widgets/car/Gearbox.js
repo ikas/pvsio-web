@@ -2,6 +2,8 @@
  * @module Gearbox
  * @version 1.0.0
  * @author Henrique Pacheco
+ * @desc This module is responsible for building Gearbox widget instances.
+ *
  * @date July 23, 2017
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
@@ -9,27 +11,39 @@
 define(function (require, exports, module) {
     "use strict";
 
-    function Gearbox(id, coords, opt)
-    {
+    /**
+     * @function constructor
+     * @description Constructor for the Gearbox widget.
+     * @param id {String} The id of the widget instance.
+     * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
+     *        the left, top corner, and the width and height of the (rectangular) display.
+     *        Default is { top: 0, left: 0, width: 256, height: 256 }.
+     * @param opt {Object} Options:
+     *          <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
+     *          <li>position (String): value for the CSS property position (default is "absolute").</li>
+     *          <li>style (String): a valid style identifier (default is "auto").</li>
+     * @returns {Gearbox} The created instance of the widget Gearbox.
+     * @memberof module:Gearbox
+     * @instance
+     */
+    function Gearbox(id, coords, opt) {
+
+        // Save id for later usage
         this.id = id;
 
-        // Handle coords
+        // Handle coords object
         coords = coords || {};
         this.top = coords.top || 0;
         this.left = coords.left || 0;
         this.width = coords.width || 256;
         this.height = coords.height || 256;
 
-        // Handle options
+        // Handle options and default values
         opt = opt || {};
         opt.position = opt.position || "absolute";
-
-        // Aux configurations and variables
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
-
-        // Find style configs -- defaults to "auto"
-        this.style = opt.style;
-        this.style_configs = this.getStyleConfigs(opt.style || 'auto');
+        this.style = opt.style || 'auto';
+        this.style_configs = this.getStyleConfigs(this.style);
 
         // Create wrapper div
         this.buildWrapper();
@@ -48,7 +62,12 @@ define(function (require, exports, module) {
     }
 
 
-    // Build wrapper HTML
+    /**
+     * @function buildWrapper
+     * @description Builds the wrapper for the gear box that will be displayed.
+     * @memberof module:Gearbox
+     * @instance
+     */
     Gearbox.prototype.buildWrapper = function() {
         // Create wrapper div
         this.wrapper = d3.select(this.parent)
@@ -59,7 +78,12 @@ define(function (require, exports, module) {
     }
 
 
-    // Load panel SVG file
+    /**
+     * @function loadPanel
+     * @description Loads the SVG that will be used as a gearbox panel.
+     * @memberof module:Gearbox
+     * @instance
+     */
     Gearbox.prototype.loadPanel = function()
     {
         // Find the name of the file to load
@@ -82,7 +106,12 @@ define(function (require, exports, module) {
     }
 
 
-    // Load stick SVG file
+    /**
+     * @function loadStick
+     * @description Loads the SVG file that will be used as a gearbox stick.
+     * @memberof module:Gearbox
+     * @instance
+     */
     Gearbox.prototype.loadStick = function()
     {
         // Find the name of the file to load
@@ -132,6 +161,13 @@ define(function (require, exports, module) {
     }
 
 
+    /**
+     * @function setSickPosition
+     * @description Sets the gearbox stick in the position associated with the provided gear.
+     * @param gear {String} The gear to set the position.
+     * @memberof module:Gearbox
+     * @instance
+     */
     Gearbox.prototype.setStickPosition = function(gear)
     {
         var leftPerc = this.getLeftOffset(gear);
@@ -139,13 +175,25 @@ define(function (require, exports, module) {
         this.stick.style("top", topPerc * this.height + "px").style("left", leftPerc * this.width + "px");
     };
 
-
+    /**
+     * @function getLeftOffset
+     * @description Returns the left offset as defined in the style configurations for the provided gear.
+     * @param gear {String} The gear to set the position.
+     * @memberof module:Gearbox
+     * @instance
+     */
     Gearbox.prototype.getLeftOffset = function(gear)
     {
         return this.style_configs.leftOffsets[gear];
     }
 
-
+    /**
+     * @function getTopOffset
+     * @description Returns the top offset as defined in the style configurations for the provided gear.
+     * @param gear {String} The gear to set the position.
+     * @memberof module:Gearbox
+     * @instance
+     */
     Gearbox.prototype.getTopOffset = function(gear)
     {
         return this.style_configs.topOffsets[gear];
@@ -153,13 +201,10 @@ define(function (require, exports, module) {
 
 
     /**
-     * @function <a name="Gearbox">Gearbox</a>
-     * @description Render method.
-     *
-     * @param value {String} The new gear value for the gear box.
-     * @param opt {Object} Override options when re-rendering. See constructor docs for
-     * detailed docs on the available options.
-     *
+     * @function render
+     * @description Render method of the Gearbox widget. Re-renders the gearbox with the provided new value and configurations.
+     * @param value {String} The new gear that will be set in the gearbox.
+     * @param opt {Object} Override options when re-rendering. See constructor docs for detailed docs on the available options.
      * @memberof module:Gearbox
      * @instance
      */
@@ -169,22 +214,46 @@ define(function (require, exports, module) {
         return this;
     };
 
-
+    /**
+     * @function remove
+     * @description Removes the instance of the Gearbox widget.
+     * @memberof module:Gearbox
+     * @instance
+     */
     Gearbox.prototype.remove = function () {
         this.wrapper.remove();
         return this;
     };
 
+    /**
+     * @function hide
+     * @description Hides the instance of the Gearbox widget.
+     * @memberof module:Gearbox
+     * @instance
+     */
     Gearbox.prototype.hide = function () {
         this.wrapper.style("display", "none");
         return this;
     };
 
+    /**
+     * @function reveal
+     * @description Reveal the instance of the Gearbox widget.
+     * @memberof module:Gearbox
+     * @instance
+     */
     Gearbox.prototype.reveal = function () {
         this.wrapper.style("display", "block");
         return this;
     };
 
+    /**
+     * @function move
+     * @description Hides the instance of the Gearbox widget.
+     * @param data {Object} An object with the new coordinate values (top and/or left).
+     * @memberof module:Gearbox
+     * @instance
+     */
     Gearbox.prototype.move = function (data) {
         data = data || {};
         if (data.top) {
@@ -198,7 +267,16 @@ define(function (require, exports, module) {
         return this;
     };
 
-
+    /**
+     * @function getStyleConfigs
+     * @description Returns the style configurations for the provided style identifier. The possible styles for the
+     * Gearbox widget are the "auto", "manual", "manual2" and "manual3".
+     * @param style_id {string} The style identifier.
+     * @returns {Object} An object of configurations for the provided style identifier.
+     * @throws Will throw an error if the provided style identifier is not valid.
+     * @memberof module:Gearbox
+     * @instance
+     */
     Gearbox.prototype.getStyleConfigs = function (style_id)
     {
         switch (style_id) {
@@ -328,8 +406,7 @@ define(function (require, exports, module) {
                 };
 
             default:
-                console.log('Style ' + style_id + ' does not match a valid Gearbox style.');
-                break;
+                throw 'Style identifier ' + style_id + ' does not match a valid Pointer style.';
         }
     }
 

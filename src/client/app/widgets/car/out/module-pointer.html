@@ -29,6 +29,8 @@
 <header>
     
         
+            
+        
     
 </header>
 
@@ -36,6 +38,93 @@
     <div class="container-overview">
     
         
+            <div class="description">This module is responsible for building Pointer elements that can be used by the GaugeSport
+and Clock widgets.</div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Henrique Pacheco</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Pointer.js.html">Pointer.js</a>, <a href="Pointer.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
     
@@ -64,7 +153,7 @@
     
 
     
-    <h4 class="name" id="%3Caname=%22Pointer%22%3EPointer%3C/a%3E"><span class="type-signature"></span><a name="Pointer">Pointer</a><span class="signature">(value, opt)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(id, coords, opt)</span><span class="type-signature"> &rarr; {Pointer}</span></h4>
     
 
     
@@ -72,7 +161,701 @@
 
 
 <div class="description">
-    Render method.
+    Constructor for the Pointer widget.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The id of the widget instance.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>coords</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The four coordinates (top, left, width, height) of the display, specifying
+       the left, top corner, and the width and height of the (rectangular) display.
+       Default is { top: 125, left: 125, width: 250, height: 250 }.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Options:
+         <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
+         <li>position (String): value for the CSS property position (default is "absolute").</li>
+         <li>style (String): a valid style identifier (default is 1).</li>
+         <li>min_degree (Float): The minimum degree of range for the pointer movement (default is 90).</li>
+         <li>min (Float): The minimum absolute value for the movement of the pointer (default is 0).</li>
+         <li>max_degree (Float): The maximum degree of range for the pointer movement (default is 270).</li>
+         <li>max (Float): The maximum absolute value for the movement of the pointer (default is 10).</li>
+         <li>initial (Float): The initial absolute value for the movement of the pointer (default is min value).</li>
+         <li>transition (Float): number of milliseconds to be applied in the CSS property transition (default is 0).</li>
+         <li>laps (Float): The number of laps that should be taken into account in the pointer rotation.
+An example of usage of this configuration is with an hour pointer in a clock - The minimum value is 0,
+the maximum value is 24, but the pointer completes 2 laps between min and max values.</li></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Pointer.js.html">Pointer.js</a>, <a href="Pointer.js.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget Pointer.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Pointer</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getStyleConfigs"><span class="type-signature"></span>getStyleConfigs<span class="signature">(style_id)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Returns the style configurations for the provided style identifier. The possible styles for the
+Pointer widget are the numbers from 1-5, 7-10 and 15-23.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>style_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The style identifier.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Pointer.js.html">Pointer.js</a>, <a href="Pointer.js.html#line183">line 183</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc">
+    
+        Will throw an error if the provided style identifier is not valid.
+    
+    </div>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    An object of configurations for the provided style identifier.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="hide"><span class="type-signature"></span>hide<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Hides the instance of the Pointer widget.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Pointer.js.html">Pointer.js</a>, <a href="Pointer.js.html#line140">line 140</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="move"><span class="type-signature"></span>move<span class="signature">(data)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Hides the instance of the Pointer widget.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An object with the new coordinate values (top and/or left).</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Pointer.js.html">Pointer.js</a>, <a href="Pointer.js.html#line162">line 162</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Removes the instance of the Pointer widget.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Pointer.js.html">Pointer.js</a>, <a href="Pointer.js.html#line129">line 129</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="render"><span class="type-signature"></span>render<span class="signature">(value, opt)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Render method of the Pointer widget. Re-renders the pointer with the provided new value and configurations.
 </div>
 
 
@@ -124,7 +907,7 @@
 
             
 
-            <td class="description last">The new value to set the gauge pointer.</td>
+            <td class="description last">The new value absolute value of the pointer (should be in the range of min and max values provided).</td>
         </tr>
 
     
@@ -147,8 +930,7 @@
 
             
 
-            <td class="description last">Override options when re-rendering. See constructor docs for
-detailed docs on the available options.</td>
+            <td class="description last">Override options when re-rendering. See constructor docs for detailed docs on the available options.</td>
         </tr>
 
     
@@ -189,7 +971,93 @@ detailed docs on the available options.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Pointer.js.html">Pointer.js</a>, <a href="Pointer.js.html#line74">line 74</a>
+        <a href="Pointer.js.html">Pointer.js</a>, <a href="Pointer.js.html#line102">line 102</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="reveal"><span class="type-signature"></span>reveal<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Reveal the instance of the Pointer widget.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Pointer.js.html">Pointer.js</a>, <a href="Pointer.js.html#line151">line 151</a>
     </li></ul></dd>
     
 
@@ -233,13 +1101,13 @@ detailed docs on the available options.</td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-CentralPanel.html">CentralPanel</a></li><li><a href="module-Clock.html">Clock</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GaugeSport.html">GaugeSport</a></li><li><a href="module-Gearbox.html">Gearbox</a></li><li><a href="module-Pointer.html">Pointer</a></li><li><a href="module-SVGauge.html">SVGauge</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-CentralPanel.html">CentralPanel</a></li><li><a href="module-Clock.html">Clock</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GaugeSport.html">GaugeSport</a></li><li><a href="module-Gearbox.html">Gearbox</a></li><li><a href="module-Pointer.html">Pointer</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sat Sep 02 2017 17:06:04 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sun Sep 10 2017 19:45:59 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

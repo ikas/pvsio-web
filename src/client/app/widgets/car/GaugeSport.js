@@ -2,6 +2,9 @@
  * @module GaugeSport
  * @version 1.0.0
  * @author Paolo Masci
+ * @desc This module helps you building gauge widgets using SVG files. Uses the Pointer module to
+ * draw pointers for the gauges.
+ *
  * @date June 25, 2017
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
@@ -11,6 +14,22 @@ define(function (require, exports, module) {
 
     var Pointer = require("widgets/car/Pointer");
 
+    /**
+     * @function constructor
+     * @description Constructor for the GaugeSport widget.
+     * @param id {String} The id of the widget instance.
+     * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
+     *        the left, top corner, and the width and height of the (rectangular) display.
+     *        Default is { top: 0, left: 0, width: 250, height: 250 }.
+     * @param opt {Object} Options:
+     *          <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
+     *          <li>position (String): value for the CSS property position (default is "absolute").</li>
+     *          <li>style (String): a valid style identifier (default is "tachometer").</li>
+     *          <li>z-index (String): value for the CSS property z-index (if not provided, no z-index is applied).</li>
+     * @returns {GaugeSport} The created instance of the widget GaugeSport.
+     * @memberof module:GaugeSport
+     * @instance
+     */
     function GaugeSport(id, coords, opt) {
 
         this.id = id;
@@ -44,28 +63,30 @@ define(function (require, exports, module) {
             var pointer_opts = [];
 
             var pointer_opt = self.style_configs.pointer_opt;
-            if(pointer_opt.constructor === Array) {
-                pointer_opts = pointer_opt;
-            } else {
-                pointer_opts = [pointer_opt];
+            if(pointer_opt !== undefined) {
+                if(pointer_opt.constructor === Array) {
+                    pointer_opts = pointer_opt;
+                } else {
+                    pointer_opts = [pointer_opt];
+                }
+
+                // Add all Pointer widgets to the screen
+                pointer_opts.map(function(opt) {
+
+                    // Override default configs with the ones provided
+                    opt = self.mergeConfigs(opt, self.pointerOverrideOpts);
+
+                    // Create Pointer widget
+                    opt.parent = self.id;
+                    opt.id = opt.id || id;
+
+                    self.pointers[opt.id] = (new Pointer(
+                        opt.id,
+                        { top: opt.top, left: opt.left, height: opt.height, width: opt.width },
+                        opt
+                    ));
+                });
             }
-
-            // Add all Pointer widgets to the screen
-            pointer_opts.map(function(opt) {
-
-                // Override default configs with the ones provided
-                opt = self.mergeConfigs(opt, self.pointerOverrideOpts);
-
-                // Create Pointer widget
-                opt.parent = self.id;
-                opt.id = opt.id || id;
-
-                self.pointers[opt.id] = (new Pointer(
-                    opt.id,
-                    { top: opt.top, left: opt.left, height: opt.height, width: opt.width },
-                    opt
-                ));
-            });
 
             // Create the gauge element
             self.div = d3.select(self.parent)
@@ -103,51 +124,63 @@ define(function (require, exports, module) {
     }
 
     /**
-     * @function <a name="GaugeSport">GaugeSport</a>
-     * @description Render method.
-     *
-     * @param value {Float} The new value to set the gauge pointer.
-     * @param opt {Object} Override options when re-rendering. See constructor docs for
-     * detailed docs on the available options.
-     *
+     * @function render
+     * @description Render method of the GaugeSport widget. Calls the render method of the associated pointers of this widget,
+     * with the provided value.
+     * @param value {Float} The new value of the pointer of the gauge (should be in the range of min and max values provided).
+     * @param opt {Object} Override options when re-rendering. See constructor docs for detailed docs on the available options.
      * @memberof module:GaugeSport
      * @instance
      */
     GaugeSport.prototype.render = function(value, opt) {
-
-        if(value.constructor === Object) {
-            for (var prop in value) {
-                if (value.hasOwnProperty(prop)) {
-                    var renderValue = (value[prop]);
-                    this.pointers[prop].render(renderValue);
-                }
-            }
-        } else {
-            var self = this;
-            Object.keys(this.pointers).map(function(key, index) {
-                self.pointers[key].render(value, opt);
-            });
-        }
-
+        var self = this;
+        Object.keys(this.pointers).map(function(key, index) {
+            self.pointers[key].render(value, opt);
+        });
         return this;
     };
 
 
+    /**
+     * @function remove
+     * @description Removes the instance of the GaugeSport widget.
+     * @memberof module:GaugeSport
+     * @instance
+     */
     GaugeSport.prototype.remove = function () {
         this.div.remove();
         return this;
     };
 
+    /**
+     * @function hide
+     * @description Hides the instance of the GaugeSport widget.
+     * @memberof module:GaugeSport
+     * @instance
+     */
     GaugeSport.prototype.hide = function () {
         this.div.style("display", "none");
         return this;
     };
 
+    /**
+     * @function reveal
+     * @description Reveals the instance of the GaugeSport widget.
+     * @memberof module:GaugeSport
+     * @instance
+     */
     GaugeSport.prototype.reveal = function () {
         this.div.style("display", "block");
         return this;
     };
 
+    /**
+     * @function move
+     * @description Hides the instance of the GaugeSport widget.
+     * @param data {Object} An object with the new coordinate values (top and/or left).
+     * @memberof module:GaugeSport
+     * @instance
+     */
     GaugeSport.prototype.move = function (data) {
         data = data || {};
         if (data.top) {
@@ -161,11 +194,12 @@ define(function (require, exports, module) {
         return this;
     };
 
-
     /**
-     * @function <a name="Gauge">Gauge</a>
-     * @description Merges the two config objects provided, with conf2 overriding conf1 values.
-     *
+     * @function mergeConfigs
+     * @description Merges the two configuration objects provided, with conf2 overriding conf1 values.
+     * @param conf1 {Object} The first object of configurations to be merged.
+     * @param conf2 {Object} The second object of configurations to be merged. The values on this object
+     * will override the values provided by conf1 object.
      * @memberof module:GaugeSport
      * @instance
      */
@@ -176,10 +210,38 @@ define(function (require, exports, module) {
     };
 
 
-    GaugeSport.prototype.getStyleConfigs = function (style_id)
-    {
+    /**
+     * @function getStyleConfigs
+     * @description Returns the style configurations for the provided style identifier. The possible styles for the
+     * GaugeSport widget are:
+     * <li>tachomter</li>
+     * <li>tachomter2</li>
+     * <li>tachomter3</li>
+     * <li>tachomter4</li>
+     * <li>speedomter</li>
+     * <li>speedomter2</li>
+     * <li>speedomter3</li>
+     * <li>speedomter4</li>
+     * <li>speedomter5</li>
+     * <li>speedomter6</li>
+     * <li>speedomter7</li>
+     * <li>speedomter8</li>
+     * <li>thermometer</li>
+     * <li>fuel</li>
+     * <li>fuel2</li>
+     * <li>fuel3</li>
+     * <li>fuel4</li>
+     * <li>pressure</li>
+     * <li>compass</li>
+     * <li>compass2</li>
+     * @param style_id {string} The style identifier.
+     * @returns {Object} An object of configurations for the provided style identifier.
+     * @throws Will throw an error if the provided style identifier is not valid.
+     * @memberof module:GaugeSport
+     * @instance
+     */
+    GaugeSport.prototype.getStyleConfigs = function (style_id) {
         switch (style_id) {
-
             // Tachomter styles
             case 'tachometer':
                 return {
@@ -482,9 +544,22 @@ define(function (require, exports, module) {
                     }
                 };
 
+            case 'example':
+                return {
+                    panel_file: 'example.svg',
+                    pointer_opt: {
+                        max: 10,
+                        style: 3,
+                        min_degree: 58,
+                        max_degree: 306,
+                        width: 38,
+                        top: 110,
+                        left: 110,
+                    }
+                }
+
             default:
-                console.log('Style ' + style_id + ' does not match a valid style.');
-                break;
+                throw 'Style identifier ' + style_id + ' does not match a valid GaugeSport style.';
         }
     }
 
