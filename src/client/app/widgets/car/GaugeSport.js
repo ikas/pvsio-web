@@ -214,28 +214,17 @@ define(function (require, exports, module) {
      * @function getStyleConfigs
      * @description Returns the style configurations for the provided style identifier. The possible styles for the
      * GaugeSport widget are:
-     * <li>tachomter</li>
-     * <li>tachomter2</li>
-     * <li>tachomter3</li>
-     * <li>tachomter4</li>
-     * <li>speedomter</li>
-     * <li>speedomter2</li>
-     * <li>speedomter3</li>
-     * <li>speedomter4</li>
-     * <li>speedomter5</li>
-     * <li>speedomter6</li>
-     * <li>speedomter7</li>
-     * <li>speedomter8</li>
+     * <li>tachomter, tachomter2, tachomter3, tachomter4</li>
+     * <li>speedomter, speedomter2, speedomter3, speedomter4, speedomter5, speedomter6, speedomter7, speedomter8</li>
      * <li>thermometer</li>
-     * <li>fuel</li>
-     * <li>fuel2</li>
-     * <li>fuel3</li>
-     * <li>fuel4</li>
+     * <li>fuel, fuel2, fuel3, fuel4</li>
      * <li>pressure</li>
-     * <li>compass</li>
-     * <li>compass2</li>
+     * <li>compass, compass2</li>
      * @param style_id {string} The style identifier.
      * @returns {Object} An object of configurations for the provided style identifier.
+     * <li>panel_file (String) Path to the SVG panel file (inside the widgets/car/svg/gauge-panels) directory.</li>
+     * <li>pointer_opt (Object|Array) Object or array of objects with the configurations that should be provided to the Pointer
+     * that the style should compose.
      * @throws Will throw an error if the provided style identifier is not valid.
      * @memberof module:GaugeSport
      * @instance

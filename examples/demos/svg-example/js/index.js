@@ -99,7 +99,7 @@ require([
         var example = new GaugeSport(
             'example',
             { top: 100, left: 100, width: 300, height: 300 },
-            { style: 'fuck' }
+            { style: 'example' }
         );
 
 
