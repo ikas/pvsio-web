@@ -2,9 +2,9 @@
  * @module CentralPanel
  * @version 1.0.0
  * @description
- * CentralPanel renders a basic car dashboard object, including compenents like the car absolute speed, odometer, 
+ * CentralPanel renders a basic car dashboard object, including compenents like the car absolute speed, odometer,
  * engine and environment temperatures, the current clock time, etc..
- * 
+ *
  * @author Henrique Pacheco
  * @date Apr 14, 2017
  *
@@ -20,12 +20,12 @@
  *          var centralPanel = new CentralPanel('central-panel');
  *
  *          // Re-render the CentralPanel, provinding new values
- *          gauge.render({ speed: 200 }); 
+ *          gauge.render({ speed: 200 });
  *     }
  * });
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*global define, d3_gauge_plus*/
+/*global define*/
 define(function (require, exports, module) {
     "use strict";
 
@@ -34,11 +34,11 @@ define(function (require, exports, module) {
     /**
      * @function <a name="CentralPanel">CentralPanel</a>
      * @description CentralPanel constructor.
-     * 
+     *
      * @param id {String} The ID of the element that will contain the central panel.
      * @param opt {Object} Options:
      *          TODO !!
-     *          
+     *
      * @memberof module:CentralPanel
      * @instance
      */
@@ -69,12 +69,12 @@ define(function (require, exports, module) {
         this.gearDisplay = new BasicDisplay(
             'current-gear',
             { top: 3, left: 160, width: 24, height: 26 },
-            { 
-                borderWidth: 2, 
-                borderStyle: "solid", 
-                borderColor: "white", 
-                parent: id, 
-                fontsize: 22, 
+            {
+                borderWidth: 2,
+                borderStyle: "solid",
+                borderColor: "white",
+                parent: id,
+                fontsize: 22,
                 backgroundColor: this.backgroundColor
             }
         );
@@ -83,10 +83,10 @@ define(function (require, exports, module) {
         this.clockDisplay = new BasicDisplay(
             'clock',
             { top: 170, left: 5, width: 70, height: 18 },
-            { 
-                fontsize: 18, 
-                parent: id, 
-                backgroundColor: this.backgroundColor 
+            {
+                fontsize: 18,
+                parent: id,
+                backgroundColor: this.backgroundColor
             }
         );
 
@@ -94,12 +94,12 @@ define(function (require, exports, module) {
         this.separator1 = new BasicDisplay(
             'separator1',
             { top: 33, left: 0, width: 230, height: 1 },
-            { 
-                fontsize: 18, 
-                parent: id, 
-                borderWidth: 1, 
-                borderStyle: "solid", 
-                borderColor: "white", 
+            {
+                fontsize: 18,
+                parent: id,
+                borderWidth: 1,
+                borderStyle: "solid",
+                borderColor: "white",
                 backgroundColor: this.backgroundColor
             }
         );
@@ -108,9 +108,9 @@ define(function (require, exports, module) {
         this.envTempDisplay = new BasicDisplay(
             'env-temp',
             { top: 170, left: 155, width: 70, height: 18 },
-            { 
-                fontsize: 18, 
-                parent: id, 
+            {
+                fontsize: 18,
+                parent: id,
                 backgroundColor: this.backgroundColor
             }
         );
@@ -119,10 +119,10 @@ define(function (require, exports, module) {
         this.speedAbsDisplay = new BasicDisplay(
             'speed-abs',
             { top: 40, left: 55, width: 60, height: 32 },
-            { 
-                fontsize: 32, 
-                align: "right", 
-                parent: id, 
+            {
+                fontsize: 32,
+                align: "right",
+                parent: id,
                 backgroundColor: this.backgroundColor
             }
         );
@@ -131,10 +131,10 @@ define(function (require, exports, module) {
         this.speedUnitDisplay = new BasicDisplay(
             'speed-unit-display',
             { top: 51, left: 118, width: 70, height: 20 },
-            { 
-                fontsize: 20, 
-                align: "left", 
-                parent: id, 
+            {
+                fontsize: 20,
+                align: "left",
+                parent: id,
                 backgroundColor: this.backgroundColor
             }
         );
@@ -143,12 +143,12 @@ define(function (require, exports, module) {
         this.separator2 = new BasicDisplay(
             'separator2',
             { top: 73, left: 40, width: 150, height: 1 },
-            { 
-                fontsize: 18, 
-                parent: id, 
-                borderWidth: 1, 
-                borderStyle: "solid", 
-                borderColor: "white", 
+            {
+                fontsize: 18,
+                parent: id,
+                borderWidth: 1,
+                borderStyle: "solid",
+                borderColor: "white",
                 backgroundColor: this.backgroundColor
             }
         );
@@ -157,9 +157,9 @@ define(function (require, exports, module) {
         this.odometerDisplay = new BasicDisplay(
             'odometer',
             { top: 4, left: 40, width: 110, height: 25 },
-            { 
-                fontsize: 25, 
-                parent: id, 
+            {
+                fontsize: 25,
+                parent: id,
                 backgroundColor: this.backgroundColor
             }
         );
@@ -168,10 +168,10 @@ define(function (require, exports, module) {
         this.engineTemp1 = new BasicDisplay(
             'eng-temp-1',
             { top: 80, left: 107, width: 60, height: 18 },
-            { 
-                fontsize: 18, 
-                parent: id, 
-                align: "right", 
+            {
+                fontsize: 18,
+                parent: id,
+                align: "right",
                 backgroundColor: this.backgroundColor
             }
         );
@@ -179,10 +179,10 @@ define(function (require, exports, module) {
         this.engineTemp2 = new BasicDisplay(
             'eng-temp-2',
             { top: 102, left: 107, width: 60, height: 18 },
-            { 
-                fontsize: 18, 
-                parent: id, 
-                align: "right", 
+            {
+                fontsize: 18,
+                parent: id,
+                align: "right",
                 backgroundColor: this.backgroundColor
             }
         );
@@ -190,10 +190,10 @@ define(function (require, exports, module) {
         this.engineTemp3 = new BasicDisplay(
             'eng-temp-3',
             { top: 124, left: 107, width: 60, height: 18 },
-            { 
-                fontsize: 18, 
-                parent: id, 
-                align: "right", 
+            {
+                fontsize: 18,
+                parent: id,
+                align: "right",
                 backgroundColor: this.backgroundColor
             }
         );
@@ -204,11 +204,11 @@ define(function (require, exports, module) {
     /**
      * @function <a name="CentralPanel">CentralPanel</a>
      * @description Render method.
-     * 
+     *
      * @param new_value {object} An object with the new values
-     * @param opt {Object} Override options when re-rendering. See constructor docs for 
+     * @param opt {Object} Override options when re-rendering. See constructor docs for
      * detailed docs on the available options.
-     * 
+     *
      * @memberof module:CentralPanel
      * @instance
      */
@@ -250,12 +250,12 @@ define(function (require, exports, module) {
                 i = "0" + i;
             }
             return i;
-        };
-        
+        }
+
         opt = opt || {};
 
         var temperature = Math.round(evaluate(newValues.temp.val)) + ' ' + ((newValues.temp.units === "C") ? "°C" : "°F");
-        
+
         this.gearDisplay.render(parseGear(newValues.gear));
         this.clockDisplay.render(addLeadingZero(newValues.time.hour) + ':' + addLeadingZero(newValues.time.min));
         this.envTempDisplay.render(temperature);

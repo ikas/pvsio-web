@@ -117,7 +117,7 @@ define(function (require, exports, module) {
                 .html(file_required);
 
             if(opt['z-index'] !== undefined) {
-                self.div.style('z-index', self.opt['z-index'])
+                self.div.style('z-index', self.opt['z-index']);
             }
 
             // Get SVG's width and height as integer
@@ -128,11 +128,8 @@ define(function (require, exports, module) {
             var widthDeficit = svgWidth - self.width;
             var heightDeficit = svgHeight - self.height;
 
-            if(widthDeficit == heightDeficit || widthDeficit > heightDeficit) {
-                var ratio = self.width / svgWidth;
-            } else {
-                var ratio = self.height / svgHeight;
-            }
+            var ratio = (widthDeficit === heightDeficit || widthDeficit > heightDeficit) ?
+                self.width / svgWidth : self.height / svgHeight;
 
             // Set transform origin attributes and scale the SVG elements
             self.div.select('svg').style("transform-origin", "0 0").style('transform', 'scale('+ratio+')');
@@ -581,12 +578,12 @@ define(function (require, exports, module) {
                         top: 110,
                         left: 110,
                     }
-                }
+                };
 
             default:
                 throw 'Style identifier ' + style_id + ' does not match a valid GaugeSport style.';
         }
-    }
+    };
 
     module.exports = GaugeSport;
 });

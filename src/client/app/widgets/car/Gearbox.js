@@ -97,7 +97,7 @@ define(function (require, exports, module) {
             .style("position", 'absolute')
             .style("top", this.top + "px").style("left", this.left + "px")
             .style("width", this.width + "px").style("height", this.height + "px");
-    }
+    };
 
 
     /**
@@ -126,7 +126,7 @@ define(function (require, exports, module) {
                 .style("transform", "scale(" + scale + "," + scale +")")
                 .style("transform-origin", "0 0");
         });
-    }
+    };
 
 
     /**
@@ -170,11 +170,8 @@ define(function (require, exports, module) {
             var widthDeficit = svgWidth - stickWidth;
             var heightDeficit = svgHeight - stickHeight;
 
-            if(widthDeficit == heightDeficit || widthDeficit > heightDeficit) {
-                var ratio = stickWidth / svgWidth;
-            } else {
-                var ratio = stickHeight / svgHeight;
-            }
+            var ratio = (widthDeficit === heightDeficit || widthDeficit > heightDeficit) ?
+                stickWidth / svgWidth : stickHeight / svgHeight;
 
             // Set transform origin attributes and scale the SVG elements
             self.stick.select('svg').style("transform-origin", "0 0").style('transform', 'scale('+ratio+')');
@@ -182,7 +179,7 @@ define(function (require, exports, module) {
             // Set sticker initial positios
             self.setStickPosition('P');
         });
-    }
+    };
 
 
     /**
@@ -211,7 +208,7 @@ define(function (require, exports, module) {
     Gearbox.prototype.getLeftOffset = function(gear)
     {
         return this.style_configs.leftOffsets[gear];
-    }
+    };
 
     /**
      * @function getTopOffset
@@ -224,7 +221,7 @@ define(function (require, exports, module) {
     Gearbox.prototype.getTopOffset = function(gear)
     {
         return this.style_configs.topOffsets[gear];
-    }
+    };
 
 
     /**
@@ -435,7 +432,7 @@ define(function (require, exports, module) {
             default:
                 throw 'Style identifier ' + style_id + ' does not match a valid Pointer style.';
         }
-    }
+    };
 
     module.exports = Gearbox;
 });

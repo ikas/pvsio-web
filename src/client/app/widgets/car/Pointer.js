@@ -105,7 +105,7 @@ define(function (require, exports, module) {
 
             // Set transform origin attribute on the SVG element
             var origin = self.style_configs.transform_origin || "center top";
-            self.div.select('svg')
+            self.div = self.div.select('svg')
                 .style("transform-origin", origin)
                 .style("-webkit-transition", "all "+self.transition+"s ease")
                 .style("-moz-transition", "all "+self.transition+"s ease")
@@ -115,6 +115,10 @@ define(function (require, exports, module) {
 
             // Set initial position
             self.render(self.initial);
+
+            if(opt['z-index'] !== undefined) {
+                self.div.style('z-index', opt['z-index']);
+            }
 
             return self;
         });
@@ -311,7 +315,7 @@ define(function (require, exports, module) {
             default:
                 throw 'Style identifier ' + style_id + ' does not match a valid Pointer style.';
         }
-    }
+    };
 
     module.exports = Pointer;
 });

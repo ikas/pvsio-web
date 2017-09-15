@@ -100,7 +100,7 @@ define(function (require, exports, module) {
                 .html(file_required);
 
             if(self.opt['z-index'] !== undefined) {
-                self.div.style('z-index', self.opt['z-index'])
+                self.div.style('z-index', self.opt['z-index']);
             }
 
             // Get SVG's width and height as integer
@@ -111,11 +111,8 @@ define(function (require, exports, module) {
             var widthDeficit = svgWidth - self.width;
             var heightDeficit = svgHeight - self.height;
 
-            if(widthDeficit == heightDeficit || widthDeficit > heightDeficit) {
-                var ratio = self.width / svgWidth;
-            } else {
-                var ratio = self.height / svgHeight;
-            }
+            var ratio = (widthDeficit === heightDeficit || widthDeficit > heightDeficit) ?
+                self.width / svgWidth : self.height / svgHeight;
 
             // Set transform origin attributes and scale the SVG elements
             self.div.select('svg').style("transform-origin", "0 0").style('transform', 'scale('+ratio+')');
@@ -140,15 +137,15 @@ define(function (require, exports, module) {
         var current = new Date();
 
         if(this.pointers.hasOwnProperty('seconds')) {
-            this.pointes.seconds.render(current.getSeconds());
+            this.pointers.seconds.render(current.getSeconds());
         }
 
         if(this.pointers.hasOwnProperty('minutes')) {
-            this.pointes.minutes.render(current.getMinutes());
+            this.pointers.minutes.render(current.getMinutes());
         }
 
         if(this.pointers.hasOwnProperty('hours')) {
-            this.pointes.hours.render(current.getHours());
+            this.pointers.hours.render(current.getHours());
         }
 
         return this;
@@ -333,6 +330,7 @@ define(function (require, exports, module) {
                         min: 0,
                         max_degree: 540,
                         max: 60,
+                        'z-index': 1,
                     },
                     minutes: {
                         id: 'minutes',
@@ -344,6 +342,7 @@ define(function (require, exports, module) {
                         min: 0,
                         max_degree: 540,
                         max: 60,
+                        'z-index': 2,
                     },
                     hours: {
                         id: 'hours',
@@ -357,6 +356,7 @@ define(function (require, exports, module) {
                         max_degree: 540,
                         max: 12,
                         laps: 2,
+                        'z-index': 2,
                     }
                 };
             case 'clock4':
@@ -402,7 +402,7 @@ define(function (require, exports, module) {
             default:
                 throw 'Style identifier ' + style_id + ' does not match a valid Clock style.';
         }
-    }
+    };
 
     module.exports = Clock;
 });
