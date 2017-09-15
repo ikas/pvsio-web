@@ -125,6 +125,30 @@ draw pointers for the gauges.</div>
 
 
 
+    <h5>Example</h5>
+    
+        <p class="code-caption">Usage of GaugeSport within a PVSio-web project.</p>
+    
+    <pre class="prettyprint"><code>define(function (require, exports, module) {
+    "use strict";
+
+    // Require the GaugeSport module
+    require("widgets/car/GaugeSport");
+
+    function main() {
+         // After GaugeSport module was loaded, initialize it
+         var gauge = new GaugeSport(
+              'example', // id of the gauge element that will be created
+              { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
+              { style: 'example' } // options
+          );
+
+         // Render the GaugeSport widget, provinding a new value
+         gauge.render(5);
+    }
+});</code></pre>
+
+
 
         
     
@@ -306,7 +330,7 @@ draw pointers for the gauges.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line17">line 17</a>
+        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line37">line 37</a>
     </li></ul></dd>
     
 
@@ -470,7 +494,7 @@ GaugeSport widget are:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line213">line 213</a>
+        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line249">line 249</a>
     </li></ul></dd>
     
 
@@ -513,6 +537,180 @@ GaugeSport widget are:
 <li>panel_file (String) Path to the SVG panel file (inside the widgets/car/svg/gauge-panels) directory.</li>
 <li>pointer_opt (Object|Array) Object or array of objects with the configurations that should be provided to the Pointer
 that the style should compose.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getStyleConfigs"><span class="type-signature"></span>getStyleConfigs<span class="signature">(style_id)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Returns the style configurations for the provided style identifier. The possible styles for the
+Clock widget are clock, clock2, clock3 and clock4.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>style_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The style identifier.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Clock.js.html">Clock.js</a>, <a href="Clock.js.html#line227">line 227</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc">
+    
+        Will throw an error if the provided style identifier is not valid.
+    
+    </div>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    An object of configurations for the provided style identifier.
+<li>panel_file (String) Path to the SVG panel file (inside the widgets/car/svg/gauge-panels) directory.</li>
+<li>seconds (Object) Object with the configurations that will be provided to the seconds Pointer.
+<li>minutes (Object) Object with the configurations that will be provided to the minutes Pointer.
+<li>hours (Object) Object with the configurations that will be provided to the hours Pointer.
 </div>
 
 
@@ -593,7 +791,7 @@ that the style should compose.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line155">line 155</a>
+        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line191">line 191</a>
     </li></ul></dd>
     
 
@@ -752,7 +950,7 @@ will override the values provided by conf1 object.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line197">line 197</a>
+        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line233">line 233</a>
     </li></ul></dd>
     
 
@@ -887,7 +1085,7 @@ will override the values provided by conf1 object.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line177">line 177</a>
+        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line213">line 213</a>
     </li></ul></dd>
     
 
@@ -973,7 +1171,7 @@ will override the values provided by conf1 object.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line144">line 144</a>
+        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line180">line 180</a>
     </li></ul></dd>
     
 
@@ -1016,7 +1214,7 @@ will override the values provided by conf1 object.</td>
 
 <div class="description">
     Render method of the GaugeSport widget. Calls the render method of the associated pointers of this widget,
-with the provided value.
+with the provided value(s) - check the value param documentation for more info on the rendering process.
 </div>
 
 
@@ -1059,6 +1257,9 @@ with the provided value.
             
                 
 <span class="param-type">Float</span>
+|
+
+<span class="param-type">Object</span>
 
 
             
@@ -1068,7 +1269,11 @@ with the provided value.
 
             
 
-            <td class="description last">The new value of the pointer of the gauge (should be in the range of min and max values provided).</td>
+            <td class="description last">The value provided can either be a float or an object. If it is a float, the all of the
+widget pointers' render method will be called with the provided value. If it is an object, then the properties of the objects
+should match identifiers of pointers, and the value for those properties is the value that will be provided to the render
+methods. An example of this behavior is the object { pt1: 10, pt2: 20 }, where the render method of the pointer pt1 will
+be called with 10, and the render method of pointer pt2 will be called with 20.</td>
         </tr>
 
     
@@ -1132,7 +1337,7 @@ with the provided value.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line126">line 126</a>
+        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line146">line 146</a>
     </li></ul></dd>
     
 
@@ -1218,7 +1423,7 @@ with the provided value.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line166">line 166</a>
+        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line202">line 202</a>
     </li></ul></dd>
     
 
@@ -1268,7 +1473,7 @@ with the provided value.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sun Sep 10 2017 20:18:12 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Fri Sep 15 2017 14:26:53 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

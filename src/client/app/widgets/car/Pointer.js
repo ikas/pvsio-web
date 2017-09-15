@@ -6,6 +6,29 @@
  * and Clock widgets.
  *
  * @date July 12, 2017
+ *
+ * @example <caption>Usage of Pointer within a PVSio-web project.</caption>
+ * define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the Pointer module
+ *     require("widgets/car/Pointer");
+ *
+ *     function main() {
+ *          // After Pointer module was loaded, initialize it
+ *          var pointer = new Pointer(
+ *               'example', // id of the element that will be created
+ *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
+ *               { style: 1, min: 0, max: 10, min_degree: 0, max_degree: 360 }
+ *               // description of the possible options in the constructor documentation.
+ *           );
+ *
+ *          // Render the Pointer widget - the value provided should be a value between min
+ *          // and max options provided, and the angle of rotation will be interpolated from
+ *          // the min_degree and max_degree options.
+ *          pointer.render(5); // Rotates the pointer 180º
+ *     }
+ * });
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global define*/
@@ -186,6 +209,8 @@ define(function (require, exports, module) {
      * Pointer widget are the numbers from 1-5, 7-10 and 15-23.
      * @param style_id {string} The style identifier.
      * @returns {Object} An object of configurations for the provided style identifier.
+     * <li>transform_origin (String) Value for the CSS property transform origin - should be provided as percentages
+     * and not absolute values. Examples are "center top" or "50% 20%".</li>
      * @throws Will throw an error if the provided style identifier is not valid.
      * @memberof module:Pointer
      * @instance

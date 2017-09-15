@@ -6,6 +6,26 @@
  * draw pointers for the gauges.
  *
  * @date June 25, 2017
+ *
+ * @example <caption>Usage of GaugeSport within a PVSio-web project.</caption>
+ * define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the GaugeSport module
+ *     require("widgets/car/GaugeSport");
+ *
+ *     function main() {
+ *          // After GaugeSport module was loaded, initialize it
+ *          var gauge = new GaugeSport(
+ *               'example', // id of the gauge element that will be created
+ *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
+ *               { style: 'example' } // options
+ *           );
+ *
+ *          // Render the GaugeSport widget, provinding a new value
+ *          gauge.render(5);
+ *     }
+ * });
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global define*/

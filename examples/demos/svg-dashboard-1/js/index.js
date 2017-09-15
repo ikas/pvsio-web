@@ -145,17 +145,9 @@ require([
 
         // Render widgets
         function render(res) {
-
             widgets.speedometer.render(evaluate(res.speed.val));
             widgets.tachometer.render(evaluate(res.rpm));
-
-            var current = new Date();
-            widgets.clock.render({
-                seconds: current.getSeconds(),
-                minutes: current.getMinutes(),
-                hours: current.getHours(),
-            });
-
+            widgets.clock.render();
             widgets.fuel.render(100);
         }
 

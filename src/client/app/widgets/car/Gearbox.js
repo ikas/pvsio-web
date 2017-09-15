@@ -5,6 +5,27 @@
  * @desc This module is responsible for building Gearbox widget instances.
  *
  * @date July 23, 2017
+ *
+ * @example <caption>Usage of Gearbox within a PVSio-web project.</caption>
+ * define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the Gearbox module
+ *     require("widgets/car/Gearbox");
+ *
+ *     function main() {
+ *          // After Gearbox module was loaded, initialize it
+ *          var gearbox = new Gearbox(
+ *               'example', // id of the element that will be created
+ *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
+ *               { style: 'auto' } // style can be 'auto', 'manual', 'manual2' or 'manual3'
+ *           );
+ *
+ *          // Render the Gearbox widget - providing a new shift value.
+ *          gearbox.render('D'); // for automatic gearboxes, 'P' 'N' 'R' or 'D'
+ *          gearbox.render('4'); // for manual gearboxes 'R', '1', '2', '3', '4', '5' (or '6', in some cases).
+ *     }
+ * });
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global define*/
@@ -67,6 +88,7 @@ define(function (require, exports, module) {
      * @description Builds the wrapper for the gear box that will be displayed.
      * @memberof module:Gearbox
      * @instance
+     * @private
      */
     Gearbox.prototype.buildWrapper = function() {
         // Create wrapper div
@@ -83,6 +105,7 @@ define(function (require, exports, module) {
      * @description Loads the SVG that will be used as a gearbox panel.
      * @memberof module:Gearbox
      * @instance
+     * @private
      */
     Gearbox.prototype.loadPanel = function()
     {
@@ -111,6 +134,7 @@ define(function (require, exports, module) {
      * @description Loads the SVG file that will be used as a gearbox stick.
      * @memberof module:Gearbox
      * @instance
+     * @private
      */
     Gearbox.prototype.loadStick = function()
     {
@@ -167,6 +191,7 @@ define(function (require, exports, module) {
      * @param gear {String} The gear to set the position.
      * @memberof module:Gearbox
      * @instance
+     * @private
      */
     Gearbox.prototype.setStickPosition = function(gear)
     {
@@ -181,6 +206,7 @@ define(function (require, exports, module) {
      * @param gear {String} The gear to set the position.
      * @memberof module:Gearbox
      * @instance
+     * @private
      */
     Gearbox.prototype.getLeftOffset = function(gear)
     {
@@ -193,6 +219,7 @@ define(function (require, exports, module) {
      * @param gear {String} The gear to set the position.
      * @memberof module:Gearbox
      * @instance
+     * @private
      */
     Gearbox.prototype.getTopOffset = function(gear)
     {

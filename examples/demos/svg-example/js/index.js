@@ -20,7 +20,7 @@ require.config({
 
 require([
         "widgets/Button",
-        "widgets/car/GaugeSport",
+        "widgets/car/Gauge",
         "widgets/car/Gearbox",
         "widgets/car/Clock",
         "widgets/ButtonActionsQueue",
@@ -28,7 +28,7 @@ require([
         "PVSioWebClient"
     ], function (
         Button,
-        GaugeSport,
+        Gauge,
         Gearbox,
         Clock,
         ButtonActionsQueue,
@@ -96,11 +96,13 @@ require([
         //     })
         // };
 
-        var example = new GaugeSport(
+        var example = new Gauge(
             'example',
             { top: 100, left: 100, width: 300, height: 300 },
-            { style: 'example' }
+            { style: 'classic', parent: 'content' }
         );
+
+        example.render();
 
 
         // Render widgets

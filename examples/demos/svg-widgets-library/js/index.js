@@ -280,27 +280,10 @@ require([
             widgets.tachometer4.render(evaluate(res.rpm));
 
             // Clock render methods
-            var current = new Date();
-            widgets.clock1.render({
-                seconds: current.getSeconds(),
-                minutes: current.getMinutes(),
-                hours: current.getHours(),
-            });
-            widgets.clock2.render({
-                seconds: current.getSeconds(),
-                minutes: current.getMinutes(),
-                hours: current.getHours(),
-            });
-            widgets.clock3.render({
-                seconds: current.getSeconds(),
-                minutes: current.getMinutes(),
-                hours: current.getHours(),
-            });
-            widgets.clock4.render({
-                seconds: current.getSeconds(),
-                minutes: current.getMinutes(),
-                hours: current.getHours(),
-            });
+            widgets.clock1.render();
+            widgets.clock2.render();
+            widgets.clock3.render();
+            widgets.clock4.render();
         }
 
         // Fuel event handlers

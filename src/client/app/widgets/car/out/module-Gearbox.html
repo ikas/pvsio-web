@@ -124,6 +124,31 @@
 
 
 
+    <h5>Example</h5>
+    
+        <p class="code-caption">Usage of Gearbox within a PVSio-web project.</p>
+    
+    <pre class="prettyprint"><code>define(function (require, exports, module) {
+    "use strict";
+
+    // Require the Gearbox module
+    require("widgets/car/Gearbox");
+
+    function main() {
+         // After Gearbox module was loaded, initialize it
+         var gearbox = new Gearbox(
+              'example', // id of the element that will be created
+              { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
+              { style: 'auto' } // style can be 'auto', 'manual', 'manual2' or 'manual3'
+          );
+
+         // Render the Gearbox widget - providing a new shift value.
+         gearbox.render('D'); // for automatic gearboxes, 'P' 'N' 'R' or 'D'
+         gearbox.render('4'); // for manual gearboxes 'R', '1', '2', '3', '4', '5' (or '6', in some cases).
+    }
+});</code></pre>
+
+
 
         
     
@@ -145,92 +170,6 @@
 
     
         <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="buildWrapper"><span class="type-signature"></span>buildWrapper<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Builds the wrapper for the gear box that will be displayed.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line65">line 65</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
             
@@ -390,7 +329,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line14">line 14</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line35">line 35</a>
     </li></ul></dd>
     
 
@@ -435,141 +374,6 @@
 </dl>
 
     
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="getLeftOffset"><span class="type-signature"></span>getLeftOffset<span class="signature">(gear)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Returns the left offset as defined in the style configurations for the provided gear.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>gear</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The gear to set the position.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line178">line 178</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -683,7 +487,7 @@ Gearbox widget are the "auto", "manual", "manual2" and "manual3".
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line270">line 270</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line297">line 297</a>
     </li></ul></dd>
     
 
@@ -751,141 +555,6 @@ Gearbox widget are the "auto", "manual", "manual2" and "manual3".
     
 
     
-    <h4 class="name" id="getTopOffset"><span class="type-signature"></span>getTopOffset<span class="signature">(gear)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Returns the top offset as defined in the style configurations for the provided gear.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>gear</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The gear to set the position.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line190">line 190</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
     <h4 class="name" id="hide"><span class="type-signature"></span>hide<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -938,179 +607,7 @@ Gearbox widget are the "auto", "manual", "manual2" and "manual3".
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line228">line 228</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="loadPanel"><span class="type-signature"></span>loadPanel<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Loads the SVG that will be used as a gearbox panel.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line81">line 81</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="loadStick"><span class="type-signature"></span>loadStick<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Loads the SVG file that will be used as a gearbox stick.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line109">line 109</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line255">line 255</a>
     </li></ul></dd>
     
 
@@ -1245,7 +742,7 @@ Gearbox widget are the "auto", "manual", "manual2" and "manual3".
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line250">line 250</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line277">line 277</a>
     </li></ul></dd>
     
 
@@ -1331,7 +828,7 @@ Gearbox widget are the "auto", "manual", "manual2" and "manual3".
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line217">line 217</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line244">line 244</a>
     </li></ul></dd>
     
 
@@ -1489,7 +986,7 @@ Gearbox widget are the "auto", "manual", "manual2" and "manual3".
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line203">line 203</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line230">line 230</a>
     </li></ul></dd>
     
 
@@ -1575,142 +1072,7 @@ Gearbox widget are the "auto", "manual", "manual2" and "manual3".
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line239">line 239</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="setSickPosition"><span class="type-signature"></span>setSickPosition<span class="signature">(gear)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Sets the gearbox stick in the position associated with the provided gear.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>gear</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The gear to set the position.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line164">line 164</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line266">line 266</a>
     </li></ul></dd>
     
 
@@ -1760,7 +1122,7 @@ Gearbox widget are the "auto", "manual", "manual2" and "manual3".
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sun Sep 10 2017 20:18:12 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Fri Sep 15 2017 14:26:53 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>
