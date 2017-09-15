@@ -241,9 +241,9 @@ define(function (require, exports, module) {
                     panel_file: 'gauge-clock-panel-3.svg',
                     seconds: {
                         id: 'seconds',
-                        top: 68,
-                        left: 119,
-                        width: 12,
+                        top: 73,
+                        left: 123,
+                        width: 3,
                         style: 19,
                         min_degree: 180,
                         min: 0,

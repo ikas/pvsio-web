@@ -126,17 +126,33 @@ define(function (require, exports, module) {
     /**
      * @function render
      * @description Render method of the GaugeSport widget. Calls the render method of the associated pointers of this widget,
-     * with the provided value.
-     * @param value {Float} The new value of the pointer of the gauge (should be in the range of min and max values provided).
+     * with the provided value(s) - check the value param documentation for more info on the rendering process.
+     *
+     * @param value {Float|Object} The value provided can either be a float or an object. If it is a float, the all of the
+     * widget pointers' render method will be called with the provided value. If it is an object, then the properties of the objects
+     * should match identifiers of pointers, and the value for those properties is the value that will be provided to the render
+     * methods. An example of this behavior is the object { pt1: 10, pt2: 20 }, where the render method of the pointer pt1 will
+     * be called with 10, and the render method of pointer pt2 will be called with 20.
+     *
      * @param opt {Object} Override options when re-rendering. See constructor docs for detailed docs on the available options.
      * @memberof module:GaugeSport
      * @instance
      */
     GaugeSport.prototype.render = function(value, opt) {
-        var self = this;
-        Object.keys(this.pointers).map(function(key, index) {
-            self.pointers[key].render(value, opt);
-        });
+        if(value.constructor === Object) {
+            for (var prop in value) {
+                if (value.hasOwnProperty(prop)) {
+                    var renderValue = (value[prop]);
+                    this.pointers[prop].render(renderValue);
+                }
+            }
+        } else {
+            var self = this;
+            Object.keys(this.pointers).map(function(key, index) {
+                self.pointers[key].render(value, opt);
+            });
+        }
+
         return this;
     };
 
