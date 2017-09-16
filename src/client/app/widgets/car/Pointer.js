@@ -105,7 +105,7 @@ define(function (require, exports, module) {
 
             // Set transform origin attribute on the SVG element
             var origin = self.style_configs.transform_origin || "center top";
-            self.div = self.div.select('svg')
+            self.div.select('svg')
                 .style("transform-origin", origin)
                 .style("-webkit-transition", "all "+self.transition+"s ease")
                 .style("-moz-transition", "all "+self.transition+"s ease")
@@ -295,7 +295,7 @@ define(function (require, exports, module) {
             case 20:
                 return {
                     transform_origin: "50% 22%",
-                };
+                    };
 
             case 21:
                 return {

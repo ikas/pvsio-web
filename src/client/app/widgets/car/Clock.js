@@ -76,19 +76,20 @@ define(function (require, exports, module) {
             self.parent = (opt.parent) ? ("#" + opt.parent) : "body";
 
             // Find configs for Pointer widget(s)
-            self.pointers = ['hours', 'minutes', 'seconds'];
+            var pointers = ['hours', 'minutes', 'seconds'];
+            self.pointers = {};
 
             // Add all Pointer widgets to the screen
-            self.pointers.map(function(id) {
+            pointers.map(function(id) {
                 // Create Pointer widget
                 var overrideConfigs = self.opt[id] || {};
                 opt = self.mergeConfigs(self.style_configs[id], overrideConfigs);
                 opt.parent = self.id;
-                self.pointers[opt.id] = (new Pointer(
+                self.pointers[opt.id] = new Pointer(
                     self.id + '-' + id,
                     { top: opt.top, left: opt.left, height: opt.height, width: opt.width },
                     opt
-                ));
+                );
             });
 
             // Create the gauge element
@@ -136,17 +137,9 @@ define(function (require, exports, module) {
         // Clock is rendered based on the current date and time
         var current = new Date();
 
-        if(this.pointers.hasOwnProperty('seconds')) {
-            this.pointers.seconds.render(current.getSeconds());
-        }
-
-        if(this.pointers.hasOwnProperty('minutes')) {
-            this.pointers.minutes.render(current.getMinutes());
-        }
-
-        if(this.pointers.hasOwnProperty('hours')) {
-            this.pointers.hours.render(current.getHours());
-        }
+        this.pointers.seconds.render(current.getSeconds());
+        this.pointers.minutes.render(current.getMinutes());
+        this.pointers.hours.render(current.getHours());
 
         return this;
     };

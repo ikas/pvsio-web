@@ -100,11 +100,11 @@ define(function (require, exports, module) {
                     opt.parent = self.id;
                     opt.id = opt.id || id;
 
-                    self.pointers[opt.id] = (new Pointer(
+                    self.pointers[opt.id] = new Pointer(
                         opt.id,
                         { top: opt.top, left: opt.left, height: opt.height, width: opt.width },
                         opt
-                    ));
+                    );
                 });
             }
 
@@ -155,7 +155,8 @@ define(function (require, exports, module) {
      * @memberof module:GaugeSport
      * @instance
      */
-    GaugeSport.prototype.render = function(value, opt) {
+    GaugeSport.prototype.render = function(value, opt)
+    {
         if(value.constructor === Object) {
             for (var prop in value) {
                 if (value.hasOwnProperty(prop)) {
@@ -462,25 +463,25 @@ define(function (require, exports, module) {
                     pointer_opt: [
                         {
                             id: 'temperature',
-                            style: 21,
-                            min_degree: 44,
-                            max_degree: 136,
+                            style: 20,
+                            min_degree: 50,
+                            max_degree: 130,
                             min: 50,
                             max: 130,
-                            top: 94,
-                            left: 76,
-                            width: 30,
+                            top: 104,
+                            left: 89,
+                            width: 22,
                             transition: 0.3,
                         },
                         {
                             id: 'fuel',
-                            style: 21,
-                            min_degree: -44,
-                            max_degree: -136,
+                            style: 20,
+                            min_degree: -50,
+                            max_degree: -130,
                             max: 100,
-                            top: 94,
-                            left: 144,
-                            width: 30,
+                            top: 104,
+                            left: 134,
+                            width: 22,
                             transition: 0.3,
                         }
                     ]
