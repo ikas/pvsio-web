@@ -54,6 +54,9 @@ define(function (require, exports, module) {
 
         this.id = id;
 
+        // Ready to render control flag
+        this.readyToRender = false;
+
         // Handle coords
         coords = coords || {};
         this.top = coords.top || 0;
@@ -134,6 +137,9 @@ define(function (require, exports, module) {
             // Set transform origin attributes and scale the SVG elements
             self.div.select('svg').style("transform-origin", "0 0").style('transform', 'scale('+ratio+')');
 
+            // Set widget as ready to render
+            self.readyToRender = true;
+
             return self;
         });
 
@@ -157,6 +163,11 @@ define(function (require, exports, module) {
      */
     GaugeSport.prototype.render = function(value, opt)
     {
+        // If widget is not ready to render, then do nothing
+        if(!this.readyToRender) {
+            return this;
+        }
+
         if(value.constructor === Object) {
             for (var prop in value) {
                 if (value.hasOwnProperty(prop)) {
