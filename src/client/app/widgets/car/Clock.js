@@ -33,6 +33,7 @@ define(function (require, exports, module) {
     "use strict";
 
     var Pointer = require("widgets/car/Pointer");
+    var SVGWidget = require("widgets/car/SVGWidget");
 
     /**
      * @function constructor
@@ -50,11 +51,9 @@ define(function (require, exports, module) {
      * @instance
      */
     function Clock(id, coords, opt) {
+        SVGWidget.call(this, id, coords, opt);
 
         this.id = id;
-
-        // Ready to render control flag
-        this.readyToRender = false;
 
         // Handle coords
         coords = coords || {};
@@ -121,14 +120,16 @@ define(function (require, exports, module) {
             // Set transform origin attributes and scale the SVG elements
             self.div.select('svg').style("transform-origin", "0 0").style('transform', 'scale('+ratio+')');
 
-            // Set widget as ready to render
-            self.readyToRender = true;
-
+            self.ready();
             return self;
         });
 
         return this;
     }
+
+    Clock.prototype = Object.create(SVGWidget.prototype);
+    Clock.prototype.constructor = Clock;
+    Clock.prototype.parentClass = SVGWidget.prototype;
 
     /**
      * @function render
@@ -140,17 +141,13 @@ define(function (require, exports, module) {
      */
     Clock.prototype.render = function()
     {
-        // If widget is not ready to render, then do nothing
-        if(!this.readyToRender) {
-            return this;
+        if(this.isReady()) {
+            // Clock is rendered based on the current date and time
+            var current = new Date();
+            this.pointers.seconds.render(current.getSeconds());
+            this.pointers.minutes.render(current.getMinutes());
+            this.pointers.hours.render(current.getHours());
         }
-
-        // Clock is rendered based on the current date and time
-        var current = new Date();
-
-        this.pointers.seconds.render(current.getSeconds());
-        this.pointers.minutes.render(current.getMinutes());
-        this.pointers.hours.render(current.getHours());
 
         return this;
     };

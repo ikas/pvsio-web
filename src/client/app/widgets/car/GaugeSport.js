@@ -33,6 +33,7 @@ define(function (require, exports, module) {
     "use strict";
 
     var Pointer = require("widgets/car/Pointer");
+    var SVGWidget = require("widgets/car/SVGWidget");
 
     /**
      * @function constructor
@@ -51,6 +52,7 @@ define(function (require, exports, module) {
      * @instance
      */
     function GaugeSport(id, coords, opt) {
+        SVGWidget.call(this, id, coords, opt);
 
         this.id = id;
 
@@ -137,14 +139,16 @@ define(function (require, exports, module) {
             // Set transform origin attributes and scale the SVG elements
             self.div.select('svg').style("transform-origin", "0 0").style('transform', 'scale('+ratio+')');
 
-            // Set widget as ready to render
-            self.readyToRender = true;
-
+            self.ready();
             return self;
         });
 
         return this;
     }
+
+    GaugeSport.prototype = Object.create(SVGWidget.prototype);
+    GaugeSport.prototype.constructor = GaugeSport;
+    GaugeSport.prototype.parentClass = SVGWidget.prototype;
 
     /**
      * @function render
@@ -163,23 +167,20 @@ define(function (require, exports, module) {
      */
     GaugeSport.prototype.render = function(value, opt)
     {
-        // If widget is not ready to render, then do nothing
-        if(!this.readyToRender) {
-            return this;
-        }
-
-        if(value.constructor === Object) {
-            for (var prop in value) {
-                if (value.hasOwnProperty(prop)) {
-                    var renderValue = (value[prop]);
-                    this.pointers[prop].render(renderValue);
+        if(this.isReady()) {
+            if(value.constructor === Object) {
+                for (var prop in value) {
+                    if (value.hasOwnProperty(prop)) {
+                        var renderValue = (value[prop]);
+                        this.pointers[prop].render(renderValue);
+                    }
                 }
+            } else {
+                var self = this;
+                Object.keys(this.pointers).map(function(key, index) {
+                    self.pointers[key].render(value, opt);
+                });
             }
-        } else {
-            var self = this;
-            Object.keys(this.pointers).map(function(key, index) {
-                self.pointers[key].render(value, opt);
-            });
         }
 
         return this;

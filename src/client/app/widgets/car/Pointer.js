@@ -34,6 +34,8 @@
 define(function (require, exports, module) {
     "use strict";
 
+    var SVGWidget = require("widgets/car/SVGWidget");
+
     /**
      * @function constructor
      * @description Constructor for the Pointer widget.
@@ -59,12 +61,10 @@ define(function (require, exports, module) {
      * @instance
      */
     function Pointer(id, coords, opt) {
+        SVGWidget.call(this, id, coords, opt);
 
         // Save id for later usage
         this.id = id;
-
-        // Ready to render control flag
-        this.readyToRender = false;
 
         // Handle coords object
         coords = coords || {};
@@ -118,17 +118,18 @@ define(function (require, exports, module) {
                 self.div.style('z-index', opt['z-index']);
             }
 
-            // Set widget as ready to render
-            self.readyToRender = true;
-
             // Set initial position
+            self.ready();
             self.render(self.initial);
-
             return self;
         });
 
         return this;
     }
+
+    Pointer.prototype = Object.create(SVGWidget.prototype);
+    Pointer.prototype.constructor = Pointer;
+    Pointer.prototype.parentClass = SVGWidget.prototype;
 
     /**
      * @function render
@@ -143,21 +144,19 @@ define(function (require, exports, module) {
      */
     Pointer.prototype.render = function(value, opt) {
 
-        // If widget is not ready to render, then do nothing
-        if(!this.readyToRender) {
-            return this;
+        if(this.isReady()) {
+            if(value < (this.min * this.laps)) {
+                value = this.min;
+            }
+
+            if(value > (this.max * this.laps)) {
+                value = this.max;
+            }
+
+            this.div.select('svg')
+                .style('transform', 'rotate(' + this.value2deg(value) + 'deg)');
         }
 
-        if(value < (this.min * this.laps)) {
-            value = this.min;
-        }
-
-        if(value > (this.max * this.laps)) {
-            value = this.max;
-        }
-
-        this.div.select('svg')
-            .style('transform', 'rotate(' + this.value2deg(value) + 'deg)');
         return this;
     };
 

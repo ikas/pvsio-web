@@ -32,6 +32,8 @@
 define(function (require, exports, module) {
     "use strict";
 
+    var SVGWidget = require("widgets/car/SVGWidget");
+
     /**
      * @function constructor
      * @description Constructor for the Gearbox widget.
@@ -48,6 +50,7 @@ define(function (require, exports, module) {
      * @instance
      */
     function Gearbox(id, coords, opt) {
+        SVGWidget.call(this, id, coords, opt);
 
         // Save id for later usage
         this.id = id;
@@ -85,6 +88,10 @@ define(function (require, exports, module) {
 
         return this;
     }
+
+    Gearbox.prototype = Object.create(SVGWidget.prototype);
+    Gearbox.prototype.constructor = Gearbox;
+    Gearbox.prototype.parentClass = SVGWidget.prototype;
 
 
     /**
