@@ -53,6 +53,9 @@ define(function (require, exports, module) {
 
         this.id = id;
 
+        // Ready to render control flag
+        this.readyToRender = false;
+
         // Handle coords
         coords = coords || {};
         this.top = coords.top || 0;
@@ -118,6 +121,9 @@ define(function (require, exports, module) {
             // Set transform origin attributes and scale the SVG elements
             self.div.select('svg').style("transform-origin", "0 0").style('transform', 'scale('+ratio+')');
 
+            // Set widget as ready to render
+            self.readyToRender = true;
+
             return self;
         });
 
@@ -134,6 +140,11 @@ define(function (require, exports, module) {
      */
     Clock.prototype.render = function()
     {
+        // If widget is not ready to render, then do nothing
+        if(!this.readyToRender) {
+            return this;
+        }
+
         // Clock is rendered based on the current date and time
         var current = new Date();
 
@@ -240,7 +251,7 @@ define(function (require, exports, module) {
                         top: 68,
                         left: 119,
                         width: 12,
-                        style: 19,
+                        style: 'gauge-pointer-19',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -251,7 +262,7 @@ define(function (require, exports, module) {
                         top: 109,
                         left: 120,
                         width: 11,
-                        style: 18,
+                        style: 'gauge-pointer-18',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -263,7 +274,7 @@ define(function (require, exports, module) {
                         left: 118,
                         height: 60,
                         width: 14,
-                        style: 17,
+                        style: 'gauge-pointer-17',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -279,7 +290,7 @@ define(function (require, exports, module) {
                         top: 68,
                         left: 119,
                         width: 12,
-                        style: 19,
+                        style: 'gauge-pointer-19',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -290,7 +301,7 @@ define(function (require, exports, module) {
                         top: 109,
                         left: 120,
                         width: 11,
-                        style: 18,
+                        style: 'gauge-pointer-18',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -302,7 +313,7 @@ define(function (require, exports, module) {
                         left: 118,
                         height: 60,
                         width: 14,
-                        style: 17,
+                        style: 'gauge-pointer-17',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -318,7 +329,7 @@ define(function (require, exports, module) {
                         top: 73,
                         left: 123,
                         width: 3,
-                        style: 19,
+                        style: 'gauge-pointer-19',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -330,7 +341,7 @@ define(function (require, exports, module) {
                         top: 109,
                         left: 120,
                         width: 11,
-                        style: 18,
+                        style: 'gauge-pointer-18',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -343,7 +354,7 @@ define(function (require, exports, module) {
                         left: 118,
                         height: 60,
                         width: 14,
-                        style: 17,
+                        style: 'gauge-pointer-17',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -360,7 +371,7 @@ define(function (require, exports, module) {
                         top: 68,
                         left: 119,
                         width: 12,
-                        style: 19,
+                        style: 'gauge-pointer-19',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -371,7 +382,7 @@ define(function (require, exports, module) {
                         top: 109,
                         left: 120,
                         width: 11,
-                        style: 18,
+                        style: 'gauge-pointer-18',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -383,7 +394,7 @@ define(function (require, exports, module) {
                         left: 118,
                         height: 60,
                         width: 14,
-                        style: 17,
+                        style: 'gauge-pointer-17',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,

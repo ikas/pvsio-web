@@ -271,7 +271,7 @@ define(function (require, exports, module) {
                     panel_file: 'gauge-tachometer-panel-1.svg',
                     pointer_opt: {
                         max: 10,
-                        style: 3,
+                        style: 'gauge-pointer-3',
                         min_degree: 58,
                         max_degree: 306,
                         width: 38,
@@ -284,7 +284,7 @@ define(function (require, exports, module) {
                     panel_file: 'gauge-tachometer-panel-2.svg',
                     pointer_opt: {
                         max: 8,
-                        style: 20,
+                        style: 'gauge-pointer-20',
                         min_degree: 65,
                         max_degree: 298,
                         top: 105,
@@ -299,7 +299,7 @@ define(function (require, exports, module) {
                         max: 8,
                         min_degree: 73,
                         max_degree: 181,
-                        style: 9,
+                        style: 'gauge-pointer-9',
                         width: 8,
                         top: 105,
                         left: 112.5,
@@ -310,7 +310,7 @@ define(function (require, exports, module) {
                     panel_file: 'gauge-tachometer-panel-4.svg',
                     pointer_opt: {
                         max: 8,
-                        style: 10,
+                        style: 'gauge-pointer-10',
                         min_degree: 68,
                         max_degree: 298,
                         top: 110,
@@ -330,7 +330,7 @@ define(function (require, exports, module) {
                         min: 10,
                         max_degree: 309,
                         max: 140,
-                        style: 4,
+                        style: 'gauge-pointer-4',
                         top: 111,
                         left: 111,
                         width: 34,
@@ -343,7 +343,7 @@ define(function (require, exports, module) {
                         min_degree: 90,
                         max_degree: 330,
                         max: 120,
-                        style: 23,
+                        style: 'gauge-pointer-23',
                         top: 110,
                         left: 113.5,
                         width: 23,
@@ -359,7 +359,7 @@ define(function (require, exports, module) {
                         min_degree: 79,
                         max_degree: 279,
                         max: 190,
-                        style: 5,
+                        style: 'gauge-pointer-5',
                     }
                 };
             case 'speedometer4':
@@ -369,7 +369,7 @@ define(function (require, exports, module) {
                         min_degree: 78,
                         max_degree: 284,
                         max: 140,
-                        style: 2,
+                        style: 'gauge-pointer-2',
                         width: 8,
                     }
                 };
@@ -380,7 +380,7 @@ define(function (require, exports, module) {
                         min_degree: 60,
                         max_degree: 304,
                         max: 240,
-                        style: 2,
+                        style: 'gauge-pointer-2',
                         width: 8,
                     }
                 };
@@ -391,7 +391,7 @@ define(function (require, exports, module) {
                         min_degree: 49,
                         max_degree: 315,
                         max: 120,
-                        style: 9,
+                        style: 'gauge-pointer-9',
                         width: 8,
                         top: 105,
                         left: 112.5,
@@ -404,7 +404,7 @@ define(function (require, exports, module) {
                         min_degree: 55,
                         max_degree: 308,
                         max: 140,
-                        style: 10,
+                        style: 'gauge-pointer-10',
                     }
                 };
             case 'speedometer8':
@@ -416,7 +416,7 @@ define(function (require, exports, module) {
                         min_degree: 48,
                         max_degree: 312,
                         max: 220,
-                        style: 22,
+                        style: 'gauge-pointer-22',
                         width: 34,
                     }
                 };
@@ -430,7 +430,7 @@ define(function (require, exports, module) {
                     pointer_opt: {
                         top: 113,
                         left: 195,
-                        style: 8,
+                        style: 'gauge-pointer-8',
                         min_degree: 45,
                         max_degree: 135,
                         max: 130,
@@ -449,7 +449,7 @@ define(function (require, exports, module) {
                         top: 115,
                         left: 119,
                         height: 80,
-                        style: 16,
+                        style: 'gauge-pointer-16',
                         min_degree: 115,
                         max_degree: 242,
                         max: 100,
@@ -463,7 +463,7 @@ define(function (require, exports, module) {
                     pointer_opt: [
                         {
                             id: 'temperature',
-                            style: 20,
+                            style: 'gauge-pointer-20',
                             min_degree: 50,
                             max_degree: 130,
                             min: 50,
@@ -475,7 +475,7 @@ define(function (require, exports, module) {
                         },
                         {
                             id: 'fuel',
-                            style: 20,
+                            style: 'gauge-pointer-20',
                             min_degree: -50,
                             max_degree: -130,
                             max: 100,
@@ -490,7 +490,7 @@ define(function (require, exports, module) {
                 return {
                     panel_file: 'gauge-fuel-panel-2.svg',
                     pointer_opt: {
-                        style: 10,
+                        style: 'gauge-pointer-10',
                         top: 100,
                         left: 168,
                         width: 34,
@@ -506,7 +506,7 @@ define(function (require, exports, module) {
                     pointer_opt: {
                         top: 106,
                         left: 106,
-                        style: 3,
+                        style: 'gauge-pointer-3',
                         width: 38,
                         min_degree: 90,
                         max_degree: 270,
@@ -524,7 +524,7 @@ define(function (require, exports, module) {
                     pointer_opt: {
                         top: 155,
                         left: 110,
-                        style: 5,
+                        style: 'gauge-pointer-5',
                         width: 20,
                         min_degree: 136,
                         max_degree: 220,
@@ -542,7 +542,7 @@ define(function (require, exports, module) {
                     pointer_opt: {
                         top: 25,
                         left: 112,
-                        style: 15,
+                        style: 'gauge-pointer-15',
                         min_degree: 180,
                         max_degree: 540,
                         height: 220,
@@ -557,7 +557,7 @@ define(function (require, exports, module) {
                     pointer_opt: {
                         top: 25,
                         left: 112,
-                        style: 15,
+                        style: 'gauge-pointer-15',
                         min_degree: 180,
                         max_degree: 540,
                         height: 220,
@@ -572,7 +572,7 @@ define(function (require, exports, module) {
                     panel_file: 'example.svg',
                     pointer_opt: {
                         max: 10,
-                        style: 3,
+                        style: 'gauge-pointer-3',
                         min_degree: 58,
                         max_degree: 306,
                         width: 38,

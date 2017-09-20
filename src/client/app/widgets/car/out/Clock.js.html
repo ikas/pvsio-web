@@ -104,19 +104,20 @@ define(function (require, exports, module) {
             self.parent = (opt.parent) ? ("#" + opt.parent) : "body";
 
             // Find configs for Pointer widget(s)
-            self.pointers = ['hours', 'minutes', 'seconds'];
+            var pointers = ['hours', 'minutes', 'seconds'];
+            self.pointers = {};
 
             // Add all Pointer widgets to the screen
-            self.pointers.map(function(id) {
+            pointers.map(function(id) {
                 // Create Pointer widget
                 var overrideConfigs = self.opt[id] || {};
                 opt = self.mergeConfigs(self.style_configs[id], overrideConfigs);
                 opt.parent = self.id;
-                self.pointers[opt.id] = (new Pointer(
+                self.pointers[opt.id] = new Pointer(
                     self.id + '-' + id,
                     { top: opt.top, left: opt.left, height: opt.height, width: opt.width },
                     opt
-                ));
+                );
             });
 
             // Create the gauge element
@@ -164,17 +165,9 @@ define(function (require, exports, module) {
         // Clock is rendered based on the current date and time
         var current = new Date();
 
-        if(this.pointers.hasOwnProperty('seconds')) {
-            this.pointers.seconds.render(current.getSeconds());
-        }
-
-        if(this.pointers.hasOwnProperty('minutes')) {
-            this.pointers.minutes.render(current.getMinutes());
-        }
-
-        if(this.pointers.hasOwnProperty('hours')) {
-            this.pointers.hours.render(current.getHours());
-        }
+        this.pointers.seconds.render(current.getSeconds());
+        this.pointers.minutes.render(current.getMinutes());
+        this.pointers.hours.render(current.getHours());
 
         return this;
     };
@@ -275,7 +268,7 @@ define(function (require, exports, module) {
                         top: 68,
                         left: 119,
                         width: 12,
-                        style: 19,
+                        style: 'gauge-pointer-19',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -286,7 +279,7 @@ define(function (require, exports, module) {
                         top: 109,
                         left: 120,
                         width: 11,
-                        style: 18,
+                        style: 'gauge-pointer-18',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -298,7 +291,7 @@ define(function (require, exports, module) {
                         left: 118,
                         height: 60,
                         width: 14,
-                        style: 17,
+                        style: 'gauge-pointer-17',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -314,7 +307,7 @@ define(function (require, exports, module) {
                         top: 68,
                         left: 119,
                         width: 12,
-                        style: 19,
+                        style: 'gauge-pointer-19',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -325,7 +318,7 @@ define(function (require, exports, module) {
                         top: 109,
                         left: 120,
                         width: 11,
-                        style: 18,
+                        style: 'gauge-pointer-18',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -337,7 +330,7 @@ define(function (require, exports, module) {
                         left: 118,
                         height: 60,
                         width: 14,
-                        style: 17,
+                        style: 'gauge-pointer-17',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -353,7 +346,7 @@ define(function (require, exports, module) {
                         top: 73,
                         left: 123,
                         width: 3,
-                        style: 19,
+                        style: 'gauge-pointer-19',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -365,7 +358,7 @@ define(function (require, exports, module) {
                         top: 109,
                         left: 120,
                         width: 11,
-                        style: 18,
+                        style: 'gauge-pointer-18',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -378,7 +371,7 @@ define(function (require, exports, module) {
                         left: 118,
                         height: 60,
                         width: 14,
-                        style: 17,
+                        style: 'gauge-pointer-17',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -395,7 +388,7 @@ define(function (require, exports, module) {
                         top: 68,
                         left: 119,
                         width: 12,
-                        style: 19,
+                        style: 'gauge-pointer-19',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -406,7 +399,7 @@ define(function (require, exports, module) {
                         top: 109,
                         left: 120,
                         width: 11,
-                        style: 18,
+                        style: 'gauge-pointer-18',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -418,7 +411,7 @@ define(function (require, exports, module) {
                         left: 118,
                         height: 60,
                         width: 14,
-                        style: 17,
+                        style: 'gauge-pointer-17',
                         min_degree: 180,
                         min: 0,
                         max_degree: 540,
@@ -450,7 +443,7 @@ define(function (require, exports, module) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Fri Sep 15 2017 16:03:05 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sun Sep 17 2017 16:07:02 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

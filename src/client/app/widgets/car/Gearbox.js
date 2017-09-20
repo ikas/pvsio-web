@@ -52,6 +52,10 @@ define(function (require, exports, module) {
         // Save id for later usage
         this.id = id;
 
+        // Ready to render control flag
+        this.stickReady = false;
+        this.panelReady = false;
+
         // Handle coords object
         coords = coords || {};
         this.top = coords.top || 0;
@@ -125,6 +129,9 @@ define(function (require, exports, module) {
             self.panel.select('svg')
                 .style("transform", "scale(" + scale + "," + scale +")")
                 .style("transform-origin", "0 0");
+
+            // Report panel as ready
+            self.reportPanelReady();
         });
     };
 
@@ -178,6 +185,9 @@ define(function (require, exports, module) {
 
             // Set sticker initial positios
             self.setStickPosition('P');
+
+            // Report stick as ready
+            self.reportStickReady();
         });
     };
 
@@ -223,18 +233,57 @@ define(function (require, exports, module) {
         return this.style_configs.topOffsets[gear];
     };
 
+    /**
+     * @function reportPanelReady
+     * @description Set panel as ready to render.
+     * @memberof module:Gearbox
+     * @instance
+     * @private
+     */
+    Gearbox.prototype.reportPanelReady = function()
+    {
+        this.panelReady = true;
+    }
+
+    /**
+     * @function reportStickReady
+     * @description Set stick as ready to render.
+     * @memberof module:Gearbox
+     * @instance
+     * @private
+     */
+    Gearbox.prototype.reportStickReady = function()
+    {
+        this.stickReady = true;
+    }
+
+    /**
+     * @function isReady
+     * @description Checks if the gearbox instance is ready to be rendered.
+     * @memberof module:Gearbox
+     * @instance
+     */
+    Gearbox.prototype.isReady = function()
+    {
+        return this.panelReady && this.stickReady;
+    }
 
     /**
      * @function render
-     * @description Render method of the Gearbox widget. Re-renders the gearbox with the provided new value and configurations.
+     * @description Render method of the Gearbox widget (if it is ready to render).
+     * Re-renders the gearbox with the provided new value and configurations.
      * @param value {String} The new gear that will be set in the gearbox.
-     * @param opt {Object} Override options when re-rendering. See constructor docs for detailed docs on the available options.
+     * @param opt {Object} Override options when re-rendering. See constructor docs
+     * for detailed docs on the available options.
      * @memberof module:Gearbox
      * @instance
      */
     Gearbox.prototype.render = function(value, opt)
     {
-        this.setStickPosition(value);
+        if(this.isReady()) {
+            this.setStickPosition(value);
+        }
+
         return this;
     };
 
@@ -293,8 +342,8 @@ define(function (require, exports, module) {
 
     /**
      * @function getStyleConfigs
-     * @description Returns the style configurations for the provided style identifier. The possible styles for the
-     * Gearbox widget are the "auto", "manual", "manual2" and "manual3".
+     * @description Returns the style configurations for the provided style identifier. The
+     * possible styles for the Gearbox widget are the "auto", "manual", "manual2" and "manual3".
      * @param style_id {string} The style identifier.
      * @returns {Object} An object of configurations for the provided style identifier.
      * @throws Will throw an error if the provided style identifier is not valid.
