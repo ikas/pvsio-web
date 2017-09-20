@@ -60,6 +60,8 @@
 define(function (require, exports, module) {
     "use strict";
 
+    var SVGWidget = require("widgets/car/SVGWidget");
+
     /**
      * @function constructor
      * @description Constructor for the Gearbox widget.
@@ -76,9 +78,14 @@ define(function (require, exports, module) {
      * @instance
      */
     function Gearbox(id, coords, opt) {
+        SVGWidget.call(this, id, coords, opt);
 
         // Save id for later usage
         this.id = id;
+
+        // Ready to render control flag
+        this.stickReady = false;
+        this.panelReady = false;
 
         // Handle coords object
         coords = coords || {};
@@ -109,6 +116,10 @@ define(function (require, exports, module) {
 
         return this;
     }
+
+    Gearbox.prototype = Object.create(SVGWidget.prototype);
+    Gearbox.prototype.constructor = Gearbox;
+    Gearbox.prototype.parentClass = SVGWidget.prototype;
 
 
     /**
@@ -153,6 +164,9 @@ define(function (require, exports, module) {
             self.panel.select('svg')
                 .style("transform", "scale(" + scale + "," + scale +")")
                 .style("transform-origin", "0 0");
+
+            // Report panel as ready
+            self.reportPanelReady();
         });
     };
 
@@ -206,6 +220,9 @@ define(function (require, exports, module) {
 
             // Set sticker initial positios
             self.setStickPosition('P');
+
+            // Report stick as ready
+            self.reportStickReady();
         });
     };
 
@@ -251,78 +268,64 @@ define(function (require, exports, module) {
         return this.style_configs.topOffsets[gear];
     };
 
+    /**
+     * @function reportPanelReady
+     * @description Set panel as ready to render.
+     * @memberof module:Gearbox
+     * @instance
+     * @private
+     */
+    Gearbox.prototype.reportPanelReady = function()
+    {
+        this.panelReady = true;
+    };
+
+    /**
+     * @function reportStickReady
+     * @description Set stick as ready to render.
+     * @memberof module:Gearbox
+     * @instance
+     * @private
+     */
+    Gearbox.prototype.reportStickReady = function()
+    {
+        this.stickReady = true;
+    };
+
+    /**
+     * @function isReady
+     * @description Checks if the gearbox instance is ready to be rendered.
+     * @memberof module:Gearbox
+     * @instance
+     */
+    Gearbox.prototype.isReady = function()
+    {
+        return this.panelReady &amp;&amp; this.stickReady;
+    };
 
     /**
      * @function render
-     * @description Render method of the Gearbox widget. Re-renders the gearbox with the provided new value and configurations.
+     * @description Render method of the Gearbox widget (if it is ready to render).
+     * Re-renders the gearbox with the provided new value and configurations.
      * @param value {String} The new gear that will be set in the gearbox.
-     * @param opt {Object} Override options when re-rendering. See constructor docs for detailed docs on the available options.
+     * @param opt {Object} Override options when re-rendering. See constructor docs
+     * for detailed docs on the available options.
      * @memberof module:Gearbox
      * @instance
      */
     Gearbox.prototype.render = function(value, opt)
     {
-        this.setStickPosition(value);
-        return this;
-    };
-
-    /**
-     * @function remove
-     * @description Removes the instance of the Gearbox widget.
-     * @memberof module:Gearbox
-     * @instance
-     */
-    Gearbox.prototype.remove = function () {
-        this.wrapper.remove();
-        return this;
-    };
-
-    /**
-     * @function hide
-     * @description Hides the instance of the Gearbox widget.
-     * @memberof module:Gearbox
-     * @instance
-     */
-    Gearbox.prototype.hide = function () {
-        this.wrapper.style("display", "none");
-        return this;
-    };
-
-    /**
-     * @function reveal
-     * @description Reveal the instance of the Gearbox widget.
-     * @memberof module:Gearbox
-     * @instance
-     */
-    Gearbox.prototype.reveal = function () {
-        this.wrapper.style("display", "block");
-        return this;
-    };
-
-    /**
-     * @function move
-     * @description Hides the instance of the Gearbox widget.
-     * @param data {Object} An object with the new coordinate values (top and/or left).
-     * @memberof module:Gearbox
-     * @instance
-     */
-    Gearbox.prototype.move = function (data) {
-        data = data || {};
-        if (data.top) {
-            this.top = data.top;
-            this.wrapper.style("top", this.top + "px");
+        if(this.isReady()) {
+            this.setStickPosition(value);
         }
-        if (data.left) {
-            this.left = data.left;
-            this.wrapper.style("left", this.left + "px");
-        }
+
         return this;
     };
 
     /**
      * @function getStyleConfigs
-     * @description Returns the style configurations for the provided style identifier. The possible styles for the
-     * Gearbox widget are the "auto", "manual", "manual2" and "manual3".
+     * @description Returns the style configurations for the provided style identifier. The
+     * possible styles for the Gearbox widget are the "auto", "manual", "manual2" and "manual3".
      * @param style_id {string} The style identifier.
      * @returns {Object} An object of configurations for the provided style identifier.
      * @throws Will throw an error if the provided style identifier is not valid.
@@ -474,13 +477,13 @@ define(function (require, exports, module) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-CentralPanel.html">CentralPanel</a></li><li><a href="module-Clock.html">Clock</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GaugeSport.html">GaugeSport</a></li><li><a href="module-Gearbox.html">Gearbox</a></li><li><a href="module-Pointer.html">Pointer</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-CentralPanel.html">CentralPanel</a></li><li><a href="module-Clock.html">Clock</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GaugeSport.html">GaugeSport</a></li><li><a href="module-Gearbox.html">Gearbox</a></li><li><a href="module-Pointer.html">Pointer</a></li><li><a href="module-SVGWidget.html">SVGWidget</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sun Sep 17 2017 16:07:02 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Thu Sep 21 2017 00:11:55 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

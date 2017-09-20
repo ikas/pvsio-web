@@ -250,7 +250,7 @@ define(function (require, exports, module) {
     Gearbox.prototype.reportPanelReady = function()
     {
         this.panelReady = true;
-    }
+    };
 
     /**
      * @function reportStickReady
@@ -262,7 +262,7 @@ define(function (require, exports, module) {
     Gearbox.prototype.reportStickReady = function()
     {
         this.stickReady = true;
-    }
+    };
 
     /**
      * @function isReady
@@ -273,7 +273,7 @@ define(function (require, exports, module) {
     Gearbox.prototype.isReady = function()
     {
         return this.panelReady && this.stickReady;
-    }
+    };
 
     /**
      * @function render
@@ -291,59 +291,6 @@ define(function (require, exports, module) {
             this.setStickPosition(value);
         }
 
-        return this;
-    };
-
-    /**
-     * @function remove
-     * @description Removes the instance of the Gearbox widget.
-     * @memberof module:Gearbox
-     * @instance
-     */
-    Gearbox.prototype.remove = function () {
-        this.wrapper.remove();
-        return this;
-    };
-
-    /**
-     * @function hide
-     * @description Hides the instance of the Gearbox widget.
-     * @memberof module:Gearbox
-     * @instance
-     */
-    Gearbox.prototype.hide = function () {
-        this.wrapper.style("display", "none");
-        return this;
-    };
-
-    /**
-     * @function reveal
-     * @description Reveal the instance of the Gearbox widget.
-     * @memberof module:Gearbox
-     * @instance
-     */
-    Gearbox.prototype.reveal = function () {
-        this.wrapper.style("display", "block");
-        return this;
-    };
-
-    /**
-     * @function move
-     * @description Hides the instance of the Gearbox widget.
-     * @param data {Object} An object with the new coordinate values (top and/or left).
-     * @memberof module:Gearbox
-     * @instance
-     */
-    Gearbox.prototype.move = function (data) {
-        data = data || {};
-        if (data.top) {
-            this.top = data.top;
-            this.wrapper.style("top", this.top + "px");
-        }
-        if (data.left) {
-            this.left = data.left;
-            this.wrapper.style("left", this.left + "px");
-        }
         return this;
     };
 

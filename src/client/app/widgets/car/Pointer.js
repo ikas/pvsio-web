@@ -174,61 +174,7 @@ define(function (require, exports, module) {
         var rangePerc = (value - this.min) / (this.max - this.min);
         var interpolatedOffset = rangePerc * (this.max_degree - this.min_degree);
         return this.min_degree + interpolatedOffset;
-    }
-
-    /**
-     * @function remove
-     * @description Removes the instance of the Pointer widget.
-     * @memberof module:Pointer
-     * @instance
-     */
-    Pointer.prototype.remove = function () {
-        this.div.remove();
-        return this;
     };
-
-    /**
-     * @function hide
-     * @description Hides the instance of the Pointer widget.
-     * @memberof module:Pointer
-     * @instance
-     */
-    Pointer.prototype.hide = function () {
-        this.div.style("display", "none");
-        return this;
-    };
-
-    /**
-     * @function reveal
-     * @description Reveal the instance of the Pointer widget.
-     * @memberof module:Pointer
-     * @instance
-     */
-    Pointer.prototype.reveal = function () {
-        this.div.style("display", "block");
-        return this;
-    };
-
-    /**
-     * @function move
-     * @description Hides the instance of the Pointer widget.
-     * @param data {Object} An object with the new coordinate values (top and/or left).
-     * @memberof module:Pointer
-     * @instance
-     */
-    Pointer.prototype.move = function (data) {
-        data = data || {};
-        if (data.top) {
-            this.top = data.top;
-            this.div.style("top", this.top + "px");
-        }
-        if (data.left) {
-            this.left = data.left;
-            this.div.style("left", this.left + "px");
-        }
-        return this;
-    };
-
 
     /**
      * @function getStyleConfigs

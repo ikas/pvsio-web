@@ -61,6 +61,7 @@ define(function (require, exports, module) {
     "use strict";
 
     var Pointer = require("widgets/car/Pointer");
+    var SVGWidget = require("widgets/car/SVGWidget");
 
     /**
      * @function constructor
@@ -79,8 +80,12 @@ define(function (require, exports, module) {
      * @instance
      */
     function GaugeSport(id, coords, opt) {
+        SVGWidget.call(this, id, coords, opt);
 
         this.id = id;
+
+        // Ready to render control flag
+        this.readyToRender = false;
 
         // Handle coords
         coords = coords || {};
@@ -162,11 +167,16 @@ define(function (require, exports, module) {
             // Set transform origin attributes and scale the SVG elements
             self.div.select('svg').style("transform-origin", "0 0").style('transform', 'scale('+ratio+')');
 
+            self.ready();
             return self;
         });
 
         return this;
     }
+
+    GaugeSport.prototype = Object.create(SVGWidget.prototype);
+    GaugeSport.prototype.constructor = GaugeSport;
+    GaugeSport.prototype.parentClass = SVGWidget.prototype;
 
     /**
      * @function render
@@ -185,92 +195,24 @@ define(function (require, exports, module) {
      */
     GaugeSport.prototype.render = function(value, opt)
     {
-        if(value.constructor === Object) {
-            for (var prop in value) {
-                if (value.hasOwnProperty(prop)) {
-                    var renderValue = (value[prop]);
-                    this.pointers[prop].render(renderValue);
+        if(this.isReady()) {
+            if(value.constructor === Object) {
+                for (var prop in value) {
+                    if (value.hasOwnProperty(prop)) {
+                        var renderValue = (value[prop]);
+                        this.pointers[prop].render(renderValue);
+                    }
                 }
+            } else {
+                var self = this;
+                Object.keys(this.pointers).map(function(key, index) {
+                    self.pointers[key].render(value, opt);
+                });
             }
-        } else {
-            var self = this;
-            Object.keys(this.pointers).map(function(key, index) {
-                self.pointers[key].render(value, opt);
-            });
         }
 
         return this;
     };
-
-
-    /**
-     * @function remove
-     * @description Removes the instance of the GaugeSport widget.
-     * @memberof module:GaugeSport
-     * @instance
-     */
-    GaugeSport.prototype.remove = function () {
-        this.div.remove();
-        return this;
-    };
-
-    /**
-     * @function hide
-     * @description Hides the instance of the GaugeSport widget.
-     * @memberof module:GaugeSport
-     * @instance
-     */
-    GaugeSport.prototype.hide = function () {
-        this.div.style("display", "none");
-        return this;
-    };
-
-    /**
-     * @function reveal
-     * @description Reveals the instance of the GaugeSport widget.
-     * @memberof module:GaugeSport
-     * @instance
-     */
-    GaugeSport.prototype.reveal = function () {
-        this.div.style("display", "block");
-        return this;
-    };
-
-    /**
-     * @function move
-     * @description Hides the instance of the GaugeSport widget.
-     * @param data {Object} An object with the new coordinate values (top and/or left).
-     * @memberof module:GaugeSport
-     * @instance
-     */
-    GaugeSport.prototype.move = function (data) {
-        data = data || {};
-        if (data.top) {
-            this.top = data.top;
-            this.div.style("top", this.top + "px");
-        }
-        if (data.left) {
-            this.left = data.left;
-            this.div.style("left", this.left + "px");
-        }
-        return this;
-    };
-
-    /**
-     * @function mergeConfigs
-     * @description Merges the two configuration objects provided, with conf2 overriding conf1 values.
-     * @param conf1 {Object} The first object of configurations to be merged.
-     * @param conf2 {Object} The second object of configurations to be merged. The values on this object
-     * will override the values provided by conf1 object.
-     * @memberof module:GaugeSport
-     * @instance
-     */
-    GaugeSport.prototype.mergeConfigs = function(conf1, conf2) {
-        // Second conf provided overrides the first one
-        for (var attr in conf2) { conf1[attr] = conf2[attr]; }
-        return conf1;
-    };
-
 
     /**
      * @function getStyleConfigs
@@ -626,13 +568,13 @@ define(function (require, exports, module) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-CentralPanel.html">CentralPanel</a></li><li><a href="module-Clock.html">Clock</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GaugeSport.html">GaugeSport</a></li><li><a href="module-Gearbox.html">Gearbox</a></li><li><a href="module-Pointer.html">Pointer</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-CentralPanel.html">CentralPanel</a></li><li><a href="module-Clock.html">Clock</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GaugeSport.html">GaugeSport</a></li><li><a href="module-Gearbox.html">Gearbox</a></li><li><a href="module-Pointer.html">Pointer</a></li><li><a href="module-SVGWidget.html">SVGWidget</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sun Sep 17 2017 16:07:02 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Thu Sep 21 2017 00:11:55 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>
