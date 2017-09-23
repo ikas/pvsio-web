@@ -509,22 +509,11 @@ define(function (require, exports, module) {
                     }
                 };
 
-            case 'example':
-                return {
-                    panel_file: 'example.svg',
-                    pointer_opt: {
-                        max: 10,
-                        style: 'gauge-pointer-3',
-                        min_degree: 58,
-                        max_degree: 306,
-                        width: 38,
-                        top: 110,
-                        left: 110,
-                    }
-                };
-
             default:
-                throw 'Style identifier ' + style_id + ' does not match a valid GaugeSport style.';
+                console.warn('Unrecognied style ' + style_id + ', using default configurations.');
+                return {
+                    panel_file: style_id + '.svg'
+                };
         }
     };
 

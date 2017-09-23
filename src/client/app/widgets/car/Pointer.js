@@ -270,8 +270,7 @@ define(function (require, exports, module) {
                 };
 
             default:
-                console.warn('Unrecognied style ' + style_id + ', using default '+
-                'configurations.');
+                console.warn('Unrecognied style ' + style_id + ', using default configurations.');
                 return {
                     transform_origin: "center top",
                 };
