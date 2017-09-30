@@ -102,21 +102,23 @@ require([
                     style: 'clock2',
                     parent: 'dashboard-container',
                     'z-index': '1',
-                    seconds: {
-                        top: 37,
-                        left: 67,
-                        width: 7,
-                    },
-                    minutes: {
-                        top: 61,
-                        left: 67,
-                        width: 6,
-                    },
-                    hours: {
-                        top: 61,
-                        left: 67,
-                        width: 6,
-                    },
+                    pointers: {
+                        seconds: {
+                            top: 37,
+                            left: 67,
+                            width: 7,
+                        },
+                        minutes: {
+                            top: 61,
+                            left: 67,
+                            width: 6,
+                        },
+                        hours: {
+                            top: 61,
+                            left: 67,
+                            width: 6,
+                        }
+                    }
                 }
             ),
             fuel: new GaugeSport(

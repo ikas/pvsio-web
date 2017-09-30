@@ -18,14 +18,12 @@
  *          var pointer = new Pointer(
  *               'example', // id of the element that will be created
  *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
- *               { style: "pointer", min: 0, max: 10, min_degree: 0, max_degree: 360 }
+ *               { style: "pointer" }
  *               // description of the possible options in the constructor documentation.
  *           );
  *
- *          // Render the Pointer widget - the value provided should be a value between min
- *          // and max options provided, and the angle of rotation will be interpolated from
- *          // the min_degree and max_degree options.
- *          pointer.render(5); // Rotates the pointer 180º
+ *          // Rotates the pointer 180º
+ *          pointer.render(180);
  *     }
  * });
  */
@@ -47,15 +45,9 @@ define(function (require, exports, module) {
      *          <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
      *          <li>position (String): value for the CSS property position (default is "absolute").</li>
      *          <li>style (String): a valid style identifier (default is 1).</li>
-     *          <li>min_degree (Float): The minimum degree of range for the pointer movement (default is 90).</li>
-     *          <li>min (Float): The minimum absolute value for the movement of the pointer (default is 0).</li>
-     *          <li>max_degree (Float): The maximum degree of range for the pointer movement (default is 270).</li>
-     *          <li>max (Float): The maximum absolute value for the movement of the pointer (default is 10).</li>
-     *          <li>initial (Float): The initial absolute value for the movement of the pointer (default is min value).</li>
      *          <li>transition (Float): number of milliseconds to be applied in the CSS property transition (default is 0).</li>
-     *          <li>laps (Float): The number of laps that should be taken into account in the pointer rotation.
-     * An example of usage of this configuration is with an hour pointer in a clock - The minimum value is 0,
-     * the maximum value is 24, but the pointer completes 2 laps between min and max values.</li>
+     *          <li>z-index (String): value for the CSS property z-index (if not provided, no z-index is applied).</li>
+     *          <li>initial (Float): The initial absolute value for the movement of the pointer (default is min value).</li>
      * @returns {Pointer} The created instance of the widget Pointer.
      * @memberof module:Pointer
      * @instance
@@ -77,14 +69,9 @@ define(function (require, exports, module) {
         opt = opt || {};
         opt.position = opt.position || "absolute";
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
-        this.min_degree = opt.min_degree || 90; // deg
-        this.max_degree = opt.max_degree || 270; // deg
-        this.max = opt.max || 10;
-        this.min = opt.min || 0;
-        this.laps = opt.laps || 1;
         this.transition = opt.transition || 0;
-        this.initial = opt.initial || this.min;
         this.style_id = opt.style || 1;
+        this.initial = opt.initial || 0;
 
         // Get style configurations
         this.style_configs = this.getStyleConfigs(this.style_id);
@@ -135,8 +122,7 @@ define(function (require, exports, module) {
      * @function render
      * @description Render method of the Pointer widget. Re-renders the pointer
      * with the provided new value and configurations.
-     * @param value {Float} The new value absolute value of the pointer (should
-     * be in the range of min and max values provided).
+     * @param value {Float} Value in degrees for the pointer rotation.
      * @param opt {Object} Override options when re-rendering. See constructor
      * docs for detailed docs on the available options.
      * @memberof module:Pointer
@@ -145,35 +131,10 @@ define(function (require, exports, module) {
     Pointer.prototype.render = function(value, opt) {
 
         if(this.isReady()) {
-            if(value < (this.min * this.laps)) {
-                value = this.min;
-            }
-
-            if(value > (this.max * this.laps)) {
-                value = this.max;
-            }
-
-            this.div.select('svg')
-                .style('transform', 'rotate(' + this.value2deg(value) + 'deg)');
+            this.div.select('svg').style('transform', 'rotate('+value+'deg)');
         }
 
         return this;
-    };
-
-    /**
-     * @function value2deg
-     * @description Converts the provided value to degress of rotation, taking
-     * into account the minimum and maximum rotation degrees.
-     * @param value {Float} The value to convert.
-     * @returns {Float} The converted value in degrees.
-     * @memberof module:Pointer
-     * @instance
-     * @private
-     */
-    Pointer.prototype.value2deg = function (value) {
-        var rangePerc = (value - this.min) / (this.max - this.min);
-        var interpolatedOffset = rangePerc * (this.max_degree - this.min_degree);
-        return this.min_degree + interpolatedOffset;
     };
 
     /**

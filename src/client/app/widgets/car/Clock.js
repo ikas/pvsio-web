@@ -46,6 +46,13 @@ define(function (require, exports, module) {
      *          <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
      *          <li>position (String): value for the CSS property position (default is "absolute").</li>
      *          <li>style (String): a valid style identifier (default is "clock").</li>
+     *          <li>min_degree (Float): The minimum degree of range for the pointer movement (default is 90).</li>
+     *          <li>min (Float): The minimum absolute value for the movement of the pointer (default is 0).</li>
+     *          <li>max_degree (Float): The maximum degree of range for the pointer movement (default is 270).</li>
+     *          <li>max (Float): The maximum absolute value for the movement of the pointer (default is 10).</li>
+     *          <li>laps (Float): The number of laps that should be taken into account in the pointer rotation.
+     * An example of usage of this configuration is with an hour pointer in a clock - The minimum value is 0,
+     * the maximum value is 24, but the pointer completes 2 laps between min and max values.</li>
      * @returns {Clock} The created instance of the widget Clock.
      * @memberof module:Clock
      * @instance
@@ -65,6 +72,7 @@ define(function (require, exports, module) {
         // Handle options
         opt = opt || {};
         this.opt = opt;
+        this.opt.pointers = this.opt.pointers || {};
 
         this.style_configs = this.getStyleConfigs(opt.style || 'clock');
 
@@ -78,21 +86,40 @@ define(function (require, exports, module) {
             self.parent = (opt.parent) ? ("#" + opt.parent) : "body";
 
             // Find configs for Pointer widget(s)
-            var pointers = ['hours', 'minutes', 'seconds'];
-            self.pointers = {};
+            self.pointers = [];
+            self.pointers_opt = [];
+            var pointer_opts = self.style_configs.pointers;
 
-            // Add all Pointer widgets to the screen
-            pointers.map(function(id) {
-                // Create Pointer widget
-                var overrideConfigs = self.opt[id] || {};
-                opt = self.mergeConfigs(self.style_configs[id], overrideConfigs);
-                opt.parent = self.id;
-                self.pointers[opt.id] = new Pointer(
-                    self.id + '-' + id,
-                    { top: opt.top, left: opt.left, height: opt.height, width: opt.width },
-                    opt
-                );
-            });
+            if(pointer_opts !== undefined && pointer_opts.constructor === Array) {
+
+                // Add all Pointer widgets to the screen
+                pointer_opts.map(function(opt) {
+
+                    // Pointer options' default values
+                    opt.parent = self.id;
+                    opt.id = opt.id || self.id + '-pointer';
+                    opt.min_degree = opt.min_degree || 90; // deg
+                    opt.max_degree = opt.max_degree || 270; // deg
+                    opt.max = opt.max || 10;
+                    opt.min = opt.min || 0;
+                    opt.laps = opt.laps || 1;
+                    opt.initial = opt.inital || opt.min_degree;
+
+                    // Override default configs with the ones provided
+                    var overrideOpt = self.opt.pointers[opt.id] || {};
+                    opt = self.mergeConfigs(opt, overrideOpt);
+
+                    // Create Pointer widget
+                    self.pointers[opt.id] = new Pointer(
+                        self.id + '-' + id,
+                        { top: opt.top, left: opt.left, height: opt.height, width: opt.width },
+                        opt
+                    );
+
+                    // Save pointer opts for later usage
+                    self.pointers_opt[opt.id] = opt;
+                });
+            }
 
             // Create the gauge element
             self.div = d3.select(self.parent)
@@ -144,12 +171,54 @@ define(function (require, exports, module) {
         if(this.isReady()) {
             // Clock is rendered based on the current date and time
             var current = new Date();
-            this.pointers.seconds.render(current.getSeconds());
-            this.pointers.minutes.render(current.getMinutes());
-            this.pointers.hours.render(current.getHours());
+            this.renderPointer(this.pointers.seconds, current.getSeconds(), this.pointers_opt.seconds);
+            this.renderPointer(this.pointers.minutes, current.getMinutes(), this.pointers_opt.minutes);
+            this.renderPointer(this.pointers.hours, current.getHours(), this.pointers_opt.hours);
         }
 
         return this;
+    };
+
+    /**
+     * @function renderPointer
+     * @description Calls the render method of the provided Pointer instance
+     * with the provided value.
+     * @param TODO
+     * @param TODO
+     * @param TODO
+     * @returns TODO
+     * @memberof module:Clock
+     * @instance
+     * @private
+     */
+    Clock.prototype.renderPointer = function (pointer, value, pointer_opt) {
+
+        if(value < (pointer_opt.min * pointer_opt.laps)) {
+            value = pointer_opt.min;
+        }
+
+        if(value > (pointer_opt.max * pointer_opt.laps)) {
+            value = pointer_opt.max;
+        }
+
+        return pointer.render(this.value2deg(value, pointer_opt));
+    };
+
+    /**
+     * @function value2deg
+     * @description Converts the provided value to degress of rotation, taking
+     * into account the minimum and maximum rotation degrees.
+     * @param value {Float} The value to convert.
+     * @param TODO
+     * @returns {Float} The converted value in degrees.
+     * @memberof module:Clock
+     * @instance
+     * @private
+     */
+    Clock.prototype.value2deg = function (value, pointer_opt) {
+        var rangePerc = (value - pointer_opt.min) / (pointer_opt.max - pointer_opt.min);
+        var interpolatedOffset = rangePerc * (pointer_opt.max_degree - pointer_opt.min_degree);
+        return pointer_opt.min_degree + interpolatedOffset;
     };
 
     /**
@@ -163,7 +232,7 @@ define(function (require, exports, module) {
      * <li>minutes (Object) Object with the configurations that will be provided to the minutes Pointer.
      * <li>hours (Object) Object with the configurations that will be provided to the hours Pointer.
      * @throws Will throw an error if the provided style identifier is not valid.
-     * @memberof module:GaugeSport
+     * @memberof module:Clock
      * @instance
      */
     Clock.prototype.getStyleConfigs = function (style_id)
@@ -173,165 +242,176 @@ define(function (require, exports, module) {
             case 'clock':
                 return {
                     panel_file: 'gauge-clock-panel-2.svg',
-                    seconds: {
-                        id: 'seconds',
-                        top: 68,
-                        left: 119,
-                        width: 12,
-                        style: 'gauge-pointer-19',
-                        min_degree: 180,
-                        min: 0,
-                        max_degree: 540,
-                        max: 60,
-                    },
-                    minutes: {
-                        id: 'minutes',
-                        top: 109,
-                        left: 120,
-                        width: 11,
-                        style: 'gauge-pointer-18',
-                        min_degree: 180,
-                        min: 0,
-                        max_degree: 540,
-                        max: 60,
-                    },
-                    hours: {
-                        id: 'hours',
-                        top: 106,
-                        left: 118,
-                        height: 60,
-                        width: 14,
-                        style: 'gauge-pointer-17',
-                        min_degree: 180,
-                        min: 0,
-                        max_degree: 540,
-                        max: 12,
-                        laps: 2,
-                    }
+                    pointers: [
+                        {
+                            id: 'seconds',
+                            top: 68,
+                            left: 119,
+                            width: 12,
+                            style: 'gauge-pointer-19',
+                            min_degree: 180,
+                            min: 0,
+                            max_degree: 540,
+                            max: 60,
+                        },
+                        {
+                            id: 'minutes',
+                            top: 109,
+                            left: 120,
+                            width: 11,
+                            style: 'gauge-pointer-18',
+                            min_degree: 180,
+                            min: 0,
+                            max_degree: 540,
+                            max: 60,
+                        },
+                        {
+                            id: 'hours',
+                            top: 106,
+                            left: 118,
+                            height: 60,
+                            width: 14,
+                            style: 'gauge-pointer-17',
+                            min_degree: 180,
+                            min: 0,
+                            max_degree: 540,
+                            max: 12,
+                            laps: 2,
+                        }
+                    ]
                 };
             case 'clock2':
                 return {
                     panel_file: 'gauge-clock-panel-1.svg',
-                    seconds: {
-                        id: 'seconds',
-                        top: 68,
-                        left: 119,
-                        width: 12,
-                        style: 'gauge-pointer-19',
-                        min_degree: 180,
-                        min: 0,
-                        max_degree: 540,
-                        max: 60,
-                    },
-                    minutes: {
-                        id: 'minutes',
-                        top: 109,
-                        left: 120,
-                        width: 11,
-                        style: 'gauge-pointer-18',
-                        min_degree: 180,
-                        min: 0,
-                        max_degree: 540,
-                        max: 60,
-                    },
-                    hours: {
-                        id: 'hours',
-                        top: 106,
-                        left: 118,
-                        height: 60,
-                        width: 14,
-                        style: 'gauge-pointer-17',
-                        min_degree: 180,
-                        min: 0,
-                        max_degree: 540,
-                        max: 12,
-                        laps: 2,
-                    }
+                    pointers: [
+                        {
+                            id: 'seconds',
+                            top: 68,
+                            left: 119,
+                            width: 12,
+                            style: 'gauge-pointer-19',
+                            min_degree: 180,
+                            min: 0,
+                            max_degree: 540,
+                            max: 60,
+                        },
+                        {
+                            id: 'minutes',
+                            top: 109,
+                            left: 120,
+                            width: 11,
+                            style: 'gauge-pointer-18',
+                            min_degree: 180,
+                            min: 0,
+                            max_degree: 540,
+                            max: 60,
+                        },
+                        {
+                            id: 'hours',
+                            top: 106,
+                            left: 118,
+                            height: 60,
+                            width: 14,
+                            style: 'gauge-pointer-17',
+                            min_degree: 180,
+                            min: 0,
+                            max_degree: 540,
+                            max: 12,
+                            laps: 2,
+                        }
+                    ]
                 };
             case 'clock3':
                 return {
                     panel_file: 'gauge-clock-panel-3.svg',
-                    seconds: {
-                        id: 'seconds',
-                        top: 73,
-                        left: 123,
-                        width: 3,
-                        style: 'gauge-pointer-19',
-                        min_degree: 180,
-                        min: 0,
-                        max_degree: 540,
-                        max: 60,
-                        'z-index': 1,
-                    },
-                    minutes: {
-                        id: 'minutes',
-                        top: 109,
-                        left: 120,
-                        width: 11,
-                        style: 'gauge-pointer-18',
-                        min_degree: 180,
-                        min: 0,
-                        max_degree: 540,
-                        max: 60,
-                        'z-index': 2,
-                    },
-                    hours: {
-                        id: 'hours',
-                        top: 106,
-                        left: 118,
-                        height: 60,
-                        width: 14,
-                        style: 'gauge-pointer-17',
-                        min_degree: 180,
-                        min: 0,
-                        max_degree: 540,
-                        max: 12,
-                        laps: 2,
-                        'z-index': 2,
-                    }
+                    pointers: [
+                        {
+                            id: 'seconds',
+                            top: 73,
+                            left: 123,
+                            width: 3,
+                            style: 'gauge-pointer-19',
+                            min_degree: 180,
+                            min: 0,
+                            max_degree: 540,
+                            max: 60,
+                            'z-index': 1,
+                        },
+                        {
+                            id: 'minutes',
+                            top: 109,
+                            left: 120,
+                            width: 11,
+                            style: 'gauge-pointer-18',
+                            min_degree: 180,
+                            min: 0,
+                            max_degree: 540,
+                            max: 60,
+                            'z-index': 2,
+                        },
+                        {
+                            id: 'hours',
+                            top: 106,
+                            left: 118,
+                            height: 60,
+                            width: 14,
+                            style: 'gauge-pointer-17',
+                            min_degree: 180,
+                            min: 0,
+                            max_degree: 540,
+                            max: 12,
+                            laps: 2,
+                            'z-index': 2,
+                        }
+                    ]
                 };
             case 'clock4':
                 return {
                     panel_file: 'gauge-clock-panel-4.svg',
-                    seconds: {
-                        id: 'seconds',
-                        top: 68,
-                        left: 119,
-                        width: 12,
-                        style: 'gauge-pointer-19',
-                        min_degree: 180,
-                        min: 0,
-                        max_degree: 540,
-                        max: 60,
-                    },
-                    minutes: {
-                        id: 'minutes',
-                        top: 109,
-                        left: 120,
-                        width: 11,
-                        style: 'gauge-pointer-18',
-                        min_degree: 180,
-                        min: 0,
-                        max_degree: 540,
-                        max: 60,
-                    },
-                    hours: {
-                        id: 'hours',
-                        top: 106,
-                        left: 118,
-                        height: 60,
-                        width: 14,
-                        style: 'gauge-pointer-17',
-                        min_degree: 180,
-                        min: 0,
-                        max_degree: 540,
-                        max: 12,
-                        laps: 2,
-                    }
+                    pointers: [
+                        {
+                            id: 'seconds',
+                            top: 68,
+                            left: 119,
+                            width: 12,
+                            style: 'gauge-pointer-19',
+                            min_degree: 180,
+                            min: 0,
+                            max_degree: 540,
+                            max: 60,
+                        },
+                        {
+                            id: 'minutes',
+                            top: 109,
+                            left: 120,
+                            width: 11,
+                            style: 'gauge-pointer-18',
+                            min_degree: 180,
+                            min: 0,
+                            max_degree: 540,
+                            max: 60,
+                        },
+                        {
+                            id: 'hours',
+                            top: 106,
+                            left: 118,
+                            height: 60,
+                            width: 14,
+                            style: 'gauge-pointer-17',
+                            min_degree: 180,
+                            min: 0,
+                            max_degree: 540,
+                            max: 12,
+                            laps: 2,
+                        }
+                    ]
                 };
 
             default:
-                throw 'Style identifier ' + style_id + ' does not match a valid Clock style.';
+                console.warn('Unrecognied style ' + style_id + ', using default configurations.');
+                return {
+                    panel_file: style_id + '.svg'
+                };
         }
     };
 
