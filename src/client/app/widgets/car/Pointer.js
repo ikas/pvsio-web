@@ -18,7 +18,7 @@
  *          var pointer = new Pointer(
  *               'example', // id of the element that will be created
  *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
- *               { style: 1, min: 0, max: 10, min_degree: 0, max_degree: 360 }
+ *               { style: "pointer", min: 0, max: 10, min_degree: 0, max_degree: 360 }
  *               // description of the possible options in the constructor documentation.
  *           );
  *
@@ -267,6 +267,11 @@ define(function (require, exports, module) {
             case 'gauge-pointer-23':
                 return {
                     transform_origin: "50% 9.5%",
+                };
+
+            case 'pointer':
+                return {
+                    transform_origin: "50% 20%",
                 };
 
             default:
