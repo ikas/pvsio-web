@@ -6044,7 +6044,7 @@
            clip-path="url(#clip99)">
           <path
              inkscape:connector-curvature="0"
-             id="path23171"
+             id="path23171" class="color-change-aware"
              d="m 612.16016,412.86328 0,26.54297 20.34375,0 0,-26.54297 z m 0,0"
              style="fill:url(#radial6);fill-rule:nonzero;stroke:none" />
         </g>

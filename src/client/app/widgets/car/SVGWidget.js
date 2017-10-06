@@ -116,5 +116,29 @@ define(function (require, exports, module) {
         return conf1;
     };
 
+    /**
+     * @function changeColor
+     * @description Changes the colors of the icons marked with the "color-change-aware" class.
+     * @param color {String} The new color to set.
+     * @memberof module:SVGWidget
+     * @instance
+     */
+    SVGWidget.prototype.changeColor = function(color) {
+        if(this.isReady() && typeof this.id !== 'undefined') {
+            var colorAwareElements = $('#' + this.id + ' svg .color-change-aware');
+            if(colorAwareElements.length > 0) {
+                colorAwareElements.map(function(index, value) {
+                    if(value.tagName === 'g') {
+                        $.each($(value).children(), function(index, value) {
+                            value.style.fill = color;
+                        });
+                    } else {
+                        value.style.fill = color;
+                    }
+                });
+            }
+        }
+    }
+
     module.exports = SVGWidget;
 });

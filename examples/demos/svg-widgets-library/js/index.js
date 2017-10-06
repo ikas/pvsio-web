@@ -23,6 +23,7 @@ require([
         "widgets/car/GaugeSport",
         "widgets/car/Gearbox",
         "widgets/car/Clock",
+        "widgets/car/SVGWidget",
         "widgets/ButtonActionsQueue",
         "stateParser",
         "PVSioWebClient"
@@ -31,6 +32,7 @@ require([
         GaugeSport,
         Gearbox,
         Clock,
+        SVGWidget,
         ButtonActionsQueue,
         stateParser,
         PVSioWebClient
@@ -343,6 +345,19 @@ require([
         });
 
 
+        document.getElementById("color-change").addEventListener("change", function(e) {
+            // Get selected color
+            var val = document.getElementById("color-change").value;
+
+            // Call the color change method for every widget in the page
+            $.each(widgets, function(key, value) {
+                if(SVGWidget.prototype.isPrototypeOf(value)) {
+                    value.changeColor(val);
+                }
+            });
+        });
+
+
         var demoFolder = "svg-widgets-library";
         //register event listener for websocket connection from the client
         client.addListener('WebSocketConnectionOpened', function (e) {
@@ -351,7 +366,7 @@ require([
                 .startPVSProcess({name: "main.pvs", demoName: demoFolder + "/pvs"}, function (err, event) {
                 client.getWebSocket().sendGuiAction("init(0);", onMessageReceived);
                 d3.select(".demo-splash").style("display", "none");
-                d3.select(".content").style("display", "block");
+                d3.select("#content").style("display", "block");
                 // start the simulation
                 start_tick();
             });
