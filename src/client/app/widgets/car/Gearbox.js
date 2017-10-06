@@ -294,12 +294,18 @@ define(function (require, exports, module) {
         return this;
     };
 
-    /**
+
+     /**
      * @function getStyleConfigs
      * @description Returns the style configurations for the provided style identifier. The
      * possible styles for the Gearbox widget are the "auto", "manual", "manual2" and "manual3".
      * @param style_id {string} The style identifier.
-     * @returns {Object} An object of configurations for the provided style identifier.
+     * @returns {Object} An object of configurations for the provided style identifier, including
+     * four required properties:
+     *         <li>panel (String) - the path to the SVG panel file (in widgets/car/svg/gearbox directory).</li>
+     *         <li>stick (String) - the path to the SVG stick file (in widgets/car/svg/gearbox directory).</li>
+     *         <li>left_offsets (Object) - an object with the left coordinate offsets as percentage (float between 0 and 1) per each gear.</li>
+     *         <li>top_offsets (Object) - an object with the top coordinate offsets as percentage (float between 0 and 1) per each gear.</li>
      * @throws Will throw an error if the provided style identifier is not valid.
      * @memberof module:Gearbox
      * @instance

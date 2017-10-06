@@ -47,13 +47,6 @@ define(function (require, exports, module) {
      *          <li>position (String): value for the CSS property position (default is "absolute").</li>
      *          <li>style (String): a valid style identifier (default is "tachometer").</li>
      *          <li>z-index (String): value for the CSS property z-index (if not provided, no z-index is applied).</li>
-     *          <li>min_degree (Float): The minimum degree of range for the pointer movement (default is 90).</li>
-     *          <li>min (Float): The minimum absolute value for the movement of the pointer (default is 0).</li>
-     *          <li>max_degree (Float): The maximum degree of range for the pointer movement (default is 270).</li>
-     *          <li>max (Float): The maximum absolute value for the movement of the pointer (default is 10).</li>
-     *          <li>laps (Float): The number of laps that should be taken into account in the pointer rotation.
-     * An example of usage of this configuration is with an hour pointer in a clock - The minimum value is 0,
-     * the maximum value is 24, but the pointer completes 2 laps between min and max values.</li>
      * @returns {GaugeSport} The created instance of the widget GaugeSport.
      * @memberof module:GaugeSport
      * @instance
@@ -107,7 +100,6 @@ define(function (require, exports, module) {
                     opt.max_degree = opt.max_degree || 270; // deg
                     opt.max = opt.max || 10;
                     opt.min = opt.min || 0;
-                    opt.laps = opt.laps || 1;
                     opt.initial = opt.inital || opt.min_degree;
 
                     // Override default configs with the ones provided
@@ -166,20 +158,18 @@ define(function (require, exports, module) {
      * @function render
      * @description Render method of the GaugeSport widget. Calls the render method of the associated pointers of this widget,
      * with the provided value(s) - check the value param documentation for more info on the rendering process.
-     *
      * @param value {Float|Object} The value provided can either be a float or an object. If it is a float, the all of the
      * widget pointers' render method will be called with the provided value. If it is an object, then the properties of the objects
      * should match identifiers of pointers, and the value for those properties is the value that will be provided to the render
      * methods. An example of this behavior is the object { pt1: 10, pt2: 20 }, where the render method of the pointer pt1 will
      * be called with 10, and the render method of pointer pt2 will be called with 20.
-     *
      * @param opt {Object} Override options when re-rendering. See constructor docs for detailed docs on the available options.
      * @memberof module:GaugeSport
      * @instance
      */
     GaugeSport.prototype.render = function(value, opt)
     {
-        if(this.isReady()) {
+        if(this.isReady() && typeof value !== 'undefined') {
             if(value.constructor === Object) {
                 for (var prop in value) {
                     if (value.hasOwnProperty(prop) && this.pointers.hasOwnProperty(prop)) {
@@ -201,33 +191,27 @@ define(function (require, exports, module) {
      * @function renderPointer
      * @description Calls the render method of the provided Pointer instance
      * with the provided value.
-     * @param TODO
-     * @param TODO
-     * @param TODO
-     * @returns TODO
+     * @param pointer {Pointer} Instance of the Pointer widget that should be rendered.
+     * @param value {Float} Value (between min and max configurations) to be rendered.
+     * @param pointer_opt {Object} Object with pointer rotation configurations.
      * @memberof module:GaugeSport
      * @instance
      * @private
      */
     GaugeSport.prototype.renderPointer = function (pointer, value, pointer_opt) {
 
-        if(value < (pointer_opt.min * pointer_opt.laps)) {
-            value = pointer_opt.min;
-        }
+        value = Math.max(value, pointer_opt.min);
+        value = Math.min(value, pointer_opt.max);
 
-        if(value > (pointer_opt.max * pointer_opt.laps)) {
-            value = pointer_opt.max;
-        }
-
-        return pointer.render(this.value2deg(value, pointer_opt));
+        pointer.render(this.value2deg(value, pointer_opt));
     };
 
     /**
      * @function value2deg
      * @description Converts the provided value to degress of rotation, taking
      * into account the minimum and maximum rotation degrees.
-     * @param value {Float} The value to convert.
-     * @param TODO
+     * @param value {Float} The value to convert to degrees.
+     * @param pointer_opt {Object} Object with pointer rotation configurations.
      * @returns {Float} The converted value in degrees.
      * @memberof module:GaugeSport
      * @instance
@@ -250,10 +234,21 @@ define(function (require, exports, module) {
      * <li>pressure</li>
      * <li>compass, compass2</li>
      * @param style_id {string} The style identifier.
-     * @returns {Object} An object of configurations for the provided style identifier.
-     * <li>panel_file (String) Path to the SVG panel file (inside the widgets/car/svg/gauge-panels) directory.</li>
-     * <li>pointer_opt (Object|Array) Object or array of objects with the configurations that should be provided to the Pointer
-     * that the style should compose.
+     * @returns {Object} An object of configurations for the provided style identifier, including
+     * two properties, panel_file (String) - the path to the SVG panel file (inside the widgets/car/svg/gauge-panels)
+     * directory, and pointers (Array) - an array of objects with the configurations that should be provided to the Pointer
+     * that the style should compose. This object can contain the following properties:
+     *          <li>id (String): An unique identifier for the pointer.</li>
+     *          <li>top (Float): Top coord of the Pointer widget.</li>
+     *          <li>left (Float): Left coord of the Pointer widget.</li>
+     *          <li>width (Float): Width coord of the Pointer widget.</li>
+     *          <li>height (Float): Height coord of the Pointer widget.</li>
+     *          <li>style (String): Style identifier for the Pointer widget.</li>
+     *          <li>transition (Float): number of milliseconds to be applied in the CSS property transition (default is 0).</li>
+     *          <li>min_degree (Float): The minimum degree of range for the pointer movement (default is 90).</li>
+     *          <li>min (Float): The minimum absolute value for the movement of the pointer (default is 0).</li>
+     *          <li>max_degree (Float): The maximum degree of range for the pointer movement (default is 270).</li>
+     *          <li>max (Float): The maximum absolute value for the movement of the pointer (default is 10).</li>
      * @throws Will throw an error if the provided style identifier is not valid.
      * @memberof module:GaugeSport
      * @instance
@@ -613,6 +608,23 @@ define(function (require, exports, module) {
                         }
                     ]
                 };
+
+            case 'example':
+                return {
+                    panel_file: 'example.svg',
+                    pointers: [
+                        {
+                            id: 'example-pointer-id',
+                            min_degree: 49,
+                            max_degree: 315,
+                            max: 120,
+                            style: 'gauge-pointer-3',
+                            width: 40,
+                            top: 124,
+                            left: 130,
+                        }
+                    ]
+                }
 
             default:
                 console.warn('Unrecognied style ' + style_id + ', using default configurations.');

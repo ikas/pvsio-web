@@ -32,7 +32,7 @@ define(function (require, exports, module) {
     var BasicDisplay = require("widgets/BasicDisplay");
 
     /**
-     * @function <a name="CentralPanel">CentralPanel</a>
+     * @function constructor
      * @description CentralPanel constructor.
      *
      * @param id {String} The ID of the element that will contain the central panel.

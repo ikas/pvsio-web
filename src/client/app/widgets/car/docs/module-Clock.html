@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: GaugeSport</title>
+    <title>JSDoc: Module: Clock</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: GaugeSport</h1>
+    <h1 class="page-title">Module: Clock</h1>
 
     
 
@@ -38,8 +38,8 @@
     <div class="container-overview">
     
         
-            <div class="description">This module helps you building gauge widgets using SVG files. Uses the Pointer module to
-draw pointers for the gauges.</div>
+            <div class="description">This module helps you building clock widgets using SVG files. Uses the Pointer module to
+draw the clock pointers.</div>
         
 
         
@@ -84,7 +84,7 @@ draw pointers for the gauges.</div>
     <dt class="tag-author">Author:</dt>
     <dd class="tag-author">
         <ul>
-            <li>Paolo Masci</li>
+            <li>Henrique Pacheco</li>
         </ul>
     </dd>
     
@@ -98,7 +98,7 @@ draw pointers for the gauges.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line1">line 1</a>
+        <a href="Clock.js.html">Clock.js</a>, <a href="Clock.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -127,24 +127,24 @@ draw pointers for the gauges.</div>
 
     <h5>Example</h5>
     
-        <p class="code-caption">Usage of GaugeSport within a PVSio-web project.</p>
+        <p class="code-caption">Usage of Clock within a PVSio-web project.</p>
     
     <pre class="prettyprint"><code>define(function (require, exports, module) {
     "use strict";
 
-    // Require the GaugeSport module
-    require("widgets/car/GaugeSport");
+    // Require the Clock module
+    require("widgets/car/Clock");
 
     function main() {
-         // After GaugeSport module was loaded, initialize it
-         var gauge = new GaugeSport(
-              'example', // id of the gauge element that will be created
+         // After Clock module was loaded, initialize it
+         var clock = new Clock(
+              'example', // id of the element that will be created
               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
-              { style: 'example' } // options
+              { style: 'clock' } // options
           );
 
-         // Render the GaugeSport widget, provinding a new value
-         gauge.render(5);
+         // Render the Clock widget - based on the current date and time.
+         clock.render();
     }
 });</code></pre>
 
@@ -177,7 +177,7 @@ draw pointers for the gauges.</div>
     
 
     
-    <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(id, coords, opt)</span><span class="type-signature"> &rarr; {GaugeSport}</span></h4>
+    <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(id, coords, opt)</span><span class="type-signature"> &rarr; {Clock}</span></h4>
     
 
     
@@ -185,7 +185,7 @@ draw pointers for the gauges.</div>
 
 
 <div class="description">
-    Constructor for the GaugeSport widget.
+    Constructor for the Clock widget.
 </div>
 
 
@@ -288,15 +288,11 @@ draw pointers for the gauges.</div>
             <td class="description last">Options:
          <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
          <li>position (String): value for the CSS property position (default is "absolute").</li>
-         <li>style (String): a valid style identifier (default is "tachometer").</li>
-         <li>z-index (String): value for the CSS property z-index (if not provided, no z-index is applied).</li>
+         <li>style (String): a valid style identifier (default is "clock").</li>
          <li>min_degree (Float): The minimum degree of range for the pointer movement (default is 90).</li>
          <li>min (Float): The minimum absolute value for the movement of the pointer (default is 0).</li>
          <li>max_degree (Float): The maximum degree of range for the pointer movement (default is 270).</li>
-         <li>max (Float): The maximum absolute value for the movement of the pointer (default is 10).</li>
-         <li>laps (Float): The number of laps that should be taken into account in the pointer rotation.
-An example of usage of this configuration is with an hour pointer in a clock - The minimum value is 0,
-the maximum value is 24, but the pointer completes 2 laps between min and max values.</li></td>
+         <li>max (Float): The maximum absolute value for the movement of the pointer (default is 10).</li></td>
         </tr>
 
     
@@ -337,7 +333,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line38">line 38</a>
+        <a href="Clock.js.html">Clock.js</a>, <a href="Clock.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -364,7 +360,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
         
 <div class="param-desc">
-    The created instance of the widget GaugeSport.
+    The created instance of the widget Clock.
 </div>
 
 
@@ -375,7 +371,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     </dt>
     <dd>
         
-<span class="param-type">GaugeSport</span>
+<span class="param-type">Clock</span>
 
 
     </dd>
@@ -402,13 +398,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 <div class="description">
     Returns the style configurations for the provided style identifier. The possible styles for the
-GaugeSport widget are:
-<li>tachomter, tachomter2, tachomter3, tachomter4</li>
-<li>speedomter, speedomter2, speedomter3, speedomter4, speedomter5, speedomter6, speedomter7, speedomter8</li>
-<li>thermometer</li>
-<li>fuel, fuel2, fuel3, fuel4</li>
-<li>pressure</li>
-<li>compass, compass2</li>
+Clock widget are clock, clock2, clock3 and clock4.
 </div>
 
 
@@ -501,7 +491,7 @@ GaugeSport widget are:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line242">line 242</a>
+        <a href="Clock.js.html">Clock.js</a>, <a href="Clock.js.html#line214">line 214</a>
     </li></ul></dd>
     
 
@@ -542,8 +532,9 @@ GaugeSport widget are:
 <div class="param-desc">
     An object of configurations for the provided style identifier.
 <li>panel_file (String) Path to the SVG panel file (inside the widgets/car/svg/gauge-panels) directory.</li>
-<li>pointer_opt (Object|Array) Object or array of objects with the configurations that should be provided to the Pointer
-that the style should compose.
+<li>seconds (Object) Object with the configurations that will be provided to the seconds Pointer.
+<li>minutes (Object) Object with the configurations that will be provided to the minutes Pointer.
+<li>hours (Object) Object with the configurations that will be provided to the hours Pointer.
 </div>
 
 
@@ -572,7 +563,7 @@ that the style should compose.
     
 
     
-    <h4 class="name" id="render"><span class="type-signature"></span>render<span class="signature">(value, opt)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="render"><span class="type-signature"></span>render<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -580,8 +571,8 @@ that the style should compose.
 
 
 <div class="description">
-    Render method of the GaugeSport widget. Calls the render method of the associated pointers of this widget,
-with the provided value(s) - check the value param documentation for more info on the rendering process.
+    Render method of the Clock widget. Calls the render method of the associated pointers of this widget,
+using the current date and time.
 </div>
 
 
@@ -590,85 +581,6 @@ with the provided value(s) - check the value param documentation for more info o
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Float</span>
-|
-
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The value provided can either be a float or an object. If it is a float, the all of the
-widget pointers' render method will be called with the provided value. If it is an object, then the properties of the objects
-should match identifiers of pointers, and the value for those properties is the value that will be provided to the render
-methods. An example of this behavior is the object { pt1: 10, pt2: 20 }, where the render method of the pointer pt1 will
-be called with 10, and the render method of pointer pt2 will be called with 20.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>opt</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Override options when re-rendering. See constructor docs for detailed docs on the available options.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -704,7 +616,7 @@ be called with 10, and the render method of pointer pt2 will be called with 20.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GaugeSport.js.html">GaugeSport.js</a>, <a href="GaugeSport.js.html#line165">line 165</a>
+        <a href="Clock.js.html">Clock.js</a>, <a href="Clock.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -754,7 +666,7 @@ be called with 10, and the render method of pointer pt2 will be called with 20.<
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sat Sep 30 2017 19:56:33 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Fri Oct 06 2017 01:07:07 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

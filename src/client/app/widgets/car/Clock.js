@@ -50,9 +50,6 @@ define(function (require, exports, module) {
      *          <li>min (Float): The minimum absolute value for the movement of the pointer (default is 0).</li>
      *          <li>max_degree (Float): The maximum degree of range for the pointer movement (default is 270).</li>
      *          <li>max (Float): The maximum absolute value for the movement of the pointer (default is 10).</li>
-     *          <li>laps (Float): The number of laps that should be taken into account in the pointer rotation.
-     * An example of usage of this configuration is with an hour pointer in a clock - The minimum value is 0,
-     * the maximum value is 24, but the pointer completes 2 laps between min and max values.</li>
      * @returns {Clock} The created instance of the widget Clock.
      * @memberof module:Clock
      * @instance
@@ -102,7 +99,6 @@ define(function (require, exports, module) {
                     opt.max_degree = opt.max_degree || 270; // deg
                     opt.max = opt.max || 10;
                     opt.min = opt.min || 0;
-                    opt.laps = opt.laps || 1;
                     opt.initial = opt.inital || opt.min_degree;
 
                     // Override default configs with the ones provided
@@ -183,35 +179,29 @@ define(function (require, exports, module) {
      * @function renderPointer
      * @description Calls the render method of the provided Pointer instance
      * with the provided value.
-     * @param TODO
-     * @param TODO
-     * @param TODO
-     * @returns TODO
-     * @memberof module:Clock
+     * @param pointer {Pointer} Instance of the Pointer widget that should be rendered.
+     * @param value {Float} Value (between min and max configurations) to be rendered.
+     * @param pointer_opt {Object} Object with pointer rotation configurations.
+     * @memberof module:GaugeSport
      * @instance
      * @private
      */
     Clock.prototype.renderPointer = function (pointer, value, pointer_opt) {
 
-        if(value < (pointer_opt.min * pointer_opt.laps)) {
-            value = pointer_opt.min;
-        }
+        value = Math.max(value, pointer_opt.min);
+        value = Math.min(value, pointer_opt.max);
 
-        if(value > (pointer_opt.max * pointer_opt.laps)) {
-            value = pointer_opt.max;
-        }
-
-        return pointer.render(this.value2deg(value, pointer_opt));
+        pointer.render(this.value2deg(value, pointer_opt));
     };
 
     /**
      * @function value2deg
      * @description Converts the provided value to degress of rotation, taking
      * into account the minimum and maximum rotation degrees.
-     * @param value {Float} The value to convert.
-     * @param TODO
+     * @param value {Float} The value to convert to degrees.
+     * @param pointer_opt {Object} Object with pointer rotation configurations.
      * @returns {Float} The converted value in degrees.
-     * @memberof module:Clock
+     * @memberof module:GaugeSport
      * @instance
      * @private
      */
@@ -274,9 +264,8 @@ define(function (require, exports, module) {
                             style: 'gauge-pointer-17',
                             min_degree: 180,
                             min: 0,
-                            max_degree: 540,
-                            max: 12,
-                            laps: 2,
+                            max_degree: 900,
+                            max: 24,
                         }
                     ]
                 };
@@ -315,9 +304,8 @@ define(function (require, exports, module) {
                             style: 'gauge-pointer-17',
                             min_degree: 180,
                             min: 0,
-                            max_degree: 540,
-                            max: 12,
-                            laps: 2,
+                            max_degree: 900,
+                            max: 24,
                         }
                     ]
                 };
@@ -358,9 +346,8 @@ define(function (require, exports, module) {
                             style: 'gauge-pointer-17',
                             min_degree: 180,
                             min: 0,
-                            max_degree: 540,
-                            max: 12,
-                            laps: 2,
+                            max_degree: 900,
+                            max: 24,
                             'z-index': 2,
                         }
                     ]
@@ -400,9 +387,8 @@ define(function (require, exports, module) {
                             style: 'gauge-pointer-17',
                             min_degree: 180,
                             min: 0,
-                            max_degree: 540,
-                            max: 12,
-                            laps: 2,
+                            max_degree: 900,
+                            max: 24,
                         }
                     ]
                 };

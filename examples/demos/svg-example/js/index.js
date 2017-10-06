@@ -84,18 +84,17 @@ require([
             { style: 'example' }
         );
 
-        // var example = new Gauge(
-        //     'example',
-        //     { top: 100, left: 100, width: 300, height: 300 },
-        //     { style: 'classic', parent: 'content' }
-        // );
 
-        example.render();
-
+        var example2 = new GaugeSport(
+            'example2',
+            { top: 100, left: 450, width: 300, height: 300 },
+            { style: 'example' }
+        );
 
         // Render widgets
         function render(res) {
-
+            example.render();
+            example2.render(100);
         }
 
         var demoFolder = "svg-dashboard-1";
