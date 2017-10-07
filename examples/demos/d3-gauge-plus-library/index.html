@@ -10,24 +10,40 @@
         <link href="../../client/app/plugins/graphbuilder/graph.css" rel="stylesheet" type="text/css"/>
         <link href="../../client/css/style.css" rel="stylesheet" type="text/css"/>
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
-        <link href="css/960.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <div id="content" class="content" style="display:none;">
-            <div class="text-center" style="width:1000px;">
-                Car controls: <br>
-                [up arrow key] Accelerate <br>
-                [down arrow key] Brake <br>
-            </div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">d3-gauge-plus Widgets Library</a>
+                </div>
 
-            <div id="dashboard-container-1"></div>
-            <div id="dashboard-container-2"></div>
-            <div id="dashboard-container-3"></div>
-            <div id="dashboard-container-4"></div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">[up arrow key] Accelerate</a></li>
+                    <li><a href="#">[down arrow key] Brake</a></li>
+                </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+
+        <div id="content" class="content" style="display:none;">
+            <div class="col-xs-12">
+                <h1>Gauge variations</h1>
+                <div id="widgets-container"></div>
+            </div>
         </div>
         <div id="splash" class="demo-splash">
             <div class="loader">
-                <div class="version">Car Dashboard</div>
+                <div class="version">d3-gauge-plus Widgets Library</div>
                 <div class="bar">
                     Loading
                     <div></div>

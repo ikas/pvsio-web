@@ -117,36 +117,36 @@ require([
                     redZones: [],
                     rotation: -45,
                     gap:90,
-                    drawGap: false,
-                    cutOutPercetage: 0.45,
+                    //drawGap: false,
+                    // cutOutPercetage: 0.45,
                     roundValueBeforeRender: true,
                     parent: 'dashboard-container-1'
                 }
             ),
 
-            remainingFuelGauge: new Gauge(
-                'remaining-fuel-gauge',
-                {
-                    top: 251,
-                    left: 53,
-                    width: 360,
-                    height: 360
-                },
-                {
-                    style: 'classic',
-                    max: 1,
-                    majorTicks: 3,
-                    min: 0,
-                    initial: 1,
-                    size: 360,
-                    redZones: [],
-                    rotation: 135,
-                    gap: 295,
-                    drawGap: false,
-                    cutOutPercetage: 0.45,
-                    parent: 'dashboard-container-1'
-                }
-            ),
+            // remainingFuelGauge: new Gauge(
+            //     'remaining-fuel-gauge',
+            //     {
+            //         top: 251,
+            //         left: 53,
+            //         width: 360,
+            //         height: 360
+            //     },
+            //     {
+            //         style: 'classic',
+            //         max: 1,
+            //         majorTicks: 3,
+            //         min: 0,
+            //         initial: 1,
+            //         size: 360,
+            //         redZones: [],
+            //         rotation: 135,
+            //         gap: 295,
+            //         drawGap: false,
+            //         cutOutPercetage: 0.45,
+            //         parent: 'dashboard-container-1'
+            //     }
+            // ),
 
             tachometerGauge: new Gauge(
                 'tachometer-gauge',
@@ -167,38 +167,38 @@ require([
                     yellowZones: [],
                     redZones: [{ from: 7.01, to: 9 }],
                     rotation: -45,
-                    drawGap: false,
-                    cutOutPercetage: 0.45,
+                    // drawGap: false,
+                    // cutOutPercetage: 0.45,
                     parent: 'dashboard-container-1'
                 }
             ),
 
-            temperatureGauge: new Gauge(
-                'temperature-gauge',
-                {
-                    top: 251,
-                    left: 633,
-                    width: 360,
-                    height: 360
-                },
-                {
-                    style: 'classic',
-                    max: 140,
-                    min: 60,
-                    initial: 100,
-                    majorTicks: 3,
-                    size: 360,
-                    redZones: [{ from: 139, to: 140 }],
-                    rotation: 135,
-                    gap: 295,
-                    drawGap: false,
-                    cutOutPercetage: 0.45,
-                    parent: 'dashboard-container-1'
-                }
-            ),
+            // temperatureGauge: new Gauge(
+            //     'temperature-gauge',
+            //     {
+            //         top: 251,
+            //         left: 633,
+            //         width: 360,
+            //         height: 360
+            //     },
+            //     {
+            //         style: 'classic',
+            //         max: 140,
+            //         min: 60,
+            //         initial: 100,
+            //         majorTicks: 3,
+            //         size: 360,
+            //         redZones: [{ from: 139, to: 140 }],
+            //         rotation: 135,
+            //         gap: 295,
+            //         drawGap: false,
+            //         cutOutPercetage: 0.45,
+            //         parent: 'dashboard-container-1'
+            //     }
+            // ),
 
             centralPanel: new CentralPanel(
-                'central-panel', 
+                'central-panel',
                 {
                     top: 323,
                     left: 392,
@@ -216,7 +216,7 @@ require([
         // DASHBOARD 2
         dashboards.car2 = {
             tachometerGauge: new Gauge(
-                'tachometer-gauge-2', 
+                'tachometer-gauge-2',
                 {
                     top: 873,
                     left: 652,
@@ -421,7 +421,7 @@ require([
             ),
 
             oilTempGauge: new Gauge(
-                'oil-temp-gauge-4', 
+                'oil-temp-gauge-4',
                 {
                     top: 2163,
                     left: 745,
@@ -517,12 +517,12 @@ require([
 
         // Render car dashboard components
         function render(res) {
-                        
+
             // Dashboard 1 elements
             dashboards.car1.speedometerGauge.render(evaluate(res.speed.val));
             dashboards.car1.tachometerGauge.render(evaluate(res.rpm));
-            dashboards.car1.remainingFuelGauge.render(res);
-            dashboards.car1.temperatureGauge.render(res);
+            // dashboards.car1.remainingFuelGauge.render(res);
+            // dashboards.car1.temperatureGauge.render(res);
             dashboards.car1.centralPanel.render(res);
 
             // Dashboard 2 elements
@@ -545,7 +545,7 @@ require([
             dashboards.car4.remainingFuelGauge.render(res);
         }
 
-        var demoFolder = "car";
+        var demoFolder = "d3-gauge-plus-dashboards";
         //register event listener for websocket connection from the client
         client.addListener('WebSocketConnectionOpened', function (e) {
             console.log("web socket connected");

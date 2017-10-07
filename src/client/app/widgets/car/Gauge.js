@@ -3,10 +3,9 @@
  * @version 1.0.0
  * @description
  * Gauge renders a basic gauge object (using D3 Gauge Plus library). It assumes that this
- * library was already loaded (TODO fix this). The gauge will be rendered with the
- * pointer showing the current value. The initial value is 0. The render method can
- * then be called, passing the new value as parameter, and the widget will update the gauge
- * to show the new provided value.
+ * library has been loaded. The gauge will be rendered with the pointer showing the current
+ * value. The initial value is 0. The render method can then be called, passing the new
+ * value as parameter, and the widget will update the gauge to show the new provided value.
  *
  * @author Henrique Pacheco
  * @date Mar 25, 2017
@@ -55,52 +54,50 @@ define(function (require, exports, module) {
     "use strict";
 
     /**
-     * @function <a name="Gauge">Gauge</a>
+     * @function constructor
      * @description Gauge constructor.
      *
      * @param id {String} The ID of the element that will contain the gauge.
      * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 0, left: 0, width: 200, height: 80 }.
-     * @param opt {Object} Options:
-     *        size - Size of the gauge (default is 400).
-     *        rotation - defines the orientation of the gauge (a value between 0 and 360, defaults to 270).
-     *        gap - defines the gap between the beginning and the end of the gauge (defaults to 90).
-     *        drawOuterCircle - draw a circle around the gauge (defaults to false).
-     *        outerStrokeColor - color of the outer stroke (defaults to "#fff").
-     *        outerFillColor - color of the outer circle (defaults to "#fff").
-     *        innerStrokeColor - color of the inner stroke (defaults to "#fff").
-     *        innerFillColor - color of the inner circle (defaults to "#000").
-     *        label - label presented inside the gauge (defaults to '').
-     *        labelSize - font size of the label (as a percentage of the gauge radius, defaults to 0.1).
-     *        labelColor - color of the label (defaults to "#888").
-     *        min - minimum value of the gauge (defaults to 0).
-     *        max - maximum value of the gauge (defaults to 200).
-     *        initial - initial value of the gauge (defaults to 0).
-     *        clampUnderflow - ?? (defaults to false).
-     *        clampOverflow - ?? (defaults to false).
-     *        majorTicks - number of major ticks to be drawn (defaults to 9).
-     *        majorTickColor - color of the major ticks to be drawn (defaults to "#fff").
-     *        majorTickWidth - width of the major ticks to be drawn (defaults to "3px").
-     *        minorTicks - number of minor ticks to be drawn (defaults to 3).
-     *        minorTickColor - color of minor ticks to be drawn (defaults to "#fff").
-     *        minorTickWidth - width of the minor ticks to be drawn (defaults to "1px").
-     *        greenColor - color for the green zones of the gauge (defaults to "#109618").
-     *        yellowColor - color for the yellow zones of the gauge (defaults to "#FF9900").
-     *        redColor - color for the red zones of the gauge (defaults to "#e31406").
-     *        pointerFillColor - color of the gauge pointer (defaults to "#dc3912").
-     *        pointerStrokeColor - color of the stroke of the gauge pointer (defaults to "#c63310").
-     *        pointerUseBaseCircle - draw a circle as base of the pointer (defaults to false).
-     *        pointerBaseCircleRadius - radius of the base circle (as percentage of total radius, defaults to 0.1).
-     *        pointerBaseCircleFillColor - fill color of the base circle (defaults to "#fff").
-     *        pointerBaseCircleStrokeColor - stroke color of the base circle (defaults to "red").
-     *        pointerBaseCircleStrokeWidth - width of the stroke of the base circle (defaults to "1px").
-     *        transitionDuration - duration of the pointer transition (defaults to 500).
-     *        greenZones - green zones in the gauge (array of objects with from and to properties as values, defaults to []).
-     *        yellowZones - yellow zones in the gauge (array of objects with from and to properties as values, defaults to []).
-     *        redZones - red zones in the gauge (array of objects with from and to properties as values, defaults to [{ from - (200 - (200 * 0.125)), to - 200 }]).
-     *        roundValueBeforeRender - whether pointer value should be rounded before re-rendering the gauge (defaults to false).
-     *        style - apply a default style to the rendered gauge (one of 'classic', 'sport', 'grey' or 'blue', defaults 'classic').
+     * @param opt {Object} General layout options:
+     *        <li>drawOuterCircle - Draw a circle around the gauge. Defaults to false.</li>
+     *        <li>gap - Defines the range of the gap between the beginning and the end of the gauge in degrees. Defaults to 90.</li>
+     *        <li>greenColor - Color for the green zones of the gauge. Defaults to "#109618".</li>
+     *        <li>greenZones - Green zones in the gauge (array of objects with from and to properties as values, defaults to []).</li>
+     *        <li>initial - Initial value of the gauge. Defaults to 0.</li>
+     *        <li>innerFillColor - Color of the inner circle. Defaults to "#000".</li>
+     *        <li>innerStrokeColor - Color of the inner stroke. Defaults to "#fff".</li>
+     *        <li>label - Label presented inside the gauge. Defaults to ''.</li>
+     *        <li>labelColor - Color of the label. Defaults to "#888".</li>
+     *        <li>labelSize - Font size of the label, as a percentage of the gauge radius. Defaults to 0.1.</li>
+     *        <li>majorTicks - Number of major ticks to be drawn. Defaults to 9.</li>
+     *        <li>majorTickColor - Color of the major ticks to be drawn. Defaults to "#fff".</li>
+     *        <li>majorTickWidth - Width of the major ticks to be drawn. Defaults to "3px".</li>
+     *        <li>max - Maximum value of the gauge. Defaults to 200.</li>
+     *        <li>min - Minimum value of the gauge. Defaults to 0.</li>
+     *        <li>minorTicks - Number of minor ticks to be drawn between each major tick. Defaults to 3.</li>
+     *        <li>minorTickColor - Color of minor ticks to be drawn. Defaults to "#fff".</li>
+     *        <li>minorTickWidth - Width of the minor ticks to be drawn. Defaults to "1px".</li>
+     *        <li>outerFillColor - Color of the outer circle. Defaults to "#fff".</li>
+     *        <li>outerStrokeColor - Color of the outer stroke. Defaults to "#fff".</li>
+     *        <li>pointerFillColor - Color of the gauge pointer. Defaults to "#dc3912".</li>
+     *        <li>pointerStrokeColor - Color of the stroke of the gauge pointer. Defaults to "#c63310".</li>
+     *        <li>pointerUseBaseCircle - Draw a circle as base of the pointer. Defaults to false.</li>
+     *        <li>pointerBaseCircleRadius - Radius of the base circle (as percentage of total radius, defaults to 0.1.</li>
+     *        <li>pointerBaseCircleFillColor - Fill color of the base circle. Defaults to "#fff".</li>
+     *        <li>pointerBaseCircleStrokeColor - Stroke color of the base circle. Defaults to "red".</li>
+     *        <li>pointerBaseCircleStrokeWidth - Width of the stroke of the base circle. Defaults to "1px".</li>
+     *        <li>redColor - Color for the red zones of the gauge. Defaults to "#e31406".</li>
+     *        <li>redZones - Red zones in the gauge (array of objects with from and to properties as values, defaults to [{ from - (200 - (200 * 0.125)), to - 200 }]).</li>
+     *        <li>rotation - Defines the orientation starting point of the gauge (value between 0 and 360). Defaults to 270.</li>
+     *        <li>roundValueBeforeRender - Whether pointer value should be rounded before re-rendering the gauge. Defaults to false.</li>
+     *        <li>size - Size of the gauge in pixels. Defaults to 400.</li>
+     *        <li>style - Apply a default style to the rendered gauge (one of 'classic', 'sport', 'grey' or 'blue', defaults 'classic'.</li>
+     *        <li>transitionDuration - Duration of the pointer transition. Defaults to 500.</li>
+     *        <li>yellowColor - Color for the yellow zones of the gauge. Defaults to "#FF9900".</li>
+     *        <li>yellowZones - Yellow zones in the gauge (array of objects with from and to properties as values, defaults to []).</li>
      * @memberof module:Gauge
      * @instance
      */
@@ -134,7 +131,7 @@ define(function (require, exports, module) {
     }
 
     /**
-     * @function <a name="Gauge">Gauge</a>
+     * @function createGauge
      * @description Create a gauge, apllying the default and style configurations.
      *
      * @param id {String} The ID of the element that will contain the gauge.
@@ -142,6 +139,7 @@ define(function (require, exports, module) {
      *
      * @memberof module:Gauge
      * @instance
+     * @private
      */
     Gauge.prototype.createGauge = function(id, opt) {
 
@@ -153,24 +151,19 @@ define(function (require, exports, module) {
             config = this.mergeConfigs(config, this.getStyleConfigs(opt.style));
         }
 
-        // Merge the provided options
-        config = this.mergeConfigs(config, opt);
-
-        // Save configs for further usage
-        this.config = config;
+        // Merge the provided options and save for further usage
+        this.config = this.mergeConfigs(config, opt);
 
         // Return the created gauge plus pbject
         return new d3_gauge_plus.Gauge(id, config);
     };
 
     /**
-     * @function <a name="Gauge">Gauge</a>
+     * @function render
      * @description Render method.
-     *
      * @param new_value {Float} The new value to set the gauge pointer.
      * @param opt {Object} Override options when re-rendering. See constructor docs for
      * detailed docs on the available options.
-     *
      * @memberof module:Gauge
      * @instance
      */

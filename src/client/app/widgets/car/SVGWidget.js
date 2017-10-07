@@ -118,7 +118,9 @@ define(function (require, exports, module) {
 
     /**
      * @function changeColor
-     * @description Changes the colors of the icons marked with the "color-change-aware" class.
+     * @description Changes the colors of every element that has the
+     * "color-change-aware" in the SVG - assumes that the SVG created div is
+     * on the "div" property of the instance.
      * @param color {String} The new color to set.
      * @memberof module:SVGWidget
      * @instance
