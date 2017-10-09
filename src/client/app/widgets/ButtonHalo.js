@@ -13,7 +13,7 @@ define(function (require, exports, module) {
 
     ButtonHalo.prototype.installKeypressHandler = function (widget, eventKeyCode) {
         instance._keyCode2widget[eventKeyCode] = widget;
-        if (! (d3.select("#btnSimulatorView").node() && d3.select("#btnSimulatorView").classed("active"))) {
+        if (d3.select("#btnSimulatorView").empty()) {
             var _this = this;
             d3.select(document).on("keydown", function () {
                 _this.handleKeyDownEvent(d3.event);
@@ -37,6 +37,7 @@ define(function (require, exports, module) {
             var mark = d3.select(".animation-halo");
             if (mark.empty()) {
                 mark = d3.select("#imageDiv .prototype-image-inner").append("div").attr("class", "animation-halo");
+                // mark = d3.select("body").append("div").attr("class", "animation-halo");
             }
             mark.style("top", pos.y1 + "px").style("left", pos.x1 + "px")
                 .style("width", (pos.x2 - pos.x1) + "px").style("height", (pos.y2 - pos.y1) + "px")

@@ -24,6 +24,7 @@ require([
         "widgets/car/Gauge",
         "widgets/car/Gearbox",
         "widgets/car/Clock",
+        "widgets/car/Pointer",
         "widgets/ButtonActionsQueue",
         "stateParser",
         "PVSioWebClient"
@@ -33,6 +34,7 @@ require([
         Gauge,
         Gearbox,
         Clock,
+        Pointer,
         ButtonActionsQueue,
         stateParser,
         PVSioWebClient
@@ -78,23 +80,22 @@ require([
             }
         }
 
-        var example = new GaugeSport(
-            'example',
-            { top: 100, left: 100, width: 300, height: 300 },
-            { style: 'example' }
+        var example = new Pointer(
+            'pointer',
+            { top: 100, left: 100, width: 200 },
+            { style: 'gauge-pointer-3' }
         );
 
-
-        var example2 = new GaugeSport(
-            'example2',
-            { top: 100, left: 450, width: 300, height: 300 },
-            { style: 'example' }
+        var example2 = new Pointer(
+            'pointer',
+            { top: 100, left: 300, width: 200 },
+            { style: 'gauge-pointer-1' }
         );
 
         // Render widgets
         function render(res) {
             example.render();
-            example2.render(100);
+            example2.render();
         }
 
         var demoFolder = "svg-dashboard-1";

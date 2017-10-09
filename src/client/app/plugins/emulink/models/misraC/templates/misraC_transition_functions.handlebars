@@ -1,9 +1,9 @@
 {{#if template_description}}
 %
-%   Description: This template generates MISRA-C functions corresponding to emucharts transitions between states (modes) of the system.
-%                Each transition function is in the form
+%   Description: This template translates emucharts triggers into MISRA-C functions.
+%                Each function is in the form
 %                  State* foo(st* State) {
-%                    switch(COND) { ... }
+%                    if (COND1) { .. } else if (COND2) { .. } ..
 %                    return st;
 %                  }
 %                Predicate per_foo is the permission function. It is used to restrict the domain of the function to the subset of
@@ -13,7 +13,7 @@
 %                is not covered by any case in the COND-ENDCOND construct.) With the full_coverage flag enabled, however, the typechecker
 %                won't be able to check coverage of conditions.
 %
-{{/if}}{{#if comment}}/*
+{{/if}}{{#if comment}}/**
  * {{comment}}
  */{{/if}}
 {{#each functions}}bool per_{{name}}(State* st){{#if ../is_header_file}};{{else}} {
@@ -23,11 +23,17 @@
 State* {{name}}(State* st){{#if ../is_header_file}};{{else}} {
     assert( per_{{name}}(st) );
     {{#each cases}}if ({{cond}}) {
+        #ifdef DBG
+        _dbg_print_condition("{{cond}}");
+        #endif
         {{../../../leave}}({{from}}, st);{{#if actions}}{{#each actions}}{{#if local_binding}}
-        __TYPE__ {{name}} = {{value}}; // local binding{{else}}
+        __TYPE__ {{variable_name}} = {{value}}; // local binding{{else}}
         st->{{variable_name}}{{#if variable_name_l2}}.{{variable_name_l2}}{{/if}} = {{value}};{{/if}}{{/each}}{{/if}}
         {{../../../enter}}({{to}}, st);
     }{{#unless @last}} else {{/unless}}{{/each}}
+    #ifdef DBG
+    _dbg_print_state(st);
+    #endif
     return st;
 }
 {{/if}}

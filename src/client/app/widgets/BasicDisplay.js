@@ -64,6 +64,7 @@ define(function (require, exports, module) {
         this.fontfamily = opt.fontfamily || "sans-serif";
         this.font = [this.fontsize, "px ", this.fontfamily];
         this.smallFont = [(this.fontsize * 0.7), "px ", this.fontfamily];
+        this.letterSpacing = opt.letterSpacing;
         this.align = opt.align || "center";
         this.backgroundColor = opt.backgroundColor || "black";
         this.fontColor = opt.fontColor || "white";
@@ -81,14 +82,14 @@ define(function (require, exports, module) {
         var elemClass = id + " displayWidget" + " noselect ";
         if (this.blinking) { elemClass += " blink"; }
         opt.position = opt.position || "absolute";
-        opt.borderRadius = opt.borderRadius || 2;
+        opt.borderRadius = opt.borderRadius || "2px";
         opt.opacity = opt.opacity || 1;
         this.format = opt.format;
         this.div = d3.select(this.parent)
                         .append("div").style("position", opt.position)
                         .style("top", this.top + "px").style("left", this.left + "px")
                         .style("width", (this.width+this.borderWidth) + "px").style("height", (this.height+this.borderWidth) + "px")
-                        .style("margin", 0).style("padding", 0).style("border-radius", opt.borderRadius + "px").style("opacity", opt.opacity)
+                        .style("margin", 0).style("padding", 0).style("border-radius", opt.borderRadius).style("opacity", opt.opacity)
                         .style("background-color", this.backgroundColor)
                         .style("border-width", this.borderWidth + "px")
                         .style("border-style", this.borderStyle)
@@ -97,10 +98,10 @@ define(function (require, exports, module) {
         this.div.append("span").attr("id", id + "_span").attr("class", id + "_span")
                         .attr("width", this.width).attr("height", this.height)
                         .style("margin", 0).style("padding", 0)
-                        .style("vertical-align", "top").style("border-radius", opt.borderRadius + "px").style("opacity", opt.opacity);
+                        .style("vertical-align", "top").style("border-radius", opt.borderRadius).style("opacity", opt.opacity);
         this.div.append("canvas").attr("id", id + "_canvas").attr("class", id + "_canvas")
                         .attr("width", (this.width-this.borderWidth)).attr("height", (this.height-this.borderWidth))
-                        .style("margin", 0).style("padding", 0).style("border-radius", opt.borderRadius + "px").style("opacity", opt.opacity)
+                        .style("margin", 0).style("padding", 0).style("border-radius", opt.borderRadius).style("opacity", opt.opacity)
                         .style("vertical-align", "top");
         var x2 = this.left + this.width;
         var x3 = this.top + this.height;
@@ -199,7 +200,19 @@ define(function (require, exports, module) {
         return this.render(txt, { visibleWhen: "true" });
     };
     BasicDisplay.prototype.render = function (txt, opt) {
+        var _this = this;
         function renderln(data, opt) {
+            function filltext (data, txt, align) {
+                for (var i = 0; i < txt.length; i++) {
+                    if (align === "right") {
+                        data.context.fillText(txt[txt.length - 1 - i], data.width - _this.letterSpacing * i, data.height / 2);
+                    } else if (align === "left") {
+                        data.context.fillText(txt[txt.length - 1 - i], _this.letterSpacing * txt.length - _this.letterSpacing * i, data.height / 2);
+                    } else { // align === center
+                        data.context.fillText(txt[txt.length - 1 - i], _this.letterSpacing * txt.length / 2 + data.width / 2 - _this.letterSpacing * i, data.height / 2);
+                    }
+                }
+            }
             opt = opt || {};
             data.context.clearRect(0, 0, data.width, data.height);
             data.context.fillStyle = opt.backgroundColor || _this.backgroundColor;
@@ -209,13 +222,25 @@ define(function (require, exports, module) {
             data.context.fillStyle = opt.fontColor || _this.fontColor;
             if (data.align === "left") {
                 data.context.textAlign = "start";
-                data.context.fillText(data.txt, 0, data.height / 2);
+                if (_this.letterSpacing) {
+                    filltext(data, txt, "left");
+                } else {
+                    data.context.fillText(data.txt, 0, data.height / 2);
+                }
             } else if (data.align === "right") {
                 data.context.textAlign = "end";
-                data.context.fillText(data.txt, data.width, data.height / 2);
+                if (_this.letterSpacing) {
+                    filltext(data, txt, "right");
+                } else {
+                    data.context.fillText(data.txt, data.width, data.height / 2);
+                }
             } else {
                 data.context.textAlign = "center";
-                data.context.fillText(data.txt, data.width / 2, data.height / 2);
+                if (_this.letterSpacing) {
+                    filltext(data, txt, "center");
+                } else {
+                    data.context.fillText(data.txt, data.width / 2, data.height / 2);
+                }
             }
         }
 
@@ -241,7 +266,6 @@ define(function (require, exports, module) {
 
         if (isEnabled) {
             txt = txt || "";
-            var _this = this;
             if (typeof txt === "object") {
                 // txt in this case is a PVS state that needs to be parsed
                 var disp = StateParser.resolve(txt, this.displayKey());

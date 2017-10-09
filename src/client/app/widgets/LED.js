@@ -132,13 +132,9 @@ define(function (require, exports, module) {
             context.fillStyle = opt.color || _this.ledColor();
             context.fill();
             if (!opt.noborder) { context.stroke(); }
-            var elemClass = _this.div.node().getAttribute("class");
-            if (opt.blinking || _this.blinking) {
-                elemClass += " blink";
-            } else {
-                elemClass = elemClass.replace(" blink", "");
+            if (opt.blinking && !_this.blinking) {
+                _this.div.attr("class", _this.div.attr("class") + " blink");
             }
-            _this.div.node().setAttribute("class", elemClass);
             return _this.reveal();
         }
 
@@ -150,7 +146,7 @@ define(function (require, exports, module) {
             } else if (expr.res.type === "boolexpr" && expr.res.binop) {
                 var str = StateParser.resolve(txt, expr.res.attr);
                 if (str) {
-                    str = StateParser.evaluate(str);
+                    str = StateParser.evaluate(str).toString();
                     if ((expr.res.binop === "=" && str === expr.res.constant) ||
                          (expr.res.binop === "!=" && str !== expr.res.constant)) {
                              return doRender();
@@ -185,6 +181,22 @@ define(function (require, exports, module) {
     LED.prototype.off = function () {
         this.isOn = false;
         this.hide();
+        return this;
+    };
+
+    LED.prototype.blink = function (n) {
+        if (n && typeof n === "number") {
+            var wasOn = this.isOn;
+            var _this = this;
+            window.setTimeout(function () {
+                _this.div.attr("class", _this.id() + " noselect");
+                if (!wasOn) {
+                    _this.off();
+                }
+            }, n * 1000);
+        }
+        this.div.attr("class", this.id() + " noselect blink");
+        this.reveal();
         return this;
     };
 

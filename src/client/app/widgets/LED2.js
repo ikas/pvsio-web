@@ -131,6 +131,11 @@ define(function (require, exports, module) {
         var visibleWhen = opt.visibleWhen || this.visibleWhen();
         var expr = StateParser.simpleExpressionParser(visibleWhen);
         if (expr && expr.res) {
+            //-- handles blinking option
+            if (opt.blinking && !this.blinking) {
+                this.div.attr("class", this.div.attr("class") + " blink");
+            }
+
             if (expr.res.type === "constexpr" && expr.res.constant === "true") {
                 return this.reveal();
             } else if (expr.res.type === "boolexpr" && expr.res.binop) {
@@ -177,7 +182,17 @@ define(function (require, exports, module) {
         return this;
     };
 
-    LED2.prototype.blink = function () {
+    LED2.prototype.blink = function (n) {
+        if (n && typeof n === "number") {
+            var wasOn = this.isOn;
+            var _this = this;
+            window.setTimeout(function () {
+                _this.div.attr("class", _this.id() + " noselect");
+                if (!wasOn) {
+                    _this.off();
+                }
+            }, n * 1000);
+        }
         this.div.attr("class", this.id() + " noselect blink");
         this.reveal();
         return this;
