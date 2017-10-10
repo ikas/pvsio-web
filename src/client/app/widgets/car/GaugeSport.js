@@ -624,7 +624,7 @@ define(function (require, exports, module) {
                             left: 130,
                         }
                     ]
-                }
+                };
 
             default:
                 console.warn('Unrecognied style ' + style_id + ', using default configurations.');
