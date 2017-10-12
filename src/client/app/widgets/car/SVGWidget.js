@@ -27,6 +27,46 @@ define(function (require, exports, module) {
     }
 
     /**
+     * @function getId
+     * @description Returns the id of the current widget.
+     * @memberof module:SVGWidget
+     * @instance
+     */
+    SVGWidget.prototype.getId = function () {
+        return this.id;
+    };
+
+    /**
+     * @function setId
+     * @description Sets the id of the current widget.
+     * @memberof module:SVGWidget
+     * @instance
+     */
+    SVGWidget.prototype.setId = function (id) {
+        this.id = (id) ? id : 'default-id';
+    };
+
+    /**
+     * @function getValue
+     * @description Returns the currently set value for the current widget.
+     * @memberof module:SVGWidget
+     * @instance
+     */
+    SVGWidget.prototype.getValue = function () {
+        return this.value;
+    };
+
+    /**
+     * @function setValue
+     * @description Sets the value for the current widget.
+     * @memberof module:SVGWidget
+     * @instance
+     */
+    SVGWidget.prototype.setValue = function (value) {
+        this.value = value;
+    };
+
+    /**
      * @function ready
      * @description Set the widget as ready to render.
      * @memberof module:SVGWidget

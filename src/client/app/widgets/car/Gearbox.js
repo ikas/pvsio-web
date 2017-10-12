@@ -51,9 +51,7 @@ define(function (require, exports, module) {
      */
     function Gearbox(id, coords, opt) {
         SVGWidget.call(this, id, coords, opt);
-
-        // Save id for later usage
-        this.id = id;
+        this.setId(id);
 
         // Ready to render control flag
         this.stickReady = false;
@@ -289,6 +287,7 @@ define(function (require, exports, module) {
     {
         if(this.isReady()) {
             this.setStickPosition(value);
+            this.setValue(value);
         }
 
         return this;

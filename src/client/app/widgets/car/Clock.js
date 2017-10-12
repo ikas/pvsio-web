@@ -56,8 +56,7 @@ define(function (require, exports, module) {
      */
     function Clock(id, coords, opt) {
         SVGWidget.call(this, id, coords, opt);
-
-        this.id = id;
+        this.setId(id);
 
         // Handle coords
         coords = coords || {};
@@ -170,6 +169,7 @@ define(function (require, exports, module) {
             this.renderPointer(this.pointers.seconds, current.getSeconds(), this.pointers_opt.seconds);
             this.renderPointer(this.pointers.minutes, current.getMinutes(), this.pointers_opt.minutes);
             this.renderPointer(this.pointers.hours, current.getHours(), this.pointers_opt.hours);
+            this.setValue(current);
         }
 
         return this;

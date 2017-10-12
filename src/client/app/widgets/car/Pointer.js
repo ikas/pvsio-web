@@ -54,9 +54,7 @@ define(function (require, exports, module) {
      */
     function Pointer(id, coords, opt) {
         SVGWidget.call(this, id, coords, opt);
-
-        // Save id for later usage
-        this.id = id;
+        this.setId(id);
 
         // Handle coords object
         coords = coords || {};
@@ -70,14 +68,14 @@ define(function (require, exports, module) {
         opt.position = opt.position || "absolute";
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
         this.transition = opt.transition || 0;
-        this.style_id = opt.style || 1;
+        this.style_id = opt.style || 'gauge-pointer-3';
         this.initial = opt.initial || 0;
 
         // Get style configurations
         this.style_configs = this.getStyleConfigs(this.style_id);
 
         // Find pointer file to load from style configs
-        var file_to_require = "text!widgets/car/svg/gauge-pointers/" + opt.style + ".svg";
+        var file_to_require = "text!widgets/car/svg/gauge-pointers/" + this.style_id + ".svg";
         var self = this;
         require([file_to_require], function(file_required) {
             // Add pointer div
@@ -132,6 +130,7 @@ define(function (require, exports, module) {
 
         if(this.isReady()) {
             this.div.select('svg').style('transform', 'rotate('+value+'deg)');
+            this.setValue(value);
         }
 
         return this;

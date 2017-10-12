@@ -53,8 +53,7 @@ define(function (require, exports, module) {
      */
     function GaugeSport(id, coords, opt) {
         SVGWidget.call(this, id, coords, opt);
-
-        this.id = id;
+        this.setId(id);
 
         // Ready to render control flag
         this.readyToRender = false;
@@ -182,6 +181,8 @@ define(function (require, exports, module) {
                     self.renderPointer(self.pointers[key], value, self.pointers_opt[key]);
                 });
             }
+
+            this.setValue(value);
         }
 
         return this;
@@ -263,8 +264,8 @@ define(function (require, exports, module) {
                         {
                             id: 'tachometer-pointer',
                             max: 10,
-                            min_degree: 58,
-                            max_degree: 306,
+                            min_degree: 56,
+                            max_degree: 304,
                             style: 'gauge-pointer-3',
                             width: 38,
                             top: 110,

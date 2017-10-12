@@ -15,6 +15,7 @@ define(function (require, exports, module) {
     var UI_UnitTest = require("test/UI_UnitTest");
     var PIMPrototyping = require("test/pim-prototyping/PIMPrototyping");
     var EmuchartsParser_UnitTest = require("test/EmuchartsParser_UnitTest").getInstance();
+    var CarDashboards = require("test/car/CarDashboards_UnitTest").getInstance();
 
     Project_UnitTest.run();
     ProjectManager_UnitTest.run();
@@ -22,6 +23,7 @@ define(function (require, exports, module) {
     UI_UnitTest.run();
     PIMPrototyping.run();
     EmuchartsParser_UnitTest.run();
+    CarDashboards.run();
     //var NetworkController_UnitTest = require("test/NetworkController_UnitTest").getInstance();
     //NetworkController_UnitTest.run();
 });
