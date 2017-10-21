@@ -80,22 +80,34 @@ require([
             }
         }
 
-        var example = new Pointer(
-            'pointer',
-            { top: 100, left: 100, width: 200 },
-            { style: 'gauge-pointer-3' }
-        );
+        var config, range;
+        config = {
+            size: 500,
+            rotation: -45,
+            gap: 90,
+            drawOuterCircle: false,
+            innerStrokeColor: "#fff",
+            min: 0,
+            max: 10,
+            initial: 0,
+            transitionDuration: 300
+        };
+        range = config.max - config.min;
 
-        var example2 = new Pointer(
-            'pointer',
-            { top: 100, left: 300, width: 200 },
-            { style: 'gauge-pointer-1' }
-        );
+        function zone(start, end) {
+            return { from: config.min + range * start, to: config.min + range * end };
+        }
+
+        config.greenZones = [];
+        config.yellowZones = [];
+        config.redZones = [zone(0.9, 1)];
+        var d3gauge = new d3_gauge_plus.Gauge('content', config);
+        d3gauge.render();
 
         // Render widgets
         function render(res) {
-            example.render();
-            example2.render();
+            // example.render();
+            // example2.render();
         }
 
         var demoFolder = "svg-dashboard-1";

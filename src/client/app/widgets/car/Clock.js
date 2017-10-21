@@ -46,10 +46,6 @@ define(function (require, exports, module) {
      *          <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
      *          <li>position (String): value for the CSS property position (default is "absolute").</li>
      *          <li>style (String): a valid style identifier (default is "clock").</li>
-     *          <li>min_degree (Float): The minimum degree of range for the pointer movement (default is 90).</li>
-     *          <li>min (Float): The minimum absolute value for the movement of the pointer (default is 0).</li>
-     *          <li>max_degree (Float): The maximum degree of range for the pointer movement (default is 270).</li>
-     *          <li>max (Float): The maximum absolute value for the movement of the pointer (default is 10).</li>
      * @returns {Clock} The created instance of the widget Clock.
      * @memberof module:Clock
      * @instance
@@ -157,7 +153,6 @@ define(function (require, exports, module) {
      * @function render
      * @description Render method of the Clock widget. Calls the render method of the associated pointers of this widget,
      * using the current date and time.
-     *
      * @memberof module:Clock
      * @instance
      */

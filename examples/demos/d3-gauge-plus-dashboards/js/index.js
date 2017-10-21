@@ -124,29 +124,29 @@ require([
                 }
             ),
 
-            remainingFuelGauge: new Gauge(
-                'remaining-fuel-gauge',
-                {
-                    top: 251,
-                    left: 53,
-                    width: 360,
-                    height: 360
-                },
-                {
-                    style: 'classic',
-                    max: 1,
-                    majorTicks: 3,
-                    min: 0,
-                    initial: 1,
-                    size: 360,
-                    redZones: [],
-                    rotation: 135,
-                    gap: 295,
-                    drawGap: false,
-                    cutOutPercetage: 0.45,
-                    parent: 'dashboard-container-1'
-                }
-            ),
+            // remainingFuelGauge: new Gauge(
+            //     'remaining-fuel-gauge',
+            //     {
+            //         top: 251,
+            //         left: 53,
+            //         width: 360,
+            //         height: 360
+            //     },
+            //     {
+            //         style: 'classic',
+            //         max: 1,
+            //         majorTicks: 3,
+            //         min: 0,
+            //         initial: 1,
+            //         size: 360,
+            //         redZones: [],
+            //         rotation: 135,
+            //         gap: 295,
+            //         drawGap: false,
+            //         cutOutPercetage: 0.45,
+            //         parent: 'dashboard-container-1'
+            //     }
+            // ),
 
             tachometerGauge: new Gauge(
                 'tachometer-gauge',
@@ -271,7 +271,7 @@ require([
                 'tachometer-gauge-3',
                 {
                     top: 1400,
-                    left: 509,
+                    left: 87,
                     width: 440,
                     height: 440
                 },
@@ -345,7 +345,7 @@ require([
                 'speedometer-gauge-3',
                 {
                     top: 1400,
-                    left: 87,
+                    left: 509,
                     width: 440,
                     height: 440
                 },
@@ -521,7 +521,7 @@ require([
             // Dashboard 1 elements
             dashboards.car1.speedometerGauge.render(evaluate(res.speed.val));
             dashboards.car1.tachometerGauge.render(evaluate(res.rpm));
-            dashboards.car1.remainingFuelGauge.render(res);
+            // dashboards.car1.remainingFuelGauge.render(res);
             // dashboards.car1.temperatureGauge.render(res);
             dashboards.car1.centralPanel.render(res);
 

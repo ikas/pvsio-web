@@ -250,7 +250,6 @@ define(function (require, exports, module) {
      *          <li>min (Float): The minimum absolute value for the movement of the pointer (default is 0).</li>
      *          <li>max_degree (Float): The maximum degree of range for the pointer movement (default is 270).</li>
      *          <li>max (Float): The maximum absolute value for the movement of the pointer (default is 10).</li>
-     * @throws Will throw an error if the provided style identifier is not valid.
      * @memberof module:GaugeSport
      * @instance
      */
