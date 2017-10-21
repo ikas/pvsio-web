@@ -294,7 +294,7 @@ define(function (require, exports, module) {
                     pointers: [
                         {
                             id: 'tachometer3-pointer',
-                            max: 8,
+                            max: 7,
                             min_degree: 73,
                             max_degree: 181,
                             style: 'gauge-pointer-9',
