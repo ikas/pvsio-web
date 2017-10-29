@@ -71,10 +71,11 @@ define(function (require, exports, module) {
 
         this.pointerOverrideOpts = opt.pointer || {};
 
-        this.style_configs = this.getStyleConfigs(opt.style || 'tachometer');
+        // Merge the provided opt with the default style configs
+        this.opt = this.mergeConfigs(this.getDefaultStyleConfigs(opt.style || 'tachometer'), this.opt);
 
         // Find panel file to load from style configs
-        var file_to_require = "text!widgets/car/svg/gauge-panels/" + this.style_configs.panel_file;
+        var file_to_require = "text!widgets/car/svg/gauge-panels/" + this.opt.panel_file;
         var self = this;
         require([file_to_require], function(file_required) {
 
@@ -85,7 +86,7 @@ define(function (require, exports, module) {
             // Find configs for Pointer widget(s)
             self.pointers = [];
             self.pointers_opt = [];
-            var pointer_opts = self.style_configs.pointers;
+            var pointer_opts = self.opt.pointers;
 
             if(pointer_opts !== undefined && pointer_opts.constructor === Array) {
 
@@ -225,9 +226,9 @@ define(function (require, exports, module) {
     };
 
     /**
-     * @function getStyleConfigs
-     * @description Returns the style configurations for the provided style identifier. The possible styles for the
-     * GaugeSport widget are:
+     * @function getDefaultStyleConfigs
+     * @description Returns the default style configurations for the provided style identifier.
+     * The possible styles for the GaugeSport widget are:
      * <li>tachomter, tachomter2, tachomter3, tachomter4</li>
      * <li>speedomter, speedomter2, speedomter3, speedomter4, speedomter5, speedomter6, speedomter7, speedomter8</li>
      * <li>thermometer</li>
@@ -253,7 +254,7 @@ define(function (require, exports, module) {
      * @memberof module:GaugeSport
      * @instance
      */
-    GaugeSport.prototype.getStyleConfigs = function (style_id) {
+    GaugeSport.prototype.getDefaultStyleConfigs = function (style_id) {
         switch (style_id) {
             // Tachomter styles
             case 'tachometer':
@@ -627,7 +628,6 @@ define(function (require, exports, module) {
                 };
 
             default:
-                console.warn('Unrecognied style ' + style_id + ', using default configurations.');
                 return {
                     panel_file: style_id + '.svg'
                 };

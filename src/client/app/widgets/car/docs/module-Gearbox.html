@@ -229,7 +229,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line95">line 95</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line96">line 96</a>
     </li></ul></dd>
     
 
@@ -471,6 +471,181 @@
     
 
     
+    <h4 class="name" id="getDefaultStyleConfigs"><span class="type-signature"></span>getDefaultStyleConfigs<span class="signature">(style_id)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Returns the default style configurations for the provided style identifier. The
+possible styles for the Gearbox widget are the "auto", "manual", "manual2" and "manual3".
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>style_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The style identifier.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line298">line 298</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc">
+    
+        Will throw an error if the provided style identifier is not valid.
+    
+    </div>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    An object of configurations for the provided style identifier, including
+four required properties:
+        <li>panel (String) - the path to the SVG panel file (in widgets/car/svg/gearbox directory).</li>
+        <li>stick (String) - the path to the SVG stick file (in widgets/car/svg/gearbox directory).</li>
+        <li>left_offsets (Object) - an object with the left coordinate offsets as percentage (float between 0 and 1) per each gear.</li>
+        <li>top_offsets (Object) - an object with the top coordinate offsets as percentage (float between 0 and 1) per each gear.</li>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="getLeftOffset"><span class="type-signature">(private) </span>getLeftOffset<span class="signature">(gear)</span><span class="type-signature"></span></h4>
     
 
@@ -572,7 +747,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line215">line 215</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line216">line 216</a>
     </li></ul></dd>
     
 
@@ -595,181 +770,6 @@
 
 
 
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="getStyleConfigs"><span class="type-signature"></span>getStyleConfigs<span class="signature">(style_id)</span><span class="type-signature"> &rarr; {Object}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Returns the style configurations for the provided style identifier. The
-possible styles for the Gearbox widget are the "auto", "manual", "manual2" and "manual3".
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>style_id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The style identifier.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line297">line 297</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-<h5>Throws:</h5>
-
-        
-
-    <div class="param-desc">
-    
-        Will throw an error if the provided style identifier is not valid.
-    
-    </div>
-
-
-    
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    An object of configurations for the provided style identifier, including
-four required properties:
-        <li>panel (String) - the path to the SVG panel file (in widgets/car/svg/gearbox directory).</li>
-        <li>stick (String) - the path to the SVG stick file (in widgets/car/svg/gearbox directory).</li>
-        <li>left_offsets (Object) - an object with the left coordinate offsets as percentage (float between 0 and 1) per each gear.</li>
-        <li>top_offsets (Object) - an object with the top coordinate offsets as percentage (float between 0 and 1) per each gear.</li>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -882,7 +882,7 @@ four required properties:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line228">line 228</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line229">line 229</a>
     </li></ul></dd>
     
 
@@ -968,7 +968,7 @@ four required properties:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line265">line 265</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line266">line 266</a>
     </li></ul></dd>
     
 
@@ -1054,7 +1054,7 @@ four required properties:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line112">line 112</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line113">line 113</a>
     </li></ul></dd>
     
 
@@ -1140,7 +1140,7 @@ four required properties:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line144">line 144</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line145">line 145</a>
     </li></ul></dd>
     
 
@@ -1300,7 +1300,7 @@ for detailed docs on the available options.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line276">line 276</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line277">line 277</a>
     </li></ul></dd>
     
 
@@ -1386,7 +1386,7 @@ for detailed docs on the available options.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line241">line 241</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line242">line 242</a>
     </li></ul></dd>
     
 
@@ -1472,7 +1472,7 @@ for detailed docs on the available options.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line253">line 253</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line254">line 254</a>
     </li></ul></dd>
     
 
@@ -1607,7 +1607,7 @@ for detailed docs on the available options.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line200">line 200</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line201">line 201</a>
     </li></ul></dd>
     
 
@@ -1657,7 +1657,7 @@ for detailed docs on the available options.</td>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sat Oct 14 2017 19:30:34 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sun Oct 29 2017 02:23:46 GMT+0000 (WET)
 </footer>
 
 <script> prettyPrint(); </script>

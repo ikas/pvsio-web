@@ -68,19 +68,20 @@ define(function (require, exports, module) {
         opt = opt || {};
         opt.position = opt.position || "absolute";
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
-        this.style = opt.style || 'auto';
-        this.style_configs = this.getStyleConfigs(this.style);
+
+        // Merge the provided opt with the default style configs
+        this.opt = this.mergeConfigs(this.getDefaultStyleConfigs(opt.style || 'auto'), this.opt);
 
         // Create wrapper div
         this.buildWrapper();
 
         // Find panel file to load from style configs -- if any
-        if(this.style_configs.panel !== undefined) {
+        if(this.opt.panel !== undefined) {
             this.loadPanel();
         }
 
         // Find stick file to load from style configs -- if any
-        if(this.style_configs.stick !== undefined) {
+        if(this.opt.stick !== undefined) {
             this.loadStick();
         }
 
@@ -119,7 +120,7 @@ define(function (require, exports, module) {
     Gearbox.prototype.loadPanel = function()
     {
         // Find the name of the file to load
-        var file_to_require = "text!widgets/car/svg/gear-box/" + this.style_configs.panel;
+        var file_to_require = "text!widgets/car/svg/gear-box/" + this.opt.panel;
         var self = this;
         require([file_to_require], function(file_required) {
             // Create the panel HTML element
@@ -151,12 +152,12 @@ define(function (require, exports, module) {
     Gearbox.prototype.loadStick = function()
     {
         // Find the name of the file to load
-        var file_to_require = "text!widgets/car/svg/gear-box/" + this.style_configs.stick;
+        var file_to_require = "text!widgets/car/svg/gear-box/" + this.opt.stick;
         var self = this;
         require([file_to_require], function(file_required) {
 
-            var widthRatio = self.style_configs.widthRatio || 0.33;
-            var heightRatio = self.style_configs.heightRatio || 0.33;
+            var widthRatio = self.opt.widthRatio || 0.33;
+            var heightRatio = self.opt.heightRatio || 0.33;
 
             var stickWidth = (widthRatio * self.width);
             var stickHeight = (heightRatio * self.height);
@@ -222,7 +223,7 @@ define(function (require, exports, module) {
      */
     Gearbox.prototype.getLeftOffset = function(gear)
     {
-        return this.style_configs.leftOffsets[gear];
+        return this.opt.leftOffsets[gear];
     };
 
     /**
@@ -235,7 +236,7 @@ define(function (require, exports, module) {
      */
     Gearbox.prototype.getTopOffset = function(gear)
     {
-        return this.style_configs.topOffsets[gear];
+        return this.opt.topOffsets[gear];
     };
 
     /**
@@ -295,8 +296,8 @@ define(function (require, exports, module) {
 
 
      /**
-     * @function getStyleConfigs
-     * @description Returns the style configurations for the provided style identifier. The
+     * @function getDefaultStyleConfigs
+     * @description Returns the default style configurations for the provided style identifier. The
      * possible styles for the Gearbox widget are the "auto", "manual", "manual2" and "manual3".
      * @param style_id {string} The style identifier.
      * @returns {Object} An object of configurations for the provided style identifier, including
@@ -309,7 +310,7 @@ define(function (require, exports, module) {
      * @memberof module:Gearbox
      * @instance
      */
-    Gearbox.prototype.getStyleConfigs = function (style_id)
+    Gearbox.prototype.getDefaultStyleConfigs = function (style_id)
     {
         switch (style_id) {
             case 'auto':

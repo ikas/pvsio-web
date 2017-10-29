@@ -71,8 +71,8 @@ define(function (require, exports, module) {
         this.style_id = opt.style || 'gauge-pointer-3';
         this.initial = opt.initial || 0;
 
-        // Get style configurations
-        this.style_configs = this.getStyleConfigs(this.style_id);
+        // Merge the provided opt with the default style configs
+        this.opt = this.mergeConfigs(this.getDefaultStyleConfigs(opt.style || 'gauge-pointer-3'), this.opt);
 
         // Find pointer file to load from style configs
         var file_to_require = "text!widgets/car/svg/gauge-pointers/" + this.style_id + ".svg";
@@ -92,7 +92,7 @@ define(function (require, exports, module) {
 
             // Set transform origin attribute on the SVG element
             self.div.select('svg')
-                .style("transform-origin", self.style_configs.transform_origin)
+                .style("transform-origin", self.opt.transform_origin)
                 .style("-webkit-transition", "all "+self.transition+"s ease")
                 .style("-moz-transition", "all "+self.transition+"s ease")
                 .style("-ms-transition", "all "+self.transition+"s ease")
@@ -137,7 +137,7 @@ define(function (require, exports, module) {
     };
 
     /**
-     * @function getStyleConfigs
+     * @function getDefaultStyleConfigs
      * @description Returns the style configurations for the provided style
      * identifier. The possible styles for the Pointer widget are the numbers
      * from 1-5, 7-10 and 15-23.
@@ -151,7 +151,7 @@ define(function (require, exports, module) {
      * @memberof module:Pointer
      * @instance
      */
-    Pointer.prototype.getStyleConfigs = function (style_id)
+    Pointer.prototype.getDefaultStyleConfigs = function (style_id)
     {
         switch (style_id) {
             case 'gauge-pointer-3':
@@ -235,7 +235,6 @@ define(function (require, exports, module) {
                 };
 
             default:
-                console.warn('Unrecognied style ' + style_id + ', using default configurations.');
                 return {
                     transform_origin: "center top",
                 };

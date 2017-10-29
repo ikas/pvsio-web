@@ -148,7 +148,7 @@ define(function (require, exports, module) {
 
         // Apply style configs if defined
         if(opt.style) {
-            config = this.mergeConfigs(config, this.getStyleConfigs(opt.style));
+            config = this.mergeConfigs(config, this.getDefaultStyleConfigs(opt.style));
         }
 
         // Merge the provided options and save for further usage
@@ -278,13 +278,13 @@ define(function (require, exports, module) {
 
 
     /**
-     * @function <a name="Gauge">Gauge</a>
+     * @function getDefaultStyleConfigs
      * @description Returns the style configs for the provided style identifier.
      *
      * @memberof module:Gauge
      * @instance
      */
-    Gauge.prototype.getStyleConfigs = function(style_identifier) {
+    Gauge.prototype.getDefaultStyleConfigs = function(style_identifier) {
         var styles = {
             classic: {
                 outerStrokeColor: "#fff",

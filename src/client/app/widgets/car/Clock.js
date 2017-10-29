@@ -54,6 +54,7 @@ define(function (require, exports, module) {
         SVGWidget.call(this, id, coords, opt);
         this.setId(id);
 
+
         // Handle coords
         coords = coords || {};
         this.top = coords.top || 0;
@@ -64,14 +65,15 @@ define(function (require, exports, module) {
         // Handle options
         opt = opt || {};
         this.opt = opt;
-        this.opt.pointers = this.opt.pointers || {};
-
-        this.style_configs = this.getStyleConfigs(opt.style || 'clock');
+        // Merge the provided opt with the default style configs
+        this.defaultStyles = this.getDefaultStyleConfigs(opt.style || 'clock');
+        this.opt = this.mergeConfigs(_.clone(this.defaultStyles), this.opt);
 
         // Find panel file to load from style configs
-        var file_to_require = "text!widgets/car/svg/gauge-panels/" + this.style_configs.panel_file;
+        var file_to_require = "text!widgets/car/svg/gauge-panels/" + this.opt.panel_file;
         var self = this;
         require([file_to_require], function(file_required) {
+
 
             // Aux configurations and variables
             opt.position = opt.position || "absolute";
@@ -80,12 +82,28 @@ define(function (require, exports, module) {
             // Find configs for Pointer widget(s)
             self.pointers = [];
             self.pointers_opt = [];
-            var pointer_opts = self.style_configs.pointers;
+            var pointer_opts = self.opt.pointers;
 
             if(pointer_opts !== undefined && pointer_opts.constructor === Array) {
 
                 // Add all Pointer widgets to the screen
                 pointer_opts.map(function(opt) {
+
+                    // Override default configs with the ones provided
+                    var overrideOpt = _.find(
+                        self.opt.pointers,
+                        function(v){
+                            return (!_.isUndefined(v.id) && v.id === opt.id);
+                        }
+                    ) || {};
+
+                    var styleOpt = _.find(
+                        self.defaultStyles.pointers,
+                        function(v){
+                            return (!_.isUndefined(v.id) && v.id === opt.id);
+                        }
+                    ) || {};
+                    opt = self.mergeConfigs(styleOpt, overrideOpt);
 
                     // Pointer options' default values
                     opt.parent = self.id;
@@ -95,10 +113,6 @@ define(function (require, exports, module) {
                     opt.max = opt.max || 10;
                     opt.min = opt.min || 0;
                     opt.initial = opt.inital || opt.min_degree;
-
-                    // Override default configs with the ones provided
-                    var overrideOpt = self.opt.pointers[opt.id] || {};
-                    opt = self.mergeConfigs(opt, overrideOpt);
 
                     // Create Pointer widget
                     self.pointers[opt.id] = new Pointer(
@@ -207,9 +221,9 @@ define(function (require, exports, module) {
     };
 
     /**
-     * @function getStyleConfigs
-     * @description Returns the style configurations for the provided style identifier. The possible styles for the
-     * Clock widget are clock, clock2, clock3 and clock4.
+     * @function getDefaultStyleConfigs
+     * @description Returns the default style configurations for the provided style identifier.
+     * The possible styles for the Clock widget are clock, clock2, clock3 and clock4.
      * @param style_id {string} The style identifier.
      * @returns {Object} An object of configurations for the provided style identifier.
      * <li>panel_file (String) Path to the SVG panel file (inside the widgets/car/svg/gauge-panels) directory.</li>
@@ -220,7 +234,7 @@ define(function (require, exports, module) {
      * @memberof module:Clock
      * @instance
      */
-    Clock.prototype.getStyleConfigs = function (style_id)
+    Clock.prototype.getDefaultStyleConfigs = function (style_id)
     {
         switch (style_id) {
 
@@ -389,9 +403,9 @@ define(function (require, exports, module) {
                 };
 
             default:
-                console.warn('Unrecognied style ' + style_id + ', using default configurations.');
                 return {
-                    panel_file: style_id + '.svg'
+                    panel_file: style_id + '.svg',
+                    pointers: []
                 };
         }
     };
