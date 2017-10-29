@@ -69,13 +69,14 @@ define(function (require, exports, module) {
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
         this.transition = opt.transition || 0;
         this.style_id = opt.style || 'gauge-pointer-3';
+        this.filename = opt.filename || this.style_id;
         this.initial = opt.initial || 0;
 
         // Merge the provided opt with the default style configs
         this.opt = this.mergeConfigs(this.getDefaultStyleConfigs(opt.style || 'gauge-pointer-3'), this.opt);
 
         // Find pointer file to load from style configs
-        var file_to_require = "text!widgets/car/svg/gauge-pointers/" + this.style_id + ".svg";
+        var file_to_require = "text!widgets/car/svg/gauge-pointers/" + this.filename + ".svg";
         var self = this;
         require([file_to_require], function(file_required) {
             // Add pointer div
