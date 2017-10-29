@@ -98,6 +98,7 @@ define(function (require, exports, module) {
      *        <li>transitionDuration - Duration of the pointer transition. Defaults to 500.</li>
      *        <li>yellowColor - Color for the yellow zones of the gauge. Defaults to "#FF9900".</li>
      *        <li>yellowZones - Yellow zones in the gauge (array of objects with from and to properties as values, defaults to []).</li>
+     * @returns {Gauge} The created instance of the widget Gauge.
      * @memberof module:Gauge
      * @instance
      */

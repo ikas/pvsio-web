@@ -37,8 +37,8 @@ define(function (require, exports, module) {
      *
      * @param id {String} The ID of the element that will contain the central panel.
      * @param opt {Object} Options:
-     *          TODO !!
-     *
+     *          <li>backgroundColor (String): value for the CSS property background-color (default is "#000").</li>
+     * @returns {CentralPanel} The created instance of the widget CentralPanel.
      * @memberof module:CentralPanel
      * @instance
      */
