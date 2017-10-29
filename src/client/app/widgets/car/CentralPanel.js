@@ -20,7 +20,7 @@
  *          var centralPanel = new CentralPanel('central-panel');
  *
  *          // Re-render the CentralPanel, provinding new values
- *          gauge.render({ speed: 200 });
+ *          centralPanel.render({ speed: 200 });
  *     }
  * });
  */
@@ -44,6 +44,7 @@ define(function (require, exports, module) {
      */
     function CentralPanel(id, coords, opt) {
 
+        opt = opt || {};
         this.backgroundColor = opt.backgroundColor || "#000";
 
         // Handle coords
