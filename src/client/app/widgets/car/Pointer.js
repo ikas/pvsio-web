@@ -48,6 +48,9 @@ define(function (require, exports, module) {
      *          <li>transition (Float): number of milliseconds to be applied in the CSS property transition (default is 0).</li>
      *          <li>z-index (String): value for the CSS property z-index (if not provided, no z-index is applied).</li>
      *          <li>initial (Float): The initial absolute value for the movement of the pointer (default is min value).</li>
+     *          <li>transform_origin (String): Value for the CSS property transform origin -should be provided as
+     * percentages and not absolute values. Examples are "center top" or "50% 20%".</li>
+     *          <li>filename (String): The path to the pointer file, in the cr/svg/gauge-pointers directory.</li>
      * @returns {Pointer} The created instance of the widget Pointer.
      * @memberof module:Pointer
      * @instance
@@ -145,10 +148,8 @@ define(function (require, exports, module) {
      * @param style_id {string} The style identifier - should match the file name
      * which will be loaded for the pointer.
      * @returns {Object} An object of configurations for the provided style
-     * identifier.
-     * <li>transform_origin (String) Value for the CSS property transform origin -
-     * should be provided as percentages and not absolute values. Examples are
-     * "center top" or "50% 20%".</li>
+     * identifier. The possible configurations can be consulted in the
+     * documentation of the constructor method.
      * @memberof module:Pointer
      * @instance
      */

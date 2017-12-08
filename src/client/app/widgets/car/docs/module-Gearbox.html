@@ -138,13 +138,26 @@
          // After Gearbox module was loaded, initialize it
          var gearbox = new Gearbox(
               'example', // id of the element that will be created
-              { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
-              { style: 'auto' } // style can be 'auto', 'manual', 'manual2' or 'manual3'
+              { top: 100, left: 100 }, // coordinates object
+              { panel: 'gear-box-auto.svg',
+                      stick: 'gear-stick.svg',
+                      leftOffsets: {
+                          'D': 0.345,
+                          'N': 0.345,
+                          'R': 0.345,
+                          'P': 0.345,
+                      },
+                      topOffsets: {
+                          'D': 0.55,
+                          'N': 0.4,
+                          'R': 0.25,
+                          'P': 0,
+                      }
+              } // style can be 'auto', 'manual', 'manual2' or 'manual3'
           );
 
          // Render the Gearbox widget - providing a new shift value.
          gearbox.render('D'); // for automatic gearboxes, 'P' 'N' 'R' or 'D'
-         gearbox.render('4'); // for manual gearboxes 'R', '1', '2', '3', '4', '5' (or '6', in some cases).
     }
 });</code></pre>
 
@@ -229,7 +242,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line96">line 96</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line113">line 113</a>
     </li></ul></dd>
     
 
@@ -374,7 +387,11 @@
             <td class="description last">Options:
          <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
          <li>position (String): value for the CSS property position (default is "absolute").</li>
-         <li>style (String): a valid style identifier (default is "auto").</li></td>
+         <li>style (String): a valid style identifier (default is "auto").</li>
+         <li>panel (String) - the path to the SVG panel file (in widgets/car/svg/gearbox directory).</li>
+         <li>stick (String) - the path to the SVG stick file (in widgets/car/svg/gearbox directory).</li>
+         <li>left_offsets (Object) - an object with the left coordinate offsets as percentage (float between 0 and 1) per each gear.</li>
+         <li>top_offsets (Object) - an object with the top coordinate offsets as percentage (float between 0 and 1) per each gear.</li></td>
         </tr>
 
     
@@ -415,7 +432,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line37">line 37</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line50">line 50</a>
     </li></ul></dd>
     
 
@@ -573,7 +590,7 @@ possible styles for the Gearbox widget are the "auto", "manual", "manual2" and "
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line298">line 298</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line315">line 315</a>
     </li></ul></dd>
     
 
@@ -594,30 +611,14 @@ possible styles for the Gearbox widget are the "auto", "manual", "manual2" and "
 
 
 
-<h5>Throws:</h5>
-
-        
-
-    <div class="param-desc">
-    
-        Will throw an error if the provided style identifier is not valid.
-    
-    </div>
-
-
-    
 
 
 <h5>Returns:</h5>
 
         
 <div class="param-desc">
-    An object of configurations for the provided style identifier, including
-four required properties:
-        <li>panel (String) - the path to the SVG panel file (in widgets/car/svg/gearbox directory).</li>
-        <li>stick (String) - the path to the SVG stick file (in widgets/car/svg/gearbox directory).</li>
-        <li>left_offsets (Object) - an object with the left coordinate offsets as percentage (float between 0 and 1) per each gear.</li>
-        <li>top_offsets (Object) - an object with the top coordinate offsets as percentage (float between 0 and 1) per each gear.</li>
+    An object of configurations for the provided style identifier. The possible
+configurations can be consulted in documentation of the constructor method.
 </div>
 
 
@@ -747,7 +748,7 @@ four required properties:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line216">line 216</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line233">line 233</a>
     </li></ul></dd>
     
 
@@ -882,7 +883,7 @@ four required properties:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line229">line 229</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line246">line 246</a>
     </li></ul></dd>
     
 
@@ -968,7 +969,7 @@ four required properties:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line266">line 266</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line283">line 283</a>
     </li></ul></dd>
     
 
@@ -1054,7 +1055,7 @@ four required properties:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line113">line 113</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line130">line 130</a>
     </li></ul></dd>
     
 
@@ -1140,7 +1141,7 @@ four required properties:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line145">line 145</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line162">line 162</a>
     </li></ul></dd>
     
 
@@ -1300,7 +1301,7 @@ for detailed docs on the available options.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line277">line 277</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line294">line 294</a>
     </li></ul></dd>
     
 
@@ -1386,7 +1387,7 @@ for detailed docs on the available options.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line242">line 242</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line259">line 259</a>
     </li></ul></dd>
     
 
@@ -1472,7 +1473,7 @@ for detailed docs on the available options.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line254">line 254</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line271">line 271</a>
     </li></ul></dd>
     
 
@@ -1607,7 +1608,7 @@ for detailed docs on the available options.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line201">line 201</a>
+        <a href="Gearbox.js.html">Gearbox.js</a>, <a href="Gearbox.js.html#line218">line 218</a>
     </li></ul></dd>
     
 
@@ -1657,7 +1658,7 @@ for detailed docs on the available options.</td>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sun Oct 29 2017 03:32:14 GMT+0000 (WET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sun Oct 29 2017 22:55:11 GMT+0000 (WET)
 </footer>
 
 <script> prettyPrint(); </script>

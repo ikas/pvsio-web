@@ -18,8 +18,46 @@
  *          // After Clock module was loaded, initialize it
  *          var clock = new Clock(
  *               'example', // id of the element that will be created
- *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
- *               { style: 'clock' } // options
+ *               { top: 100, left: 100 }, // coordinates object
+ *               {
+ *                   panel_file: 'gauge-clock-panel-2.svg',
+ *                   pointers: [
+ *                       {
+ *                           id: 'seconds',
+ *                           top: 68,
+ *                           left: 119,
+ *                           width: 12,
+ *                           style: 'gauge-pointer-19',
+ *                           min_degree: 180,
+ *                           min: 0,
+ *                           max_degree: 540,
+ *                           max: 60,
+ *                       },
+ *                       {
+ *                           id: 'minutes',
+ *                           top: 109,
+ *                           left: 120,
+ *                           width: 11,
+ *                           style: 'gauge-pointer-18',
+ *                           min_degree: 180,
+ *                           min: 0,
+ *                           max_degree: 540,
+ *                           max: 60,
+ *                       },
+ *                       {
+ *                           id: 'hours',
+ *                           top: 106,
+ *                           left: 118,
+ *                           height: 60,
+ *                           width: 14,
+ *                           style: 'gauge-pointer-17',
+ *                           min_degree: 180,
+ *                           min: 0,
+ *                           max_degree: 900,
+ *                           max: 24,
+ *                       }
+ *                   ]
+ *                }
  *           );
  *
  *          // Render the Clock widget - based on the current date and time.
@@ -46,6 +84,24 @@ define(function (require, exports, module) {
      *          <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
      *          <li>position (String): value for the CSS property position (default is "absolute").</li>
      *          <li>style (String): a valid style identifier (default is "clock").</li>
+     *          <li>panel_file (String) Path to the SVG panel file (inside the widgets/car/svg/gauge-panels) directory.</li>
+     *          <li>pointers (Array) - an array of objects with the configurations of the Pointer widgets
+     * that the style should compose. This object can contain the following properties:</li>
+     *          <li>id (String): An unique identifier for the pointer.</li>
+     *          <li>top (Float): Top coord of the Pointer widget.</li>
+     *          <li>left (Float): Left coord of the Pointer widget.</li>
+     *          <li>width (Float): Width coord of the Pointer widget.</li>
+     *          <li>height (Float): Height coord of the Pointer widget.</li>
+     *          <li>style (String): Style identifier for the Pointer widget.</li>
+     *          <li>filename (String): The path to the pointer file, in the cr/svg/gauge-pointers directory.</li>
+     *          <li>transform_origin (String): Value for the CSS property transform origin -should be provided as
+     * percentages and not absolute values. Examples are "center top" or "50% 20%".</li>
+     *          <li>transition (Float): number of milliseconds to be applied in the CSS property transition (default is 0).</li>
+     *          <li>initial (Float): The initial absolute value for the movement of the pointer (default is min value).</li>
+     *          <li>min_degree (Float): The minimum degree of range for the pointer movement (default is 90).</li>
+     *          <li>min (Float): The minimum absolute value for the movement of the pointer (default is 0).</li>
+     *          <li>max_degree (Float): The maximum degree of range for the pointer movement (default is 270).</li>
+     *          <li>max (Float): The maximum absolute value for the movement of the pointer (default is 10).</li>
      * @returns {Clock} The created instance of the widget Clock.
      * @memberof module:Clock
      * @instance
@@ -191,7 +247,7 @@ define(function (require, exports, module) {
      * @param pointer {Pointer} Instance of the Pointer widget that should be rendered.
      * @param value {Float} Value (between min and max configurations) to be rendered.
      * @param pointer_opt {Object} Object with pointer rotation configurations.
-     * @memberof module:GaugeSport
+     * @memberof module:Clock
      * @instance
      * @private
      */
@@ -210,7 +266,7 @@ define(function (require, exports, module) {
      * @param value {Float} The value to convert to degrees.
      * @param pointer_opt {Object} Object with pointer rotation configurations.
      * @returns {Float} The converted value in degrees.
-     * @memberof module:GaugeSport
+     * @memberof module:Clock
      * @instance
      * @private
      */
@@ -225,12 +281,8 @@ define(function (require, exports, module) {
      * @description Returns the default style configurations for the provided style identifier.
      * The possible styles for the Clock widget are clock, clock2, clock3 and clock4.
      * @param style_id {string} The style identifier.
-     * @returns {Object} An object of configurations for the provided style identifier.
-     * <li>panel_file (String) Path to the SVG panel file (inside the widgets/car/svg/gauge-panels) directory.</li>
-     * <li>seconds (Object) Object with the configurations that will be provided to the seconds Pointer.
-     * <li>minutes (Object) Object with the configurations that will be provided to the minutes Pointer.
-     * <li>hours (Object) Object with the configurations that will be provided to the hours Pointer.
-     * @throws Will throw an error if the provided style identifier is not valid.
+     * @returns {Object} An object of configurations for the provided style identifier. The possible
+     * configurations can be consulted in the documentation of the constructor method.
      * @memberof module:Clock
      * @instance
      */

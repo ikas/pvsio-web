@@ -20,6 +20,7 @@ require.config({
 
 require([
         "widgets/Button",
+        "widgets/car/CentralPanel",
         "widgets/car/GaugeSport",
         "widgets/car/Gauge",
         "widgets/car/Gearbox",
@@ -30,6 +31,7 @@ require([
         "PVSioWebClient"
     ], function (
         Button,
+        CentralPanel,
         GaugeSport,
         Gauge,
         Gearbox,
@@ -80,35 +82,72 @@ require([
             }
         }
 
-        var config, range;
-        config = {
-            size: 500,
-            rotation: -45,
-            gap: 90,
-            drawOuterCircle: false,
-            innerStrokeColor: "#fff",
-            min: 0,
-            max: 10,
-            initial: 0,
-            transitionDuration: 300
-        };
-        range = config.max - config.min;
+        // var config, range;
+        // config = {
+        //     size: 500,
+        //     rotation: -45,
+        //     gap: 90,
+        //     drawOuterCircle: false,
+        //     innerStrokeColor: "#fff",
+        //     min: 0,
+        //     max: 10,
+        //     initial: 0,
+        //     transitionDuration: 300
+        // };
+        // range = config.max - config.min;
 
-        function zone(start, end) {
-            return { from: config.min + range * start, to: config.min + range * end };
+        // function zone(start, end) {
+        //     return { from: config.min + range * start, to: config.min + range * end };
+        // }
+
+        // config.greenZones = [];
+        // config.yellowZones = [];
+        // config.redZones = [zone(0.9, 1)];
+        // var d3gauge = new d3_gauge_plus.Gauge('content', config);
+        // d3gauge.render();
+
+
+var clock = new Gearbox(
+    'id-clock',
+    { top: 100, left: 100 },
+    {
+        panel: 'gear-box-auto.svg',
+        stick: 'gear-stick.svg',
+        leftOffsets: {
+            1: 0.345,
+            2: 0.345,
+            3: 0.345,
+            4: 0.345,
+            5: 0.345,
+            6: 0.345,
+            'D': 0.345,
+            'N': 0.345,
+            'R': 0.345,
+            'P': 0.345,
+        },
+        topOffsets: {
+            1: 0.55,
+            2: 0.55,
+            3: 0.55,
+            4: 0.55,
+            5: 0.55,
+            6: 0.55,
+            'D': 0.55,
+            'N': 0.4,
+            'R': 0.25,
+            'P': 0,
         }
+    }
+);
 
-        config.greenZones = [];
-        config.yellowZones = [];
-        config.redZones = [zone(0.9, 1)];
-        var d3gauge = new d3_gauge_plus.Gauge('content', config);
-        d3gauge.render();
+clock.render();
 
-        // Render widgets
-        function render(res) {
-            // example.render();
-            // example2.render();
-        }
+// Render widgets
+function render(res) {
+    clock.render();
+    // pointer.render(res);
+    // example2.render();
+}
 
         var demoFolder = "svg-dashboard-1";
         //register event listener for websocket connection from the client

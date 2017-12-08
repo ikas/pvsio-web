@@ -139,8 +139,46 @@ draw the clock pointers.</div>
          // After Clock module was loaded, initialize it
          var clock = new Clock(
               'example', // id of the element that will be created
-              { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
-              { style: 'clock' } // options
+              { top: 100, left: 100 }, // coordinates object
+              {
+                  panel_file: 'gauge-clock-panel-2.svg',
+                  pointers: [
+                      {
+                          id: 'seconds',
+                          top: 68,
+                          left: 119,
+                          width: 12,
+                          style: 'gauge-pointer-19',
+                          min_degree: 180,
+                          min: 0,
+                          max_degree: 540,
+                          max: 60,
+                      },
+                      {
+                          id: 'minutes',
+                          top: 109,
+                          left: 120,
+                          width: 11,
+                          style: 'gauge-pointer-18',
+                          min_degree: 180,
+                          min: 0,
+                          max_degree: 540,
+                          max: 60,
+                      },
+                      {
+                          id: 'hours',
+                          top: 106,
+                          left: 118,
+                          height: 60,
+                          width: 14,
+                          style: 'gauge-pointer-17',
+                          min_degree: 180,
+                          min: 0,
+                          max_degree: 900,
+                          max: 24,
+                      }
+                  ]
+               }
           );
 
          // Render the Clock widget - based on the current date and time.
@@ -288,7 +326,25 @@ draw the clock pointers.</div>
             <td class="description last">Options:
          <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
          <li>position (String): value for the CSS property position (default is "absolute").</li>
-         <li>style (String): a valid style identifier (default is "clock").</li></td>
+         <li>style (String): a valid style identifier (default is "clock").</li>
+         <li>panel_file (String) Path to the SVG panel file (inside the widgets/car/svg/gauge-panels) directory.</li>
+         <li>pointers (Array) - an array of objects with the configurations of the Pointer widgets
+that the style should compose. This object can contain the following properties:</li>
+         <li>id (String): An unique identifier for the pointer.</li>
+         <li>top (Float): Top coord of the Pointer widget.</li>
+         <li>left (Float): Left coord of the Pointer widget.</li>
+         <li>width (Float): Width coord of the Pointer widget.</li>
+         <li>height (Float): Height coord of the Pointer widget.</li>
+         <li>style (String): Style identifier for the Pointer widget.</li>
+         <li>filename (String): The path to the pointer file, in the cr/svg/gauge-pointers directory.</li>
+         <li>transform_origin (String): Value for the CSS property transform origin -should be provided as
+percentages and not absolute values. Examples are "center top" or "50% 20%".</li>
+         <li>transition (Float): number of milliseconds to be applied in the CSS property transition (default is 0).</li>
+         <li>initial (Float): The initial absolute value for the movement of the pointer (default is min value).</li>
+         <li>min_degree (Float): The minimum degree of range for the pointer movement (default is 90).</li>
+         <li>min (Float): The minimum absolute value for the movement of the pointer (default is 0).</li>
+         <li>max_degree (Float): The maximum degree of range for the pointer movement (default is 270).</li>
+         <li>max (Float): The maximum absolute value for the movement of the pointer (default is 10).</li></td>
         </tr>
 
     
@@ -329,7 +385,7 @@ draw the clock pointers.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Clock.js.html">Clock.js</a>, <a href="Clock.js.html#line38">line 38</a>
+        <a href="Clock.js.html">Clock.js</a>, <a href="Clock.js.html#line76">line 76</a>
     </li></ul></dd>
     
 
@@ -487,7 +543,7 @@ The possible styles for the Clock widget are clock, clock2, clock3 and clock4.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Clock.js.html">Clock.js</a>, <a href="Clock.js.html#line223">line 223</a>
+        <a href="Clock.js.html">Clock.js</a>, <a href="Clock.js.html#line279">line 279</a>
     </li></ul></dd>
     
 
@@ -508,29 +564,14 @@ The possible styles for the Clock widget are clock, clock2, clock3 and clock4.
 
 
 
-<h5>Throws:</h5>
-
-        
-
-    <div class="param-desc">
-    
-        Will throw an error if the provided style identifier is not valid.
-    
-    </div>
-
-
-    
 
 
 <h5>Returns:</h5>
 
         
 <div class="param-desc">
-    An object of configurations for the provided style identifier.
-<li>panel_file (String) Path to the SVG panel file (inside the widgets/car/svg/gauge-panels) directory.</li>
-<li>seconds (Object) Object with the configurations that will be provided to the seconds Pointer.
-<li>minutes (Object) Object with the configurations that will be provided to the minutes Pointer.
-<li>hours (Object) Object with the configurations that will be provided to the hours Pointer.
+    An object of configurations for the provided style identifier. The possible
+configurations can be consulted in the documentation of the constructor method.
 </div>
 
 
@@ -612,7 +653,7 @@ using the current date and time.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Clock.js.html">Clock.js</a>, <a href="Clock.js.html#line166">line 166</a>
+        <a href="Clock.js.html">Clock.js</a>, <a href="Clock.js.html#line222">line 222</a>
     </li></ul></dd>
     
 
@@ -641,6 +682,369 @@ using the current date and time.
 
 
         
+            
+
+    
+
+    
+    <h4 class="name" id="renderPointer"><span class="type-signature">(private) </span>renderPointer<span class="signature">(pointer, value, pointer_opt)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Calls the render method of the provided Pointer instance
+with the provided value.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>pointer</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Pointer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Instance of the Pointer widget that should be rendered.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Value (between min and max configurations) to be rendered.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pointer_opt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object with pointer rotation configurations.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Clock.js.html">Clock.js</a>, <a href="Clock.js.html#line243">line 243</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="value2deg"><span class="type-signature">(private) </span>value2deg<span class="signature">(value, pointer_opt)</span><span class="type-signature"> &rarr; {Float}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Converts the provided value to degress of rotation, taking
+into account the minimum and maximum rotation degrees.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The value to convert to degrees.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pointer_opt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object with pointer rotation configurations.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Clock.js.html">Clock.js</a>, <a href="Clock.js.html#line262">line 262</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The converted value in degrees.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Float</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
     
 
     
@@ -662,7 +1066,7 @@ using the current date and time.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sun Oct 29 2017 03:32:14 GMT+0000 (WET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Sun Oct 29 2017 22:55:11 GMT+0000 (WET)
 </footer>
 
 <script> prettyPrint(); </script>

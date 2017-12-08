@@ -16,14 +16,32 @@
  *
  *     function main() {
  *          // After GaugeSport module was loaded, initialize it
- *          var gauge = new GaugeSport(
- *               'example', // id of the gauge element that will be created
- *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
- *               { style: 'example' } // options
- *           );
+ *          var tachometer = new GaugeSport(
+ *              // Id of the generated HTML element
+ *              'id-tachometer',
+ *              // Coordinates object
+ *              { top: 100, left: 100, width: 300, height: 300 },
+ *              // Configuration object
+ *              {
+ *                  panel_file: 'gauge-tachometer-panel-1.svg',
+ *                  pointers: [
+ *                      {
+ *                          id: 'tachometer-pointer',
+ *                          min: 0,
+ *                          max: 10,
+ *                          min_degree: 58,
+ *                          max_degree: 306,
+ *                          style: 'gauge-pointer-3',
+ *                          width: 38,
+ *                          top: 133,
+ *                          left: 133
+ *                      }
+ *                  ]
+ *              }
+ *          );
  *
- *          // Render the GaugeSport widget, provinding a new value
- *          gauge.render(5);
+ *          // Render the GaugeSport instance
+ *          tachometer.render(2);
  *     }
  * });
  */
@@ -47,6 +65,25 @@ define(function (require, exports, module) {
      *          <li>position (String): value for the CSS property position (default is "absolute").</li>
      *          <li>style (String): a valid style identifier (default is "tachometer").</li>
      *          <li>z-index (String): value for the CSS property z-index (if not provided, no z-index is applied).</li>
+     *          <li>panel_file (String) - the path to the SVG panel file (inside the widgets/car/svg/gauge-panels)
+     * directory</li>
+    *           <li>pointers (Array) - an array of objects with the configurations that should be provided to the Pointer
+     * that the style should compose. This object can contain the following properties:</li>
+     *          <li>id (String): An unique identifier for the pointer.</li>
+     *          <li>top (Float): Top coord of the Pointer widget.</li>
+     *          <li>left (Float): Left coord of the Pointer widget.</li>
+     *          <li>width (Float): Width coord of the Pointer widget.</li>
+     *          <li>height (Float): Height coord of the Pointer widget.</li>
+     *          <li>style (String): Style identifier for the Pointer widget.</li>
+     *          <li>filename (String): The path to the pointer file, in the cr/svg/gauge-pointers directory.</li>
+     *          <li>transform_origin (String): Value for the CSS property transform origin -should be provided as
+     * percentages and not absolute values. Examples are "center top" or "50% 20%".</li>
+     *          <li>initial (Float): The initial absolute value for the movement of the pointer (default is min value).</li>
+     *          <li>transition (Float): number of milliseconds to be applied in the CSS property transition (default is 0).</li>
+     *          <li>min_degree (Float): The minimum degree of range for the pointer movement (default is 90).</li>
+     *          <li>min (Float): The minimum absolute value for the movement of the pointer (default is 0).</li>
+     *          <li>max_degree (Float): The maximum degree of range for the pointer movement (default is 270).</li>
+     *          <li>max (Float): The maximum absolute value for the movement of the pointer (default is 10).</li>
      * @returns {GaugeSport} The created instance of the widget GaugeSport.
      * @memberof module:GaugeSport
      * @instance
@@ -236,21 +273,8 @@ define(function (require, exports, module) {
      * <li>pressure</li>
      * <li>compass, compass2</li>
      * @param style_id {string} The style identifier.
-     * @returns {Object} An object of configurations for the provided style identifier, including
-     * two properties, panel_file (String) - the path to the SVG panel file (inside the widgets/car/svg/gauge-panels)
-     * directory, and pointers (Array) - an array of objects with the configurations that should be provided to the Pointer
-     * that the style should compose. This object can contain the following properties:
-     *          <li>id (String): An unique identifier for the pointer.</li>
-     *          <li>top (Float): Top coord of the Pointer widget.</li>
-     *          <li>left (Float): Left coord of the Pointer widget.</li>
-     *          <li>width (Float): Width coord of the Pointer widget.</li>
-     *          <li>height (Float): Height coord of the Pointer widget.</li>
-     *          <li>style (String): Style identifier for the Pointer widget.</li>
-     *          <li>transition (Float): number of milliseconds to be applied in the CSS property transition (default is 0).</li>
-     *          <li>min_degree (Float): The minimum degree of range for the pointer movement (default is 90).</li>
-     *          <li>min (Float): The minimum absolute value for the movement of the pointer (default is 0).</li>
-     *          <li>max_degree (Float): The maximum degree of range for the pointer movement (default is 270).</li>
-     *          <li>max (Float): The maximum absolute value for the movement of the pointer (default is 10).</li>
+     * @returns {Object} An object of default configurations for the provided style identifier.
+     * Check the documentation of the constructor method for the possible configurations.
      * @memberof module:GaugeSport
      * @instance
      */

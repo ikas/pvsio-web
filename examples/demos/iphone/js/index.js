@@ -24,12 +24,6 @@ require([
         "widgets/BasicDisplay",
         "widgets/NumericDisplay",
         "widgets/LED",
-        
-        // Added car components here
-        "widgets/car/Speedometer",
-        "widgets/car/Tachometer",
-        "widgets/car/Shift",
-        
         "plugins/graphbuilder/GraphBuilder",
         "stateParser",
         "PVSioWebClient"
@@ -40,12 +34,6 @@ require([
         BasicDisplay,
         NumericDisplay,
         LED,
-
-        // Added car components here
-        Speedometer,
-        Tachometer,
-        Shift,
-        
         GraphBuilder,
         stateParser,
         PVSioWebClient
@@ -147,73 +135,4 @@ require([
         });
 
         client.connectToServer();
-
-
-
-        // ----------------------------- DASHBOARD COMPONENTS -----------------------------        
-        
-        // ---------------- SPEEDOMETER ----------------
-        var speedometerGauge = new Speedometer('speedometer-gauge', {label:"km/h"});
-        speedometerGauge.render();
-
-        // ---------------- TACHOMETER ----------------
-        var tachometerGauge = new Tachometer('tachometer-gauge', {
-            min: 0, 
-            max: 9, 
-            label: "x1000/min",
-            majorTicks: 10, 
-            redZones: [{from:7, to:9}], 
-            yellowZones: []
-        });
-        tachometerGauge.render();
-
-        // ---------------- CURRENT SHIFT ----------------
-        var shiftDisplay = new Shift('current-shift');
-        shiftDisplay.render();
-
-        // ----------------------------- DASHBOARD INTERACTION -----------------------------
-        // Set event handlers on every key pressed
-        var keyPressed = {};
-        d3.select('body')  
-            .on('keydown', function() {
-                keyPressed[d3.event.key] = true;
-            })
-            .on('keyup', function() {
-                keyPressed[d3.event.key] = false;
-            });
-
-        // Calls the appropriate widgets API method upon the pressing of the acceleration or brake keys
-        function moveCar() {
-            if (keyPressed['w']) {
-
-                var currSpeed = speedometerGauge.getCurrentSpeed();
-                var currShift = shiftDisplay.getCurrentShift(currSpeed);
-
-                speedometerGauge.up(currShift);
-                tachometerGauge.up(currSpeed, currShift);
-                shiftDisplay.up(currSpeed);
-
-            } else if (keyPressed['s']) {
-
-                var currSpeed = speedometerGauge.getCurrentSpeed();
-                
-                speedometerGauge.down();
-                tachometerGauge.down(currSpeed);
-                shiftDisplay.down(currSpeed);
-            }
-        };
-
-        // Friction acts all the time !!
-        function friction() {  
-
-            var currSpeed = speedometerGauge.getCurrentSpeed();
-
-            speedometerGauge.friction();
-            tachometerGauge.friction(currSpeed);
-            shiftDisplay.friction(currSpeed);
-        }
-
-        // Call at all times moveCar and friction methods from time to time
-        d3.timer(moveCar);
-        d3.timer(friction);
     });

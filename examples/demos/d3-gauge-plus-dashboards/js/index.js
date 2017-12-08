@@ -117,37 +117,10 @@ require([
                     redZones: [],
                     rotation: -45,
                     gap:90,
-                    //drawGap: false,
-                    // cutOutPercetage: 0.45,
                     roundValueBeforeRender: true,
                     parent: 'dashboard-container-1'
                 }
             ),
-
-            // remainingFuelGauge: new Gauge(
-            //     'remaining-fuel-gauge',
-            //     {
-            //         top: 251,
-            //         left: 53,
-            //         width: 360,
-            //         height: 360
-            //     },
-            //     {
-            //         style: 'classic',
-            //         max: 1,
-            //         majorTicks: 3,
-            //         min: 0,
-            //         initial: 1,
-            //         size: 360,
-            //         redZones: [],
-            //         rotation: 135,
-            //         gap: 295,
-            //         drawGap: false,
-            //         cutOutPercetage: 0.45,
-            //         parent: 'dashboard-container-1'
-            //     }
-            // ),
-
             tachometerGauge: new Gauge(
                 'tachometer-gauge',
                 {
@@ -167,36 +140,9 @@ require([
                     yellowZones: [],
                     redZones: [{ from: 7.01, to: 9 }],
                     rotation: -45,
-                    // drawGap: false,
-                    // cutOutPercetage: 0.45,
                     parent: 'dashboard-container-1'
                 }
             ),
-
-            // temperatureGauge: new Gauge(
-            //     'temperature-gauge',
-            //     {
-            //         top: 251,
-            //         left: 633,
-            //         width: 360,
-            //         height: 360
-            //     },
-            //     {
-            //         style: 'classic',
-            //         max: 140,
-            //         min: 60,
-            //         initial: 100,
-            //         majorTicks: 3,
-            //         size: 360,
-            //         redZones: [{ from: 139, to: 140 }],
-            //         rotation: 135,
-            //         gap: 295,
-            //         drawGap: false,
-            //         cutOutPercetage: 0.45,
-            //         parent: 'dashboard-container-1'
-            //     }
-            // ),
-
             centralPanel: new CentralPanel(
                 'central-panel',
                 {
@@ -233,7 +179,7 @@ require([
                     yellowZones: [],
                     redZones: [{ from: 6.4, to: 8 }],
                     rotation: 0,
-                    roundValueBeforeRender: true,
+                    roundValueBeforeRender: false,
                     parent: 'dashboard-container-2'
                 }
             )
@@ -521,8 +467,6 @@ require([
             // Dashboard 1 elements
             dashboards.car1.speedometerGauge.render(evaluate(res.speed.val));
             dashboards.car1.tachometerGauge.render(evaluate(res.rpm));
-            // dashboards.car1.remainingFuelGauge.render(res);
-            // dashboards.car1.temperatureGauge.render(res);
             dashboards.car1.centralPanel.render(res);
 
             // Dashboard 2 elements
